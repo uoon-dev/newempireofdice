@@ -1,0 +1,197 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BlockController : MonoBehaviour
+{
+    [SerializeField] GameObject block = null;
+
+    public static int boardWidth = 1;
+    public static int boardHeight = 1;
+    public static GameObject lastBlock = null;
+    public static int boardSize = 1;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        InitBlocks();
+    }
+
+    void OnApplicationQuit()
+    {
+        PlayerPrefs.DeleteKey("currentLevelNumber");
+    }
+
+    private void InitBlocks() {
+        int currentLevelNumber = LevelLoader.GetCurrentLevelNumber();
+        SetBoardType(currentLevelNumber);
+        CreateBlocks();
+    }
+
+    private void CreateBlocks() {
+        for (int i = 1; i <= boardWidth; i++) {
+            for (int j = 1; j <= boardHeight; j++) {
+                GameObject clonedBlock = Instantiate(block, transform.position, transform.rotation);
+                clonedBlock.transform.SetParent(this.transform, false);
+                clonedBlock.transform.localPosition = new Vector3(i * 46, j * 46, 1);
+
+                if (i == boardHeight && j == boardWidth) {
+                    lastBlock = clonedBlock;
+                }
+            }
+        }
+        block.SetActive(false); 
+    }
+
+    private void SetBoardType(int currentLevelNumber) {
+        boardWidth = 4;
+        boardHeight = 4;
+
+        var newLandInfoController = FindObjectOfType<NewLandInfoController>();
+
+        if (currentLevelNumber == 0 || currentLevelNumber == 1) {
+            boardWidth = 3;
+            boardHeight = 3;
+
+            //var speicalBlocks = new {vertical = 2, horizontal = 2, bomb = 2, mine = 2, army = 15, wizard = 15, dungeon = 2, relics = 15};
+            //SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+
+            // newLandInfoController.SetLandType("relics");
+            // newLandInfoController.ToggleNewLandInfoCanvas(true);
+        }
+
+        if (currentLevelNumber == 2) {
+            boardWidth = 4;
+            boardHeight = 4;
+        }
+
+        // if (currentLevelNumber == 3) {
+        //     boardWidth = 5;
+        //     boardHeight = 5;
+        //     var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 0, dungeon = 0, mine = 2, army = 5};
+        //     SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+            
+        //     newLandInfoController.SetLandType("mine");
+        //     newLandInfoController.ToggleNewLandInfoCanvas(true);
+        // }
+
+        // if (currentLevelNumber == 4) {
+        //     boardWidth = 5;
+        //     boardHeight = 5;
+        //     var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 0, mine = 0, army = 0, wizard = 0, dungeon = 2, relics = 0};
+        //     SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+
+        //     newLandInfoController.SetLandType("dungeon");
+        //     newLandInfoController.ToggleNewLandInfoCanvas(true);
+        // }
+
+        // if (currentLevelNumber == 5) {
+        //     boardWidth = 6;
+        //     boardHeight = 6;
+        //     var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 0, dungeon = 2, mine = 2};
+        //     SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);      
+        // }
+
+        // if (currentLevelNumber == 6) {
+        //     boardWidth = 6;
+        //     boardHeight = 6;
+        //     var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 1, dungeon = 1, mine = 2};
+        //     SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+
+        //     newLandInfoController.SetLandType("bomb");
+        //     newLandInfoController.ToggleNewLandInfoCanvas(true);
+        // }
+
+        // if (currentLevelNumber == 7) {
+        //     boardWidth = 7;
+        //     boardHeight = 7;
+        //     var speicalBlocks = new {vertical = 0, horizontal = 1, bomb = 0, dungeon = 3, mine = 2};
+        //     SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+
+        //     newLandInfoController.SetLandType("horizontal");
+        //     newLandInfoController.ToggleNewLandInfoCanvas(true);
+        // }
+
+        // if (currentLevelNumber == 8) {
+        //     boardWidth = 7;
+        //     boardHeight = 7;
+        //     var speicalBlocks = new {vertical = 1, horizontal = 1, bomb = 0, dungeon = 3, mine = 1};
+        //     SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+
+        //     newLandInfoController.SetLandType("vertical");
+        //     newLandInfoController.ToggleNewLandInfoCanvas(true);
+        // }
+
+        // if (currentLevelNumber > 8) {
+        //     if (currentLevelNumber % 15 == 1) {
+        //         var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 0, dungeon = 4, mine = 4};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);                
+        //     }
+
+        //     if (currentLevelNumber % 15 == 2) {
+        //         var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 1, dungeon = 5, mine = 2};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);                
+        //     }
+
+        //     if (currentLevelNumber % 15 == 3) {
+        //         var speicalBlocks = new {vertical = 1, horizontal = 0, bomb = 1, dungeon = 3, mine = 3};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);                
+        //     }
+
+        //     if (currentLevelNumber % 15 == 4) {
+        //         var speicalBlocks = new {vertical = 0, horizontal = 1, bomb = 0, dungeon = 3, mine = 2};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+
+        //     if (currentLevelNumber % 15 == 5) {
+        //         var speicalBlocks = new {vertical = 1, horizontal = 1, bomb = 1, dungeon = 0, mine = 4};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+
+        //     if (currentLevelNumber % 15 == 6) {
+        //         var speicalBlocks = new {vertical = 1, horizontal = 0, bomb = 1, dungeon = 1, mine = 4};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        //     if (currentLevelNumber % 15 == 7) {
+        //         var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 1, dungeon = 3, mine = 2};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        //     if (currentLevelNumber % 15 == 8) {
+        //         var speicalBlocks = new {vertical = 1, horizontal = 1, bomb = 1, dungeon = 3, mine = 3};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        //     if (currentLevelNumber % 15 == 9) {
+        //         var speicalBlocks = new {vertical = 0, horizontal = 1, bomb = 0, dungeon = 5, mine = 2};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        //     if (currentLevelNumber % 15 == 10) {
+        //         var speicalBlocks = new {vertical = 1, horizontal = 1, bomb = 0, dungeon = 0, mine = 4};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        //     if (currentLevelNumber % 15 == 11) {
+        //         var speicalBlocks = new {vertical = 2, horizontal = 2, bomb = 2, dungeon = 1, mine = 1};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        //     if (currentLevelNumber % 15 == 12) {
+        //         var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 4, dungeon = 2, mine = 0};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        //     if (currentLevelNumber % 15 == 13) {
+        //         var speicalBlocks = new {vertical = 3, horizontal = 3, bomb = 0, dungeon = 0, mine = 2};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        //     if (currentLevelNumber % 15 == 14) {
+        //         var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 0, dungeon = 2, mine = 2};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        //     if (currentLevelNumber % 15 == 0) {
+        //         var speicalBlocks = new {vertical = 0, horizontal = 0, bomb = 0, dungeon = 5, mine = 0};
+        //         SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+        //     }
+        // }
+    }
+
+    public static int GetBoardSize() {
+        return boardWidth;
+    }
+}

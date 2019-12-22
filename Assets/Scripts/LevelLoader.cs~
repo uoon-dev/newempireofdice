@@ -1,0 +1,127 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Controllers.TutorialController;
+using RedBlueGames.Tools.TextTyper;
+
+public class LevelLoader : MonoBehaviour
+{
+    [SerializeField] int timeToWait = 3;
+
+    public static string currentSceneName = "";
+    int currentSceneIndex;
+    public static int currentLevelNumber;
+    public static bool goingToNextLevel = false;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        currentSceneName = SceneManager.GetActiveScene().name;
+        currentLevelNumber = PlayerPrefs.GetInt("currentLevelNumber");
+
+        if (currentSceneIndex == 0)
+        {
+            BackGroundSoundController.instance.StartPlay(BackGroundSoundController.BGM_NAME.MAIN_BGM);
+            StartCoroutine(WaitForTime());
+        }
+        if (currentSceneName == "Level") {
+            BackGroundSoundController.instance.StartPlay(BackGroundSoundController.BGM_NAME.GAME_BGM);
+            // FindObjectOfType<HeartController>().UseHeart();
+        }
+    }
+
+    IEnumerator WaitForTime()
+    {
+        yield return new WaitForSeconds(timeToWait);
+        LoadNextScene();
+    }
+
+
+    public void LoadNextScene()
+    {
+        SceneManager.LoadScene(currentSceneIndex + 1);
+    }
+
+    public void OnClickLoadNextLevel()
+    {
+        goingToNextLevel = true;
+        LoadNextLevel();
+    }
+
+    public static void LoadNextLevel() 
+    {
+        // if (currentSceneName == "Level 1") {
+        //     PlayerPrefs.SetInt("currentLevelNumber", 2);    
+        //     SceneManager.LoadScene("Level");
+        //     return;
+        // }
+
+        if(CanUseHeart() == false) return;
+
+        PlayerPrefs.SetInt("currentLevelNumber", currentLevelNumber + 1);
+        SceneManager.LoadScene("Level");
+    }
+
+    public void OnClickLoadCurrentScene()
+    {
+        LoadCurrentScene();
+    }    
+
+    // 플레이 중 다시 시작할 때 사용
+    public static void LoadCurrentScene()
+    {
+        if (currentSceneName == "Level 1") {
+            PlayerPrefs.SetInt("currentLevelNumber", currentLevelNumber);
+            TutorialController.SetTutorialCount(0);
+            SceneManager.LoadScene(currentSceneName);
+            return;
+        }
+        if(CanUseHeart() == false) {
+            FindObjectOfType<PauseController>().HideScreen();
+            return;
+        }
+        
+        PlayerPrefs.SetInt("currentLevelNumber", currentLevelNumber);
+        SceneManager.LoadScene(currentSceneName);
+    }
+
+    public static bool CanUseHeart()
+    {
+        var heartController = FindObjectOfType<HeartController>();
+        if (heartController.GetHeartAmount() <= 0) {
+            heartController.ToggleNoHeartCanvas(true);
+            return false;
+        }
+        heartController.UseHeart();
+        return true;
+    }
+
+    public void LoadMapScene()
+    {
+        PlayerPrefs.DeleteKey("currentLevelNumber");
+        SceneManager.LoadScene("Map System");
+    }
+
+    public void LoadHomeScene()
+    {
+        SceneManager.LoadScene("Start Screen");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public static string GetCurrentSceneName()
+    {
+        return currentSceneName;
+    }
+    public static int GetCurrentLevelNumber()
+    {
+        return currentLevelNumber;
+    }
+
+}

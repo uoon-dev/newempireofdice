@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class LevelController : MonoBehaviour
+{
+    [SerializeField] float waitToSecond = 0.1f;
+    [SerializeField] GameObject winLabel = null;
+    [SerializeField] GameObject loseLabel = null;
+    [SerializeField] GameObject background = null;
+    [SerializeField] Sprite clearBackgroundImage = null;
+    [SerializeField] GameObject buttonsInLoseScreen = null;
+
+
+    void Start()
+    {
+        winLabel.SetActive(false);
+        loseLabel.SetActive(false);
+    }
+
+    public void WinLastBlock()
+    {
+        StartCoroutine(HandleWinCondition());
+    }
+
+    IEnumerator HandleWinCondition()
+    {
+        yield return new WaitForSeconds(waitToSecond);
+        winLabel.SetActive(true);
+        background.GetComponent<Image>().sprite = clearBackgroundImage;
+        EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.FINISH_ONE_ROUND);
+
+        FindObjectOfType<StatisticsController>().UpdateStarsStatisticDisplay();
+
+        int currentLevelNumber = LevelLoader.GetCurrentLevelNumber();
+        int levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");
+
+        // 하트 보상
+        if (currentLevelNumber % 5 == 0 && levelCleared == 0) {
+            var heartController = FindObjectOfType<HeartController>();
+            if (heartController.GetHeartAmount() < 5) {
+                heartController.SetHeartAmount(5);
+            }
+        }
+
+        PlayerPrefs.SetInt($"Level {currentLevelNumber}", 1);
+
+        int restrictedMapCount = FindObjectOfType<MapController>().GetRestrictedMapCount();
+        if (currentLevelNumber % restrictedMapCount == 0)
+        {
+            PlayerPrefs.SetInt($"LevelCycled", 1);
+        }        
+    }
+
+    public void HandleLoseCondition()
+    {
+        loseLabel.SetActive(true);
+        //Time.timeScale = 0;
+    }
+}

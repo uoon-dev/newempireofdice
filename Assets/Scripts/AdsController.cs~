@@ -1,0 +1,84 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Advertisements;
+
+public class AdsController : MonoBehaviour
+{
+    private string adsAppleId = "3259036";
+    private string adsAndroidId = "3259037";
+    private string rewardType = "";
+
+    void Start()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            Advertisement.Initialize(adsAndroidId);
+        }
+        if (Application.platform == RuntimePlatform.IPhonePlayer) { 
+            Advertisement.Initialize(adsAppleId);
+        }
+            
+    }
+
+    public void PlayAds()
+    {
+        if (Advertisement.IsReady("video"))
+        {
+            var options = new ShowOptions { resultCallback = HandleShowResult };
+            Advertisement.Show("rewardedVideo", options);
+        }
+    }
+
+    public void PlayAds(string reward)
+    {
+        if (Advertisement.IsReady("video"))
+        {
+            rewardType = reward;
+            var options = new ShowOptions { resultCallback = HandleShowResult };
+            Advertisement.Show("rewardedVideo", options);
+        }
+    }
+
+    private void HandleShowResult(ShowResult result)
+    {
+        switch (result)
+        {
+            case ShowResult.Finished:
+                if (string.Empty == rewardType) {
+                    FindObjectOfType<NoDiceNoCoinController>().HideScreen();
+                    FindObjectOfType<ResetDiceController>().AbleResetDiceButton();
+                    FindObjectOfType<ResetDiceController>().ResetDices();
+                } else {
+                    var heartController = FindObjectOfType<HeartController>();
+                    heartController.ToggleNoHeartCanvas(false);
+                    int currentHeartAmount = heartController.GetHeartAmount();
+                    heartController.SetHeartAmount(currentHeartAmount + 1);                    
+                }
+
+                switch(rewardType) {
+                    case "LoadClickedMap": {
+                        FindObjectOfType<MapController>().OnClickMap();
+                        break;
+                    }
+                    case "LoadLevelScene": {
+                        var levelLoader = FindObjectOfType<LevelLoader>();
+                        if (LevelLoader.goingToNextLevel) {
+                            levelLoader.LoadNextLevel();
+                            LevelLoader.goingToNextLevel = false;
+                            return;
+                        } 
+                        levelLoader.LoadCurrentScene();
+                        break;
+                    }
+                }
+                break;
+            case ShowResult.Skipped:
+                Debug.Log("The ad was skipped before reaching the end.");
+                break;
+            case ShowResult.Failed:
+                Debug.LogError("The ad failed to be shown.");
+                break;
+        }
+    }
+}

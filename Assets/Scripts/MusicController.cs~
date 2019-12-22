@@ -1,0 +1,128 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class MusicController: MonoBehaviour
+{
+    [SerializeField] Sprite playingMusicIcon = null;
+    [SerializeField] Sprite stoppingMusicIcon = null;
+    [SerializeField] Sprite playingSoundIcon = null;
+    [SerializeField] Sprite stoppingSoundIcon = null;
+    [SerializeField] GameObject controlEffectSoundButton = null;
+    [SerializeField] GameObject controlBGMMusicButton = null;
+
+    public AudioSource audioSource = null;
+    public static MusicController instance = null;
+    public static int isBgmOffedAtFirstScene = 0;
+
+    int currentSceneIndex = 0;
+    int isSound = 1;
+    int isBgm = 1;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (PlayerPrefs.GetInt("bgm") == 0) {
+            PlayerPrefs.SetInt("bgm", 1);
+        };
+
+        if (PlayerPrefs.GetInt("sound") == 0) {
+            PlayerPrefs.SetInt("sound", 1);
+        };
+
+        isSound = PlayerPrefs.GetInt("sound");
+        isBgm = PlayerPrefs.GetInt("bgm");
+
+        if (currentSceneIndex == 0)
+        {
+            DontDestroyOnLoad(this);
+            audioSource = GetComponent<AudioSource>();
+            audioSource.Play();
+
+            if(isBgm == 0)
+            {
+                audioSource.Stop();
+                isBgmOffedAtFirstScene = 1;
+            }
+        }
+        else
+        {
+            if (isBgm == 1)
+            {
+                UnPauseMusic();
+            }
+            else
+            {
+                PauseMusic();
+            }
+
+            if (isSound == 1)
+            {
+                PlaySound();
+            }
+            else
+            {
+                StopSound();
+            }
+        }
+    }
+
+    public void UnPauseMusic()
+    {
+        if (instance.audioSource != null)
+        {
+            PlayerPrefs.SetInt("bgm", 1);
+            if (isBgmOffedAtFirstScene == 1)
+            {
+                instance.audioSource.Play();
+                isBgmOffedAtFirstScene = 0;
+            }
+            instance.audioSource.UnPause();
+            BackGroundSoundController.instance.StartPlay();
+            controlBGMMusicButton.GetComponent<Image>().sprite = playingMusicIcon;
+            controlBGMMusicButton.GetComponent<Button>().onClick.RemoveAllListeners();
+            controlBGMMusicButton.GetComponent<Button>().onClick.AddListener(PauseMusic);
+        }
+
+    }
+
+    public void PauseMusic()
+    {
+        if (instance.audioSource != null)
+        {
+            PlayerPrefs.SetInt("bgm", -1);
+            BackGroundSoundController.instance.StopPlay();
+            instance.audioSource.Pause();
+            controlBGMMusicButton.GetComponent<Image>().sprite = stoppingMusicIcon;
+            controlBGMMusicButton.GetComponent<Button>().onClick.RemoveAllListeners();            
+            controlBGMMusicButton.GetComponent<Button>().onClick.AddListener(UnPauseMusic);
+        }
+    }
+
+    public void PlaySound()
+    {
+        PlayerPrefs.SetInt("sound", 1);
+        Dice.ToggleSound(true);
+        controlEffectSoundButton.GetComponent<Image>().sprite = playingSoundIcon;
+        controlEffectSoundButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        controlEffectSoundButton.GetComponent<Button>().onClick.AddListener(StopSound);
+    }
+
+    public void StopSound()
+    {
+        PlayerPrefs.SetInt("sound", -1);
+        Dice.ToggleSound(false);
+        controlEffectSoundButton.GetComponent<Image>().sprite = stoppingSoundIcon;
+        controlEffectSoundButton.GetComponent<Button>().onClick.RemoveAllListeners();        
+        controlEffectSoundButton.GetComponent<Button>().onClick.AddListener(PlaySound);
+    }
+}

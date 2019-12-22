@@ -1,0 +1,174 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
+
+public class UIAlignController : MonoBehaviour
+{
+    [SerializeField] GameObject creditButton = null;
+    [SerializeField] GameObject helpButton = null;
+    [SerializeField] GameObject homeButton = null;
+    [SerializeField] GameObject settingButton = null;
+    [SerializeField] GameObject compassImage = null;
+    [SerializeField] GameObject pauseButton = null;
+    [SerializeField] GameObject resetDiceScreen = null;
+    [SerializeField] GameObject levelLeftArea = null;
+    [SerializeField] GameObject levelRightArea = null;
+    [SerializeField] GameObject levelCompleteLeftButton = null;
+    [SerializeField] GameObject levelCompleteRightButton = null;
+    [SerializeField] GameObject levelLostLeftButton = null;
+    [SerializeField] GameObject mainCanvas = null;
+    [SerializeField] GameObject background = null;
+    [SerializeField] GameObject goToNextStage = null;
+    [SerializeField] GameObject heartBar = null;
+    [SerializeField] Sprite[] backgroundImages = null;
+    GameObject heartUseAnimationObject;
+    string currentSceneName;
+    private int backgroundImageIndex = 0;
+
+    void Start()
+    {
+        currentSceneName = LevelLoader.GetCurrentSceneName();
+        switch(currentSceneName) {
+            case "Start Screen": {
+                HomeAlignItems();
+                break;
+            }
+            case "Map System": {
+                MapAlignItems();
+                break;
+            }
+            default: break;
+        }
+
+        if (currentSceneName.Equals("Level")) {
+            LevelAlignItems();
+        }
+
+        if (mainCanvas != null)
+            SetBackgroundImage();
+
+        DeactiveHeartUseAnimation();
+    }
+
+    public void DeactiveHeartUseAnimation()
+    {
+        heartUseAnimationObject = GameObject.Find("Heart Use Animation");
+        if (heartUseAnimationObject != null) {
+            heartUseAnimationObject.GetComponent<CanvasGroup>().DOFade(0, 0);
+            heartUseAnimationObject.GetComponent<Animator>().enabled = false;
+        }
+    }
+
+    private void HomeAlignItems() {
+        Vector3 creditButtonSize = creditButton.GetComponent<RectTransform>().sizeDelta;
+        creditButton.transform.position = Camera.main.ScreenToWorldPoint(
+            new Vector3(Screen.width - creditButtonSize.x/2 - Screen.width/15 - (Screen.width >= 1792 ? 180 : 0), creditButtonSize.y/2 + Screen.height/5 , 5));
+
+        Vector3 helpButtonSize = helpButton.GetComponent<RectTransform>().sizeDelta;
+        helpButton.transform.position = Camera.main.ScreenToWorldPoint(
+            new Vector3(Screen.width - creditButtonSize.x/2 - Screen.width/15 - (Screen.width >= 1792 ? 180 : 0), creditButtonSize.y/2 + Screen.height/15 , 5));
+    }
+
+    private void MapAlignItems() {
+        Vector3 homeButtonSize = homeButton.GetComponent<RectTransform>().sizeDelta;
+        homeButton.transform.position = Camera.main.ScreenToWorldPoint(
+            new Vector3(Screen.width/15 + homeButtonSize.x/2 + (Screen.width >= 1792 ? 0 : 0), Screen.height - homeButtonSize.y/2 - Screen.height/15, 5));
+
+        Vector3 settingButtonSize = homeButton.GetComponent<RectTransform>().sizeDelta;
+        settingButton.transform.position = Camera.main.ScreenToWorldPoint(
+            new Vector3(Screen.width/8 + settingButtonSize.x/2 + (Screen.width >= 1792 ? 0 : 0), Screen.height - settingButtonSize.y/2 - Screen.height/15-5 , 5));
+
+        Vector3 heartBarSize = heartBar.GetComponent<RectTransform>().sizeDelta;
+        heartBar.transform.position = Camera.main.ScreenToWorldPoint(
+            new Vector3(Screen.width/15 * 11 - (Screen.width <= 1792 ? 90 : 65), Screen.height - Screen.height/2 + (Screen.width >= 1792 ? 82 : 30), 5));
+
+        Vector3 goToNextStageSize = goToNextStage.GetComponent<RectTransform>().sizeDelta;
+        goToNextStage.transform.position = Camera.main.ScreenToWorldPoint(
+            new Vector3(Screen.width/15 * 9 - (Screen.width <= 1792 ? 80 : 60), Screen.height  - Screen.height/2, 5));
+    }
+
+    private void LevelAlignItems() {
+        switch(BlockController.GetBoardSize()) {
+            case 4: {
+                levelLeftArea.transform.GetChild(0).transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+                break;
+            }
+            case 5: {
+                levelLeftArea.transform.GetChild(0).transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+                break;
+            }
+            case 6: {
+                levelLeftArea.transform.GetChild(0).transform.localScale = new Vector3(1.1f, 1.1f, 1.1f);                
+                break;
+            }
+            case 7: {
+                levelLeftArea.transform.GetChild(0).transform.localScale = new Vector3(1f, 1f, 1f);
+                break;
+            }
+            default: {
+                levelLeftArea.transform.GetChild(0).transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
+                break;
+            }
+        }
+    }
+
+    public void SetBackgroundImage()
+    {
+        int currentLevel = LevelLoader.GetCurrentLevelNumber();
+        if (StorageController.IsBackgroundImageIndexSaved(currentLevel))
+        {
+            backgroundImageIndex = StorageController.LoadBackgroundImageIndex(currentLevel);
+        }
+        else {
+            backgroundImageIndex = UnityEngine.Random.Range(0, backgroundImages.Length / 2);
+            StorageController.SaveBackgroundImageIndex(currentLevel, backgroundImageIndex);
+        }
+        
+
+        foreach (var backgroundImage in backgroundImages) {
+            if (backgroundImage.name == $"bg_play_{backgroundImageIndex}") 
+            {
+                mainCanvas.GetComponent<Image>().sprite = backgroundImage;
+            }
+        }
+    }
+    
+    public void UpdateBackgroundImage()
+    {
+        foreach (var backgroundImage in backgroundImages) {
+            if (backgroundImage.name == $"bg_play_{backgroundImageIndex}_done") 
+            {
+                background.GetComponent<Image>().sprite = backgroundImage;
+                background.GetComponent<CanvasGroup>().DOFade(1, 0.5f);
+            }
+        }
+    }
+
+    public void UnClickDices()
+    {
+        var dices = FindObjectsOfType<Dice>();
+        foreach (Dice dice in dices)
+        {
+            dice.UnClickDice();
+        }
+        CloseTooltips();
+    }
+
+    public void CloseTooltips()
+    {
+        var blocks = FindObjectsOfType<Block>();
+        foreach (var block in blocks)
+        {
+            block.CloseTooltip();
+        }
+    }
+
+    public void ActiveHeartUseAnimation()
+    {
+        heartUseAnimationObject.GetComponent<CanvasGroup>().DOFade(1, 0);
+        heartUseAnimationObject.GetComponent<Animator>().enabled = true;
+    }
+}
