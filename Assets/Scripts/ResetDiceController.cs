@@ -31,7 +31,7 @@ public class ResetDiceController : MonoBehaviour
 
         if (LevelLoader.GetCurrentLevelNumber() <= 5) {
             moneyText.text = "25";
-        } else if (LevelLoader.GetCurrentLevelNumber() <= 14) {
+        } else if (LevelLoader.GetCurrentLevelNumber() <= 19) {
             moneyText.text = "20";
         } else {
             moneyText.text = "15";
