@@ -128,7 +128,8 @@
         public static void ControllUIWhenScripting() 
         {
             TutorialController.SetTutorialCount(TutorialController.GetTutorialCount() + 1);
-            if (TutorialController.GetTutorialCount() == 7 || TutorialController.GetTutorialCount() == 8 || TutorialController.GetTutorialCount() == 9 || TutorialController.GetTutorialCount() == 10) {
+            if (TutorialController.GetTutorialCount() == 7 || TutorialController.GetTutorialCount() == 8 || TutorialController.GetTutorialCount() == 9 || TutorialController.GetTutorialCount() == 10) 
+            {
                 TutorialController.Jump(true);
             }
             TutorialController.ControllArrowUI();
@@ -180,6 +181,7 @@
                     break;
                 }
                 case 6: {
+                    TutorialController.PreventClickEventDices();
                     TutorialController.PreventClickEventBlocks();
                     break;
                 }
@@ -199,12 +201,16 @@
                 case 12: {
                     TutorialController.AllowClickEventResetDiceScreen();                    
                     TutorialController.PreventClickEventNextButton();
+                    TutorialController.PreventClickEventDices();
                     break;
                 }
                 case 14: {
                     TutorialController.AllowClickEventResetDiceScreen();
-                    TutorialController.AllowClickEventDices();                    
                     TutorialController.AllowClickEventBlocks();
+                    TutorialController.AllowClickEventDices();                    
+                    break;
+                }
+                case 15: {
                     break;
                 }
                 default: break;

@@ -218,10 +218,6 @@ public class ResetDiceController : MonoBehaviour
     {
         if (moneyArea.GetComponent<Button>().enabled == true)
         {
-            // var localPosition = moneyArea.transform.localPosition;
-            // moneyArea.GetComponent<Image>().sprite = disabledResetDiceButtonImage;
-            // moneyArea.transform.localScale = new Vector3(1.35f, 1.35f, 1.35f);
-            // moneyArea.transform.localPosition = new Vector3(localPosition.x - 0.5f, localPosition.y - 3.8f, 1);
             moneyArea.GetComponent<Button>().enabled = false;
             moneyArea.GetComponent<Image>().color = new Color32(255, 255, 255, 100);
             costIconImage.color = new Color32(255, 255, 255, 100);
@@ -232,10 +228,6 @@ public class ResetDiceController : MonoBehaviour
     {
         if (moneyArea.GetComponent<Button>().enabled == false) 
         {
-            // var localPosition = moneyArea.transform.localPosition;
-            // moneyArea.GetComponent<Image>().sprite = abledResetDiceButtonImage;
-            // moneyArea.transform.localScale = new Vector3(1f, 1f, 1f);
-            // moneyArea.transform.localPosition = new Vector3(localPosition.x + 0.5f, localPosition.y + 3.8f, 1);
             moneyArea.GetComponent<Button>().enabled = true;
             moneyArea.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             costIconImage.color = new Color32(255, 255, 255, 255);

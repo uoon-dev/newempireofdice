@@ -127,7 +127,9 @@ public class Dice : MonoBehaviour
 
     public void ResetDice()
     {
-        GetComponentInChildren<Image>().raycastTarget = true;
+        if (TutorialController.GetTutorialCount() != 13) {
+            GetComponentInChildren<Image>().raycastTarget = true;
+        }        
         GetComponentInChildren<Image>().color = Color.white;
         GetComponentInChildren<Text>().color = Color.black;
         SetDiceNumber(minNumber, maxNumber);

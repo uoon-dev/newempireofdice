@@ -69,16 +69,16 @@
         }
 
         public static void AllowClickEventNextButton() {
-            nextButton = GameObject.Find("Next Button");
-            nextButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-            nextButton.GetComponent<Image>().raycastTarget = true;
+            nextButton = GameObject.Find("Description");
+            // nextButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            nextButton.GetComponent<Button>().interactable = true;
         }
 
         public static void PreventClickEventNextButton() {
-            nextButton = GameObject.Find("Next Button");
-            // nextButton.GetComponent<Image>().DOFade(0, 0);            
-            nextButton.GetComponent<Image>().color = new Color32(255, 255, 255, 0);
-            nextButton.GetComponent<Image>().raycastTarget = false;
+            nextButton = GameObject.Find("Description");
+            // nextButton.GetComponent<Image>().DOFade(0, 0);
+            // nextButton.GetComponent<Image>().color = new Color32(255, 255, 255, 0);
+            nextButton.GetComponent<Button>().interactable = false;
         }
         
         public static void AllowClickEventDices() {
@@ -87,8 +87,19 @@
             if (TutorialController.GetTutorialCount() == 4) {
                 dices.transform.GetChild(0).GetComponentInChildren<Image>().raycastTarget = true;
             } else {
-                for (int i = 0; i < dices.transform.childCount; i++) {
-                    dices.transform.GetChild(i).GetComponentInChildren<Image>().raycastTarget = true;
+                if (TutorialController.GetTutorialCount() == 10) {
+                    int generatedDiceIndex = 0;
+                    for (int i = 0; i < dices.transform.childCount; i++) {
+                        if (dices.transform.GetChild(i).GetComponentInChildren<Text>().text != "0")
+                        {
+                            generatedDiceIndex = i;
+                        }
+                    }
+                    dices.transform.GetChild(generatedDiceIndex).GetComponentInChildren<Image>().raycastTarget = true;
+                } else {
+                    for (int i = 0; i < dices.transform.childCount; i++) {
+                        dices.transform.GetChild(i).GetComponentInChildren<Image>().raycastTarget = true;
+                    }
                 }
             }
         }
@@ -187,7 +198,6 @@
                 case 6: {
                     GameObject.Find("Arrow 3").GetComponent<CanvasGroup>().DOFade(0, 0.2f).OnComplete(() => {
                         GameObject.Find("Arrow 3").GetComponent<Rigidbody2D>().DORotate(0, 0);
-                        // GameObject.Find("Arrow 3").gameObject.SetActive(false);
                     });
                     GameObject.Find("Highlight 1").GetComponent<CanvasGroup>().DOFade(0, 0.2f);
 
@@ -206,7 +216,7 @@
                     GameObject.Find("Highlight 2").transform.DOLocalMove(firstPosition, 0).SetDelay(0.1f);
                     GameObject.Find("Highlight 2").GetComponent<CanvasGroup>().DOFade(1, 0.2f).SetDelay(0.1f);
                     GameObject.Find("Highlight 2").GetComponent<Rigidbody2D>().DORotate(360, 10).SetLoops(-1, LoopType.Restart);
-                    // GameObject.Find("Guider").GetComponent<Image>().sprite = staticGuiderSprites[6];
+
                     break;
                 }
                 case 8: {
@@ -220,16 +230,10 @@
 
                         Vector3 firstPosition = new Vector3(diceArrow.localPosition.x , diceArrow.localPosition.y, 1);
                         Vector3 secondPosition = new Vector3(diceArrow.localPosition.x - 3f , diceArrow.localPosition.y + 3, 1);
-                        // GameObject clonedArrow = Instantiate(GameObject.Find("Arrow 2"), firstPosition, new Quaternion(0, 0, 0, 0));
-                        // Transform tutorialCanvasBox = tutorialCanvas.transform.GetChild(1);
-                        // clonedArrow.name = $"CloneArrow {i + 1}";
-                        // clonedArrow.transform.SetParent(tutorialCanvasBox, false);
-                        
-                        // clonedArrow.transform.DOScale(0.8f, 0);
+
                         diceArrow.transform.DOLocalMove(firstPosition, 0);
                         diceArrow.transform.DOLocalMove(secondPosition, 0.5f).SetLoops(-1, LoopType.Yoyo);
-                        // clonedArrow.GetComponent<Rigidbody2D>().DORotate(90, 0);
-                        // clonedArrow.GetComponent<CanvasGroup>().DOFade(1, 0.2f);
+
                         diceArrow.GetComponent<CanvasGroup>().DOFade(0, 0);
                         diceArrow.gameObject.SetActive(true);
                         diceArrow.GetComponent<CanvasGroup>().DOFade(1, 0.2f);                        
@@ -329,6 +333,7 @@
                 }
                 case 16: {
                     GameObject.Find("Guider").GetComponent<Image>().sprite = staticGuiderSprites[0];
+                    // PreventClickEventDices();
                     break;
                 }
                 // case 10: {
