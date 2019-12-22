@@ -9,8 +9,6 @@ public class UIAlignController : MonoBehaviour
 {
     [SerializeField] GameObject creditButton = null;
     [SerializeField] GameObject helpButton = null;
-    [SerializeField] GameObject homeButton = null;
-    [SerializeField] GameObject settingButton = null;
     [SerializeField] GameObject compassImage = null;
     [SerializeField] GameObject pauseButton = null;
     [SerializeField] GameObject resetDiceScreen = null;
@@ -21,15 +19,15 @@ public class UIAlignController : MonoBehaviour
     [SerializeField] GameObject levelLostLeftButton = null;
     [SerializeField] GameObject mainCanvas = null;
     [SerializeField] GameObject background = null;
-    [SerializeField] GameObject goToNextStage = null;
-    [SerializeField] GameObject heartBar = null;
     [SerializeField] Sprite[] backgroundImages = null;
+    public GameObject borderSign = null;
     GameObject heartUseAnimationObject;
     string currentSceneName;
     private int backgroundImageIndex = 0;
 
     void Start()
     {
+        SetObjects();
         currentSceneName = LevelLoader.GetCurrentSceneName();
         switch(currentSceneName) {
             case "Start Screen": {
@@ -53,6 +51,11 @@ public class UIAlignController : MonoBehaviour
         DeactiveHeartUseAnimation();
     }
 
+    public void SetObjects()
+    {
+        borderSign = GameObject.Find("Border Sign");
+    }
+
     public void DeactiveHeartUseAnimation()
     {
         heartUseAnimationObject = GameObject.Find("Heart Use Animation");
@@ -73,21 +76,21 @@ public class UIAlignController : MonoBehaviour
     }
 
     private void MapAlignItems() {
-        Vector3 homeButtonSize = homeButton.GetComponent<RectTransform>().sizeDelta;
-        homeButton.transform.position = Camera.main.ScreenToWorldPoint(
-            new Vector3(Screen.width/15 + homeButtonSize.x/2 + (Screen.width >= 1792 ? 0 : 0), Screen.height - homeButtonSize.y/2 - Screen.height/15, 5));
+        float cameraHeight = 2 * Camera.main.orthographicSize;
+        float cameraWidth = cameraHeight * Camera.main.aspect;
+        float leftPaddingAbsolutePositionX = -borderSign.transform.position.x - cameraWidth / 2 + 0.325f;
 
-        Vector3 settingButtonSize = homeButton.GetComponent<RectTransform>().sizeDelta;
-        settingButton.transform.position = Camera.main.ScreenToWorldPoint(
-            new Vector3(Screen.width/8 + settingButtonSize.x/2 + (Screen.width >= 1792 ? 0 : 0), Screen.height - settingButtonSize.y/2 - Screen.height/15-5 , 5));
+        var header = mainCanvas.transform.Find("Header");
+        var headerLeftSide = header.transform.Find("Left");
+        var headerRightSide = header.transform.Find("Right");
 
-        Vector3 heartBarSize = heartBar.GetComponent<RectTransform>().sizeDelta;
-        heartBar.transform.position = Camera.main.ScreenToWorldPoint(
-            new Vector3(Screen.width/15 * 11 - (Screen.width <= 1792 ? 90 : 65), Screen.height - Screen.height/2 + (Screen.width >= 1792 ? 82 : 30), 5));
+        headerLeftSide.position = new Vector3(leftPaddingAbsolutePositionX - 3.7f, 1.7f, 0);
+        headerRightSide.position = new Vector3(3.7f - leftPaddingAbsolutePositionX, 1.7f, 0);
+        
+        var footer = mainCanvas.transform.Find("Footer");
+        var footerRightSide = footer.transform.Find("Right");
 
-        Vector3 goToNextStageSize = goToNextStage.GetComponent<RectTransform>().sizeDelta;
-        goToNextStage.transform.position = Camera.main.ScreenToWorldPoint(
-            new Vector3(Screen.width/15 * 9 - (Screen.width <= 1792 ? 80 : 60), Screen.height  - Screen.height/2, 5));
+        footerRightSide.position = new Vector3(2.4f - leftPaddingAbsolutePositionX, -cameraHeight/3 - 0.15f, 0);
     }
 
     private void LevelAlignItems() {
