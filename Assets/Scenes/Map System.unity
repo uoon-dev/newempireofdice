@@ -5206,7 +5206,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1830405380}
         m_MethodName: OnClickMap
-        m_Mode: 6
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8344,7 +8344,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1603028673}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8894,9 +8894,9 @@ RectTransform:
   m_Children:
   - {fileID: 1101016153}
   - {fileID: 1529749861}
+  - {fileID: 1867370085}
   - {fileID: 1664537969}
   - {fileID: 1514651802}
-  - {fileID: 1867370085}
   - {fileID: 281222484}
   - {fileID: 508808000}
   m_Father: {fileID: 0}
@@ -9223,7 +9223,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1603028673}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -10405,7 +10405,7 @@ RectTransform:
   m_Children:
   - {fileID: 944861065}
   m_Father: {fileID: 1603028673}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

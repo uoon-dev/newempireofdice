@@ -31,9 +31,9 @@ public class DiceController : MonoBehaviour
     public void UpdateClickedMapStage(bool isGoingToNextStage)
     {
         isNextStage = isGoingToNextStage;
-        var StageStartButton = GameObject.Find("Start Button").GetComponent<Button>();
-        StageStartButton.onClick.RemoveAllListeners();
-        StageStartButton.onClick.AddListener(() => FindObjectOfType<MapController>().OnClickMap(isNextStage));
+        // var StageStartButton = GameObject.Find("Start Button").GetComponent<Button>();
+        // StageStartButton.onClick.RemoveAllListeners();
+        // StageStartButton.onClick.AddListener(() => FindObjectOfType<MapController>().OnClickMap(isNextStage));
     }
 
     public void SetObjects()

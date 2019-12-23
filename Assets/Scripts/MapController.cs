@@ -27,6 +27,7 @@ public class MapController : MonoBehaviour
     [SerializeField] Sprite unclearStar = null;
 
     public static GameObject previousClickedMap = null;
+    public bool onClickedLastClearedNextMap = false;
     Image previousMapImage = null;
 
     int leftScrollCount = 0;
@@ -43,6 +44,7 @@ public class MapController : MonoBehaviour
     float speed = 1.5f;
     float[,] flagPositions;
     string currenetSceneName;
+
 
     void Start()
     {
@@ -328,6 +330,7 @@ public class MapController : MonoBehaviour
 
     public void InitDiceController(bool isGoingToNextStage)
     {
+        onClickedLastClearedNextMap = isGoingToNextStage;
         var diceController = FindObjectOfType<DiceController>();
         int levelNumber = 0;
 
@@ -341,15 +344,15 @@ public class MapController : MonoBehaviour
 
         int clearStarCount = PlayerPrefs.GetInt($"LevelStar {levelNumber}");
         diceController.UpdateStageStar(clearStarCount);
-        diceController.UpdateClickedMapStage(isGoingToNextStage);
+        // diceController.UpdateClickedMapStage(isGoingToNextStage);
         diceController.ShowScreen();
     }
 
-    public void OnClickMap(bool isGoingToNextStage)
+    public void OnClickMap()
     {
         int levelNumber = 0;
         
-        if (FindObjectOfType<DiceController>().isNextStage) 
+        if (onClickedLastClearedNextMap) 
         {
             levelNumber = lastClearedMapNumber + 1;
         } else {
@@ -464,7 +467,7 @@ public class MapController : MonoBehaviour
     }
 
     private void InitNextStageButton()
-    {                
+    {
         string nextStageNumber = (lastClearedMapNumber + 1).ToString();
         var nextStageButton = GameObject.Find("Next Stage Button").GetComponent<Button>();
         var nextStageNumberText = GameObject.Find("Next Stage Number").GetComponent<Text>();

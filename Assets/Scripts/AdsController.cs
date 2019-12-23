@@ -120,7 +120,7 @@ public class AdsController : MonoBehaviour
         }
                 switch(rewardType) {
                  case AD_REWARD_TYPE.LOAD_CLICKED_MAP: {
-                        FindObjectOfType<MapController>().OnClickMap(false);
+                        FindObjectOfType<MapController>().OnClickMap();
                         break;
                     }
                  case AD_REWARD_TYPE.LOAD_LEVEL_SCENE: {
