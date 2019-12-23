@@ -125,9 +125,9 @@ public class AdsController : MonoBehaviour
                     }
                  case AD_REWARD_TYPE.LOAD_LEVEL_SCENE: {
                         var levelLoader = FindObjectOfType<LevelLoader>();
-                        if (LevelLoader.goingToNextLevel) {
+                        if (levelLoader.GetIsGoingToNextLevel()) {
                             levelLoader.LoadNextLevel();
-                            LevelLoader.goingToNextLevel = false;
+                            levelLoader.SetIsGoingToNextLevel(false);
                             return;
                         } 
                         levelLoader.LoadCurrentScene();

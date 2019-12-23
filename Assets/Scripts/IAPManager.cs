@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Purchasing;
 
 
@@ -107,6 +108,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
         Debug.Log("유니티 IAP 초기화 성공");
         storeController = controller;
         storeExtensionProvider = extensions;
+        // SetPricesInShop();
     }
 
     public void OnInitializeFailed(InitializationFailureReason error)
@@ -237,4 +239,25 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
         return false;
     }
+
+    public void SetPricesInShop()
+    {
+        var heartShopCanvas = GameObject.Find("Heart Shop Canvas");
+        if (heartShopCanvas == null) return;
+
+        var smallHeartPrice = heartShopCanvas.transform.Find("Body").transform.Find("Left").transform.Find("Small Heart").transform.Find("Price");
+        var largeHeartPrice = heartShopCanvas.transform.Find("Body").transform.Find("Left").transform.Find("Large Heart").transform.Find("Price");
+        var heartRechargeSpeed = heartShopCanvas.transform.Find("Body").transform.Find("Right").transform.Find("HeartRechargeSpeedText");
+        smallHeartPrice.GetComponent<Text>().text = GetPrice(IOSSmallHeartId);
+        largeHeartPrice.GetComponent<Text>().text = GetPrice(IOSLargeHeartId);
+        heartRechargeSpeed.GetComponent<Text>().text = GetPrice(IOSHeartRechargeSpeedUpId);
+    }
+
+    public string GetPrice(string productId)
+    {
+        if (!IsInitialized) return "";
+        
+        Debug.Log(storeController.products.WithID(productId).metadata);
+        return storeController.products.WithID(productId).metadata.localizedPriceString;
+    }    
 }

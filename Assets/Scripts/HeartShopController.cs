@@ -8,6 +8,8 @@ public class HeartShopController : MonoBehaviour
 {
     [SerializeField] GameObject HeartText;
     [SerializeField] GameObject HeartButton;
+    [SerializeField] Sprite defaultPurchaseButtonImage;
+    [SerializeField] Sprite loadingButtonImage;
     void Start()
     {
         SetSpeedUpText();
@@ -66,13 +68,30 @@ public class HeartShopController : MonoBehaviour
 
     public void HandleClick(string targetProductId)
     {
-        // if (IAPManager.Instance.HadPurchased(targetProductId))
-        // {
-        //     Debug.Log("이미 구매한 상품입니다.");
-        //     return;
+        if (IAPManager.Instance.HadPurchased(targetProductId))
+        {
+            Debug.Log("이미 구매한 상품입니다.");
+            return;
+        }
+        // Image purchaseButtonImage = null;
+        // switch (targetProductId) {
+        //     case Constants.SmallHeart: {
+        //         purchaseButtonImage = GameObject.Find("Small Heart Purchase Button Image").GetComponent<Image>();
+        //         break;
+        //     }
+        //     case Constants.LargeHeart: {
+        //         purchaseButtonImage = GameObject.Find("Large Heart Purchase Button Image").GetComponent<Image>();
+        //         break;
+        //     }
+        //     case Constants.HeartRechargeSpeedUp: {
+        //         purchaseButtonImage = GameObject.Find("HeartRechargeSpeedButton").GetComponent<Image>();
+        //         break;
+        //     }
         // }
-
+        // purchaseButtonImage.sprite = loadingButtonImage;
         IAPManager.Instance.Purchase(targetProductId);
-    }    
+    }
+
+    // public void 
 
 }

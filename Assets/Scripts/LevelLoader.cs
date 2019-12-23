@@ -12,7 +12,7 @@ public class LevelLoader : MonoBehaviour
     public static string currentSceneName = "";
     int currentSceneIndex;
     public static int currentLevelNumber;
-    public static bool goingToNextLevel = false;
+    public bool goingToNextLevel = false;
     private static GameObject mainCanvas;
     // Start is called before the first frame update
     void Start()
@@ -60,7 +60,7 @@ public class LevelLoader : MonoBehaviour
     }
     public void OnClickLoadNextLevel()
     {
-        goingToNextLevel = true;
+        SetIsGoingToNextLevel(true);
         LoadNextLevel();
     }
     public void LoadNextLevel() 
@@ -74,6 +74,17 @@ public class LevelLoader : MonoBehaviour
         FindObjectOfType<UIAlignController>().ActiveHeartUseAnimation();
         Invoke("InvokedLoadNextLevel", 0.4f);
     }
+
+    public void SetIsGoingToNextLevel(bool isGoingToNextLevel)
+    {
+        goingToNextLevel = isGoingToNextLevel;
+    }
+
+    public bool GetIsGoingToNextLevel()
+    {
+        return goingToNextLevel;   
+    }
+
     public void OnClickLoadCurrentScene()
     {
         LoadCurrentScene();
