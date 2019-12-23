@@ -164,9 +164,17 @@
         private void HandlePrintCompleted()
         {
             switch(TutorialController.GetTutorialCount()) {
+                case 1: {
+                    TutorialController.ShowNextButton();
+                    break;
+                }
                 case 2: {
                     TutorialController.AllowClickEventResetDiceScreen();
                     TutorialController.PreventClickEventNextButton();
+                    break;
+                }
+                case 3: {
+                    TutorialController.ShowNextButton();
                     break;
                 }
                 case 4: {
@@ -183,12 +191,21 @@
                 case 6: {
                     TutorialController.PreventClickEventDices();
                     TutorialController.PreventClickEventBlocks();
+                    TutorialController.ShowNextButton();
+                    break;
+                }
+                case 7: {
+                    TutorialController.ShowNextButton();
                     break;
                 }
                 case 8: {
-                    TutorialController.AllowClickEventDices();                    
+                    TutorialController.AllowClickEventDices();
                     TutorialController.AllowClickEventBlocks();
                     TutorialController.PreventClickEventNextButton();
+                    break;
+                }
+                case 9: {
+                    TutorialController.ShowNextButton();
                     break;
                 }
                 case 10: {
@@ -198,13 +215,22 @@
                     TutorialController.PreventClickEventNextButton();
                     break;
                 }
+                case 11: {
+                    TutorialController.ShowNextButton();                    
+                    break;
+                }
                 case 12: {
                     TutorialController.AllowClickEventResetDiceScreen();                    
                     TutorialController.PreventClickEventNextButton();
                     TutorialController.PreventClickEventDices();
                     break;
                 }
+                case 13: {
+                    TutorialController.ShowNextButton();
+                    break;
+                }
                 case 14: {
+                    TutorialController.ShowNextButton();
                     TutorialController.AllowClickEventResetDiceScreen();
                     TutorialController.AllowClickEventBlocks();
                     TutorialController.AllowClickEventDices();                    

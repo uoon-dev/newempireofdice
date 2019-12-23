@@ -29,6 +29,7 @@
             staticGuiderSprites = guiderSprites;
             cloneArrowShowCount = 6;
             ToggleCanvasBody(0);
+            TutorialController.HideNextButton();
         }
 
         public void RealStart()
@@ -70,16 +71,22 @@
 
         public static void AllowClickEventNextButton() {
             nextButton = GameObject.Find("Description");
-            // nextButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             nextButton.GetComponent<Button>().interactable = true;
+        }
+
+        public static void ShowNextButton() {
+            GameObject.Find("Next Button").GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         }
 
         public static void PreventClickEventNextButton() {
             nextButton = GameObject.Find("Description");
-            // nextButton.GetComponent<Image>().DOFade(0, 0);
-            // nextButton.GetComponent<Image>().color = new Color32(255, 255, 255, 0);
             nextButton.GetComponent<Button>().interactable = false;
         }
+
+        public static void HideNextButton() {
+            GameObject.Find("Next Button").GetComponent<Image>().color = new Color32(255, 255, 255, 0);
+        }
+
         
         public static void AllowClickEventDices() {
             dices = GameObject.Find("Dices");
@@ -156,6 +163,7 @@
 
             switch(TutorialController.GetTutorialCount()) {
                 case 2: {
+                    TutorialController.HideNextButton();
                     GameObject.Find("Highlight 3").GetComponent<CanvasGroup>().DOFade(0, 0);
                     
                     GameObject.Find("Arrow 1").GetComponent<CanvasGroup>().DOFade(0, 0);
@@ -182,6 +190,7 @@
                     GameObject.Find("Arrow 2").transform.DOLocalMove(secondPosition, 0.5f).SetLoops(-1, LoopType.Yoyo);                    
                     GameObject.Find("Arrow 2").GetComponent<CanvasGroup>().DOFade(1, 0.2f);
                     GameObject.Find("Guider").GetComponent<Image>().sprite = staticGuiderSprites[1];
+                    TutorialController.HideNextButton();
                     break;
                 }
                 case 5: {
@@ -209,6 +218,7 @@
                     break;
                 }
                 case 7: {
+                    TutorialController.HideNextButton();
                     GameObject.Find("Highlight 1").GetComponent<CanvasGroup>().DOFade(0, 0.1f).OnComplete(() => {
                         GameObject.Find("Highlight 1").gameObject.SetActive(false);
                     });
@@ -220,6 +230,7 @@
                     break;
                 }
                 case 8: {
+                    TutorialController.HideNextButton();
                     GameObject.Find("Highlight 2").GetComponent<CanvasGroup>().DOFade(0, 0f).OnComplete(() => {
                         GameObject.Find("Highlight 2").gameObject.SetActive(false);
                     });
@@ -244,6 +255,7 @@
                     break;
                 }
                 case 9: {
+                    TutorialController.HideNextButton();
                     Transform tutorialCanvasBox = tutorialCanvas.transform.GetChild(1);
                     Object.DestroyImmediate(tutorialCanvasBox.gameObject);
                  
@@ -253,7 +265,8 @@
                     break;
                 }
                 case 10: {
-                    // go to dice   
+                    // go to dice
+                    TutorialController.HideNextButton();
                     var dices = FindObjectsOfType<Dice>();
                     Dice newDice = null;
                     foreach (Dice dice in dices)
@@ -286,7 +299,7 @@
                     GameObject.Find("Guider").GetComponent<Image>().sprite = staticGuiderSprites[4];
                     break;
                 }
-                case 11: {
+                case 11: {                    
                     GameObject.Find("Arrow 4").GetComponent<CanvasGroup>().DOFade(0, 0.3f).OnComplete(() => {
                         GameObject.Find("Arrow 4").gameObject.SetActive(false);
                         tutorialCanvas.GetComponent<CanvasGroup>().DOFade(1, 0);
@@ -302,6 +315,7 @@
                 }
                 case 12: {
                     // go to dice
+                    TutorialController.HideNextButton();
                     GameObject.Find("Arrow 5").GetComponent<CanvasGroup>().DOFade(0, 0);
                     Vector3 firstPosition = new Vector3(moneyArea.transform.localPosition.x - 45f, moneyArea.transform.localPosition.y + 45f, 1);
                     GameObject.Find("Arrow 5").transform.localPosition = firstPosition;
@@ -324,6 +338,7 @@
                     break;
                 }
                 case 14: {
+                    TutorialController.HideNextButton();
                     GameObject.Find("Guider").GetComponent<Image>().sprite = staticGuiderSprites[3];
                     break;
                 }
