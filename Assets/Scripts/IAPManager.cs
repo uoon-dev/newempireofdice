@@ -108,7 +108,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
         Debug.Log("유니티 IAP 초기화 성공");
         storeController = controller;
         storeExtensionProvider = extensions;
-        // SetPricesInShop();
+        SetPricesInShop();
     }
 
     public void OnInitializeFailed(InitializationFailureReason error)
