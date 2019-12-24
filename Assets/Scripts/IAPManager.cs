@@ -119,6 +119,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
     {
         Debug.Log($"구매 성공 - ID : {args.purchasedProduct.definition.id}");
+        var heartShopController = FindObjectOfType<HeartShopController>();
+        heartShopController.TogglePurchaseButton(false, args.purchasedProduct.definition.id);
 
         switch(args.purchasedProduct.definition.id)
         {
@@ -180,6 +182,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
 
     public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
     {
+        var heartShopController = FindObjectOfType<HeartShopController>();
+        heartShopController.TogglePurchaseButton(false, product.definition.id);        
         Debug.LogWarning($"구매 실패 - {product.definition.id}, {reason}");
     }
 

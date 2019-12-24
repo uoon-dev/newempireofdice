@@ -73,25 +73,39 @@ public class HeartShopController : MonoBehaviour
             Debug.Log("이미 구매한 상품입니다.");
             return;
         }
-        // Image purchaseButtonImage = null;
-        // switch (targetProductId) {
-        //     case Constants.SmallHeart: {
-        //         purchaseButtonImage = GameObject.Find("Small Heart Purchase Button Image").GetComponent<Image>();
-        //         break;
-        //     }
-        //     case Constants.LargeHeart: {
-        //         purchaseButtonImage = GameObject.Find("Large Heart Purchase Button Image").GetComponent<Image>();
-        //         break;
-        //     }
-        //     case Constants.HeartRechargeSpeedUp: {
-        //         purchaseButtonImage = GameObject.Find("HeartRechargeSpeedButton").GetComponent<Image>();
-        //         break;
-        //     }
-        // }
-        // purchaseButtonImage.sprite = loadingButtonImage;
+
+        TogglePurchaseButton(true, targetProductId);
         IAPManager.Instance.Purchase(targetProductId);
     }
 
-    // public void 
+    public void TogglePurchaseButton(bool isLoadinng, string targetProductId)
+    {
+        GameObject purchaseButton = null;
+        Debug.Log(targetProductId);
+        switch (targetProductId) {
+            case Constants.SmallHeart: {
+                purchaseButton = GameObject.Find("Small Heart Purchase Button");
+                break;
+            }
+            case Constants.LargeHeart: {
+                purchaseButton = GameObject.Find("Large Heart Purchase Button");
+                break;
+            }
+            case Constants.HeartRechargeSpeedUp: {
+                purchaseButton = GameObject.Find("HeartRechargeSpeedButton");
+                break;
+            }
+        }
 
+        if (isLoadinng) 
+        {
+            purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
+            purchaseButton.GetComponent<Button>().interactable = false;
+        } 
+        else 
+        {
+            purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
+            purchaseButton.GetComponent<Button>().interactable = true;
+        }
+    }
 }
