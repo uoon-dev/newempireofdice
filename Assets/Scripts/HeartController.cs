@@ -42,7 +42,7 @@ public class HeartController : MonoBehaviour
         LoadRechargeSpeedInfo();
         LoadHeartInfo();
         LoadAppQuitTime();
-        // SetHeartAmount(1);
+        // SetHeartAmount(0);
 
         if (m_HeartAmount < MAX_HEART) {
             SetRechargeScheduler();
