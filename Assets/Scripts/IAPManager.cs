@@ -254,7 +254,12 @@ public class IAPManager : MonoBehaviour, IStoreListener
         var heartRechargeSpeed = heartShopCanvas.transform.Find("Body").transform.Find("Right").transform.Find("HeartRechargeSpeedText");
         smallHeartPrice.GetComponent<Text>().text = GetPrice(IOSSmallHeartId);
         largeHeartPrice.GetComponent<Text>().text = GetPrice(IOSLargeHeartId);
-        heartRechargeSpeed.GetComponent<Text>().text = GetPrice(IOSHeartRechargeSpeedUpId);
+
+        int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
+        if (heartRechargeSpeedPurchased != 2) 
+        {
+            heartRechargeSpeed.GetComponent<Text>().text = GetPrice(IOSHeartRechargeSpeedUpId);
+        }
     }
 
     public string GetPrice(string productId)

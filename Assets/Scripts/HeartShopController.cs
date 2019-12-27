@@ -81,18 +81,21 @@ public class HeartShopController : MonoBehaviour
     public void TogglePurchaseButton(bool isLoadinng, string targetProductId)
     {
         GameObject purchaseButton = null;
-        Debug.Log(targetProductId);
+        Transform priceText = null;
         switch (targetProductId) {
             case Constants.SmallHeart: {
                 purchaseButton = GameObject.Find("Small Heart Purchase Button");
+                priceText = GameObject.Find("Small Heart").transform.Find("Price");
                 break;
             }
             case Constants.LargeHeart: {
                 purchaseButton = GameObject.Find("Large Heart Purchase Button");
+                priceText = GameObject.Find("Large Heart").transform.Find("Price");
                 break;
             }
             case Constants.HeartRechargeSpeedUp: {
                 purchaseButton = GameObject.Find("HeartRechargeSpeedButton");
+                priceText = GameObject.Find("HeartRechargeSpeedText").transform;
                 break;
             }
         }
@@ -100,12 +103,14 @@ public class HeartShopController : MonoBehaviour
         if (isLoadinng) 
         {
             purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
+            priceText.GetComponent<Text>().text = "";
             purchaseButton.GetComponent<Button>().interactable = false;
         } 
         else 
         {
             purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
             purchaseButton.GetComponent<Button>().interactable = true;
+            FindObjectOfType<IAPManager>().SetPricesInShop();
         }
     }
 }

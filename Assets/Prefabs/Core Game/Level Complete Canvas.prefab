@@ -155,7 +155,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 14
   m_TargetDisplay: 0
 --- !u!114 &497537064
 MonoBehaviour:
@@ -981,7 +981,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uD134 \uC218 \uC548\uC5D0 \uD074\uB9AC\uC5B4!"
+  m_Text: "30\uD134 \uC548\uC5D0 \uD074\uB9AC\uC5B4!"
 --- !u!95 &1179926714
 Animator:
   serializedVersion: 3
@@ -1411,7 +1411,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &988882031559666661
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1451,7 +1451,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 14
   m_TargetDisplay: 0
 --- !u!114 &5378372530781369760
 MonoBehaviour:
