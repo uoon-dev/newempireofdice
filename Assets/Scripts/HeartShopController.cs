@@ -32,7 +32,7 @@ public class HeartShopController : MonoBehaviour
                 {
                     HeartRechargeSpeedText.fontSize = 20;
                 }else{
-                    HeartRechargeSpeedText.fontSize = 12;
+                    HeartRechargeSpeedText.fontSize = 10;
                 }
                 
                 HeartRechargeSpeedImage.color = new Color32(255, 255, 255, 100);
@@ -95,7 +95,7 @@ public class HeartShopController : MonoBehaviour
             }
             case Constants.HeartRechargeSpeedUp: {
                 purchaseButton = GameObject.Find("HeartRechargeSpeedButton");
-                priceText = GameObject.Find("HeartRechargeSpeedText").transform;
+                priceText = GameObject.Find("Right").transform.Find("Price");
                 break;
             }
         }

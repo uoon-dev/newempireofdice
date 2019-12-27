@@ -84,8 +84,7 @@ public class AdsController : MonoBehaviour
         if (Yodo1U3dAds.VideoIsReady()) {
             rewardType = reward;
             Yodo1U3dAds.ShowVideo();
-        }
-        
+        }        
     }
 
     public void PlayInterstitialAdsWithLevel(string reward, int level) {

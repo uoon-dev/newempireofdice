@@ -42,6 +42,8 @@ public class HeartController : MonoBehaviour
         LoadRechargeSpeedInfo();
         LoadHeartInfo();
         LoadAppQuitTime();
+        // SetHeartAmount(1);
+
         if (m_HeartAmount < MAX_HEART) {
             SetRechargeScheduler();
         }
@@ -405,6 +407,7 @@ public class HeartController : MonoBehaviour
     public void SetHeartAmount(int amount)
     {
         m_HeartAmount = amount;
+        PlayerPrefs.SetInt("HeartAmount", m_HeartAmount);
 
         if (m_HeartAmount >= MAX_HEART)
         {
