@@ -9,6 +9,7 @@ public static class Helper
 {
     public static object GetPropertyValue(this object T, string PropName)
     {
+        if (T == null) return null;
         return T.GetType().GetProperty(PropName) == null ? null : T.GetType().GetProperty(PropName).GetValue(T, null);
     }
 
@@ -45,15 +46,20 @@ public class SpeicalBlockController : MonoBehaviour
     public static void SetSpeicialBlocks(object speicalBlocks,bool placeSpecialBlock = true)
     {
         if (LevelLoader.GetCurrentSceneName() != "Level") return;
-        dungeonCount = (int)speicalBlocks.GetPropertyValue("dungeon");
-        mineCount = (int)speicalBlocks.GetPropertyValue("mine");
-        armyCount = (int)speicalBlocks.GetPropertyValue("army");
-        horizontalCount = (int)speicalBlocks.GetPropertyValue("horizontal");
-        verticalCount = (int)speicalBlocks.GetPropertyValue("vertical");
-        bombCount = (int)speicalBlocks.GetPropertyValue("bomb");
-        wizardCount = (int)speicalBlocks.GetPropertyValue("wizard");
-        relicsCount = (int)speicalBlocks.GetPropertyValue("relics");
-        lastBlockCount = (int)speicalBlocks.GetPropertyValue("lastblock");
+
+        if (speicalBlocks != null) 
+        {
+            dungeonCount = (int)speicalBlocks.GetPropertyValue("dungeon");
+            mineCount = (int)speicalBlocks.GetPropertyValue("mine");
+            armyCount = (int)speicalBlocks.GetPropertyValue("army");
+            horizontalCount = (int)speicalBlocks.GetPropertyValue("horizontal");
+            verticalCount = (int)speicalBlocks.GetPropertyValue("vertical");
+            bombCount = (int)speicalBlocks.GetPropertyValue("bomb");
+            wizardCount = (int)speicalBlocks.GetPropertyValue("wizard");
+            relicsCount = (int)speicalBlocks.GetPropertyValue("relics");
+            lastBlockCount = (int)speicalBlocks.GetPropertyValue("lastblock");
+        }
+
         var blocks = FindObjectsOfType<Block>();
 
         if (blocks.Length > 0&& placeSpecialBlock)

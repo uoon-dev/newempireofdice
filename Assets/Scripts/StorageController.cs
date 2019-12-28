@@ -29,12 +29,14 @@ public class StorageController
     }
     public static void SaveBlocksType(int level, List<string> blockTypes)
     {
+                Debug.Log("saved type called");
         ES3.Save<List<string>>(STORAGE_KEY.BLOCKS_BY_LEVEL_TYPE + level, blockTypes);
     }
 
 
     public static void SaveBlocksText(int level, List<string> blockTexts)
     {
+
         ES3.Save<List<string>>(STORAGE_KEY.BLOCKS_BY_LEVEL_TEXT + level, blockTexts);
     }
 

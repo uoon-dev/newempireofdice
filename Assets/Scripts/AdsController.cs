@@ -12,6 +12,7 @@ public static class AD_REWARD_TYPE
 
 public class AdsController : MonoBehaviour
 {
+    private static bool isIntitialized;
     private string adsAppleId = "3259036";
     private string adsAndroidId = "3259037";
     private string rewardType = "";
@@ -19,7 +20,13 @@ public class AdsController : MonoBehaviour
     
     void Start()
     {
-        Yodo1U3dAds.InitializeSdk();
+       Initialize();
+    }
+
+    public void Initialize(){
+        if(isIntitialized) return; 
+        isIntitialized = true;
+         Yodo1U3dAds.InitializeSdk();
         SetListners();
     }
 

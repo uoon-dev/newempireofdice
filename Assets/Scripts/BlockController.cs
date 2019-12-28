@@ -20,23 +20,27 @@ public class BlockController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // ES3.DeleteKey("blockByLevelText0");
+        // ES3.DeleteKey("blockByLevelText1");
+        // ES3.DeleteKey("blockByLevelText2");
+        // ES3.DeleteKey("blockByLevelText3");
         InitBlocks();
 
-        int blockLoadAdsCount = PlayerPrefs.GetInt("blockLoadAdsCount", 1);
-        Debug.Log("clockMapCount" + blockLoadAdsCount);
-        if (blockLoadAdsCount % 5 == 0)
-        {
-            if (PlayerPrefs.GetInt("HeartRechargeSpeed") != 2) {
-                GameObject.Find("Ads Controller").GetComponent<AdsController>().PlayInterstitialAds(AD_REWARD_TYPE.LOAD_CLICKED_MAP);
-            }
+        // int blockLoadAdsCount = PlayerPrefs.GetInt("blockLoadAdsCount", 1);
+        // Debug.Log("clockMapCount" + blockLoadAdsCount);
+        // if (blockLoadAdsCount % 5 == 0)
+        // {
+        //     if (PlayerPrefs.GetInt("HeartRechargeSpeed") != 2) {
+        //         GameObject.Find("Ads Controller").GetComponent<AdsController>().PlayInterstitialAds(AD_REWARD_TYPE.LOAD_CLICKED_MAP);
+        //     }
             
-            blockLoadAdsCount = 1;
-        }
-        else
-        {
-            blockLoadAdsCount += 1;
-        }
-        PlayerPrefs.SetInt("blockLoadAdsCount", blockLoadAdsCount);
+        //     blockLoadAdsCount = 1;
+        // }
+        // else
+        // {
+        //     blockLoadAdsCount += 1;
+        // }
+        // PlayerPrefs.SetInt("blockLoadAdsCount", blockLoadAdsCount);
 
     }
 
@@ -62,7 +66,12 @@ public class BlockController : MonoBehaviour
             {
                 GameObject clonedBlock = blocks[i];
                 Block tmpBlock = clonedBlock.GetComponent<Block>();
-                string blockType = blockTypes[i];
+
+                string blockType = "";
+                if (i < blockTypes.Count) {
+                    blockType = blockTypes[i];
+                }
+
                 if (i == 0)
                 {
                     tmpBlock.isClickable = true;
@@ -73,8 +82,11 @@ public class BlockController : MonoBehaviour
                     tmpBlock.SetBlockType(blockTypes[i]);
                     tmpBlock.SetTooltipInfo();
                 }
-                tmpBlock.blockText.text = blockTexts[i];
-                tmpBlock.SetBlocksValue(false);
+
+                if (i < blockTexts.Count) {
+                    tmpBlock.blockText.text = blockTexts[i];
+                    tmpBlock.SetBlocksValue(false);
+                }
             }
         }
         else

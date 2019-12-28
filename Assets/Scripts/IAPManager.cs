@@ -265,8 +265,6 @@ public class IAPManager : MonoBehaviour, IStoreListener
     public string GetPrice(string productId)
     {
         if (!IsInitialized) return "";
-        
-        Debug.Log(storeController.products.WithID(productId).metadata);
         return storeController.products.WithID(productId).metadata.localizedPriceString;
     }    
 }
