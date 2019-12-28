@@ -47,6 +47,7 @@ public class HeartShopController : MonoBehaviour
         var body = this.gameObject.transform.GetChild(0);
 
         if (isShow) {
+            this.gameObject.GetComponent<Image>().raycastTarget = true;
             TogglePurchaseButton(false, Constants.SmallHeart);
             TogglePurchaseButton(false, Constants.LargeHeart);
 
@@ -67,7 +68,7 @@ public class HeartShopController : MonoBehaviour
             body.transform.DOMoveY(Screen.height/2, 0.25f);
             return;
         }
-
+        this.gameObject.GetComponent<Image>().raycastTarget = false;
         if(LevelLoader.GetCurrentSceneName() == "Map System") {
             this.gameObject.transform.DOMoveY(-3, 0.25f);
             return;
