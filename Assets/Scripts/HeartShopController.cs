@@ -92,7 +92,9 @@ public class HeartShopController : MonoBehaviour
     public void TogglePurchaseButton(bool isLoadinng, string targetProductId)
     {
         GameObject purchaseButton = null;
+        Transform closeButton = this.transform.Find("Body").transform.Find("Header").transform.Find("Close Button");
         Transform priceText = null;
+
         switch (targetProductId) {
             case Constants.SmallHeart: {
                 purchaseButton = GameObject.Find("Small Heart Purchase Button");
@@ -116,11 +118,13 @@ public class HeartShopController : MonoBehaviour
             purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
             priceText.GetComponent<Text>().text = "";
             purchaseButton.GetComponent<Button>().interactable = false;
+            closeButton.GetComponent<Button>().interactable = false;
         } 
         else 
         {
             purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
             purchaseButton.GetComponent<Button>().interactable = true;
+            closeButton.GetComponent<Button>().interactable = true;
             FindObjectOfType<IAPManager>().SetPricesInShop();
         }
     }
