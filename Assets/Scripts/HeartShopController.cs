@@ -47,6 +47,15 @@ public class HeartShopController : MonoBehaviour
         var body = this.gameObject.transform.GetChild(0);
 
         if (isShow) {
+            TogglePurchaseButton(false, Constants.SmallHeart);
+            TogglePurchaseButton(false, Constants.LargeHeart);
+
+            int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
+            if (heartRechargeSpeedPurchased != 2) 
+            {
+                TogglePurchaseButton(false, Constants.HeartRechargeSpeedUp);
+            }
+ 
             var heartController = FindObjectOfType<HeartController>();
             if (heartController != null)
                 heartController.ToggleNoHeartCanvas(false);
@@ -58,6 +67,7 @@ public class HeartShopController : MonoBehaviour
             body.transform.DOMoveY(Screen.height/2, 0.25f);
             return;
         }
+
         if(LevelLoader.GetCurrentSceneName() == "Map System") {
             this.gameObject.transform.DOMoveY(-3, 0.25f);
             return;

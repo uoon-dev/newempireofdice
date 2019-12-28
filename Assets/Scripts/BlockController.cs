@@ -47,7 +47,6 @@ public class BlockController : MonoBehaviour
 
     private void InitBlocks()
     {
-        
         int currentLevelNumber = LevelLoader.GetCurrentLevelNumber();
         List<string> blockTexts = new List<string>();
         List<string> blockTypes = new List<string>();
