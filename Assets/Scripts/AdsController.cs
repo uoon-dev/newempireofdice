@@ -15,7 +15,7 @@ public class AdsController : MonoBehaviour
     private static bool isIntitialized;
     private string adsAppleId = "3259036";
     private string adsAndroidId = "3259037";
-    private string rewardType = "";
+    private static string rewardType = "";
     private int targetLevel = 0;
     
     void Start()
@@ -26,7 +26,8 @@ public class AdsController : MonoBehaviour
     public void Initialize(){
         if(isIntitialized) return; 
         isIntitialized = true;
-         Yodo1U3dAds.InitializeSdk();
+        rewardType = "";
+        Yodo1U3dAds.InitializeSdk();
         SetListners();
     }
 
@@ -91,13 +92,13 @@ public class AdsController : MonoBehaviour
         if (Yodo1U3dAds.VideoIsReady()) {
             rewardType = reward;
             Yodo1U3dAds.ShowVideo();
-        }        
+        }
     }
 
     public void PlayInterstitialAdsWithLevel(string reward, int level) {
         if (Yodo1U3dAds.InterstitialIsReady())
         {
-            rewardType = reward;
+            // rewardType = reward;
             targetLevel = level;
             Yodo1U3dAds.ShowInterstitial();
         }
@@ -105,7 +106,7 @@ public class AdsController : MonoBehaviour
 
     public void PlayInterstitialAds(string reward) {
         if (Yodo1U3dAds.InterstitialIsReady()) {
-            rewardType = reward;
+            // rewardType = reward;
             Yodo1U3dAds.ShowInterstitial();
         }
     }
@@ -124,23 +125,24 @@ public class AdsController : MonoBehaviour
             int currentHeartAmount = heartController.GetHeartAmount();
             heartController.SetHeartAmount(currentHeartAmount + 1);
         }
-                switch(rewardType) {
-                 case AD_REWARD_TYPE.LOAD_CLICKED_MAP: {
-                        FindObjectOfType<MapController>().OnClickMap();
-                        break;
-                    }
-                 case AD_REWARD_TYPE.LOAD_LEVEL_SCENE: {
-                        var levelLoader = FindObjectOfType<LevelLoader>();
-                        if (levelLoader.GetIsGoingToNextLevel()) {
-                            levelLoader.LoadNextLevel();
-                            levelLoader.SetIsGoingToNextLevel(false);
-                            return;
-                        } 
-                        levelLoader.LoadCurrentScene();
-                        break;
-                    }
-                }
+
+        switch(rewardType) {
+            case AD_REWARD_TYPE.LOAD_CLICKED_MAP: {
+                FindObjectOfType<MapController>().OnClickMap();
+                break;
+            }
+            case AD_REWARD_TYPE.LOAD_LEVEL_SCENE: {
+                var levelLoader = FindObjectOfType<LevelLoader>();
+                if (levelLoader.GetIsGoingToNextLevel()) {
+                    levelLoader.LoadNextLevel();
+                    levelLoader.SetIsGoingToNextLevel(false);
+                    return;
+                } 
+                levelLoader.LoadCurrentScene();
+                break;
+            }
         }
+    }
 }
     
 
