@@ -42,7 +42,6 @@ public class HeartController : MonoBehaviour
         LoadRechargeSpeedInfo();
         LoadHeartInfo();
         LoadAppQuitTime();
-        // SetHeartAmount(0);
 
         if (m_HeartAmount < MAX_HEART) {
             SetRechargeScheduler();
@@ -227,9 +226,9 @@ public class HeartController : MonoBehaviour
         try
         {
             var appQuitTime = DateTime.Now.ToLocalTime().ToBinary().ToString();
-            var rechargeRemainTime = m_RechargeRemainTime.ToString();
+            var rechargeRemainTime = m_RechargeRemainTime;
             PlayerPrefs.SetString("AppQuitTime", appQuitTime);
-            PlayerPrefs.SetString("RechargeRemainTime", rechargeRemainTime);
+            PlayerPrefs.SetInt("RechargeRemainTime", rechargeRemainTime);
             PlayerPrefs.Save();
             // Debug.Log("Saved AppQuitTime : " + DateTime.Now.ToLocalTime().ToString());
             result = true;
@@ -241,20 +240,20 @@ public class HeartController : MonoBehaviour
         return result;
     }
 
-    public void SetRechargeScheduler(Action onFinish = null)
+    public async void SetRechargeScheduler(Action onFinish = null)
     {
-        if (m_RechargeTimerCoroutine != null)
-        {
-            StopCoroutine(m_RechargeTimerCoroutine);
-        }
-        var timeDifferenceInSec = (int)((DateTime.Now.ToLocalTime() - m_AppQuitTime).TotalSeconds);
-        // Debug.Log("TimeDifference In Sec :" + timeDifferenceInSec + "s");
+        bool IsDeviceTimeValid = await Utils.IsDeviceTimeValid();
 
-        var rechargeRemainTime = PlayerPrefs.GetString("RechargeRemainTime").Length > 0 ? int.Parse(PlayerPrefs.GetString("RechargeRemainTime")) : 0;
-        var remainTime = rechargeRemainTime > timeDifferenceInSec ? 
-            rechargeRemainTime - timeDifferenceInSec : 
-            heartRechargeInterval - (timeDifferenceInSec - rechargeRemainTime) % heartRechargeInterval;
-        var heartToAdd = (timeDifferenceInSec + heartRechargeInterval - rechargeRemainTime) / heartRechargeInterval;
+        int timeDifferenceInSec = 0;
+        if (IsDeviceTimeValid) {
+            timeDifferenceInSec = (int)((DateTime.Now.ToLocalTime() - m_AppQuitTime).TotalSeconds);
+        }
+        int rechargeRemainTime = PlayerPrefs.GetInt("RechargeRemainTime");
+        // Debug.Log("TimeDifference In Sec :" + timeDifferenceInSec + "s");
+        int remainTime = rechargeRemainTime > timeDifferenceInSec ? 
+                rechargeRemainTime - timeDifferenceInSec : 
+                heartRechargeInterval - (timeDifferenceInSec - rechargeRemainTime) % heartRechargeInterval;
+        int heartToAdd = (timeDifferenceInSec + heartRechargeInterval - rechargeRemainTime) / heartRechargeInterval;
         // Debug.Log("Heart to add : " + heartToAdd);
         // Debug.Log("RemainTime : " + remainTime);
 
@@ -265,15 +264,13 @@ public class HeartController : MonoBehaviour
         }
         else
         {
+            if (m_RechargeTimerCoroutine != null)
+            {
+                StopCoroutine(m_RechargeTimerCoroutine);
+            }
             m_RechargeTimerCoroutine = StartCoroutine(DoRechargeTimer(remainTime, onFinish));
         }
-        if (heartImagesObject != null) {
-            SetHeartBar();
-        }        
-        // SaveHeartInfo();
-        if (heartState != null) {
-            heartState.GetComponent<Text>().text = m_HeartAmount.ToString();
-        }
+
         // Debug.Log("HeartAmount : " + m_HeartAmount);
     }
 
@@ -346,11 +343,6 @@ public class HeartController : MonoBehaviour
             if (heartRechargeSpeed > 1 && remainTime >= heartRechargeIntervalUpdated)
                 m_RechargeRemainTime = heartRechargeIntervalUpdated;
         }
-
-        // if (timer != null) 
-        // {
-        //     timer.GetComponent<Text>().text = m_RechargeRemainTime.ToString();
-        // }
 
         // Debug.Log("heartRechargeTimer : " + m_RechargeRemainTime + "s");
         while (m_RechargeRemainTime > 0)
