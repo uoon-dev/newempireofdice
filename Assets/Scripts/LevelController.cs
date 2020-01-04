@@ -22,7 +22,7 @@ public class LevelController : MonoBehaviour
         loseLabel.SetActive(false);
 
         if (stageIntro != null)
-            UpdateStageNumber();
+            AnimateStageIntro();
     }
 
     public void FindObjects()
@@ -32,7 +32,7 @@ public class LevelController : MonoBehaviour
     }
 
 
-    public void UpdateStageNumber()
+    public void AnimateStageIntro()
     {
         int levelNumber = LevelLoader.GetCurrentLevelNumber();
         stageTextObject.GetComponent<Text>().text = $"Stage {levelNumber.ToString()}";

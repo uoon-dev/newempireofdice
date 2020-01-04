@@ -138,6 +138,7 @@ public class BlockController : MonoBehaviour
         boardHeight = 8;
 
         var newLandInfoController = FindObjectOfType<NewLandInfoController>();
+        var guideCanvasController = FindObjectOfType<GuideCanvasController>();
 
         if (LevelLoader.GetCurrentSceneName() == "Level")
         {
@@ -145,7 +146,11 @@ public class BlockController : MonoBehaviour
             {
                 boardWidth = 4;
                 boardHeight = 4;
-
+                if (guideCanvasController != null)
+                {
+                    guideCanvasController.SetGuideType("clearCondition");
+                    guideCanvasController.ToggleGuideCanvas(true);
+                }
             }
 
             if (currentLevelNumber == 3)
