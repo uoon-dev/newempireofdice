@@ -29,19 +29,23 @@ public class UIAlignController : MonoBehaviour
     {
         SetObjects();
         currentSceneName = LevelLoader.GetCurrentSceneName();
-        switch(currentSceneName) {
-            case "Start Screen": {
+        switch(currentSceneName) 
+        {
+            case "Start Screen": 
+            {
                 HomeAlignItems();
                 break;
             }
-            case "Map System": {
+            case "Map System": 
+            {
                 MapAlignItems();
                 break;
             }
             default: break;
         }
 
-        if (currentSceneName.Equals("Level")) {
+        if (currentSceneName.Equals("Level")) 
+        {
             LevelAlignItems();
         }
 
@@ -65,7 +69,8 @@ public class UIAlignController : MonoBehaviour
         }
     }
 
-    private void HomeAlignItems() {
+    private void HomeAlignItems() 
+    {
         Vector3 creditButtonSize = creditButton.GetComponent<RectTransform>().sizeDelta;
         creditButton.transform.position = Camera.main.ScreenToWorldPoint(
             new Vector3(Screen.width - creditButtonSize.x/2 - Screen.width/15 - (Screen.width >= 1792 ? 180 : 0), creditButtonSize.y/2 + Screen.height/5 , 5));
@@ -75,7 +80,8 @@ public class UIAlignController : MonoBehaviour
             new Vector3(Screen.width - creditButtonSize.x/2 - Screen.width/15 - (Screen.width >= 1792 ? 180 : 0), creditButtonSize.y/2 + Screen.height/15 , 5));
     }
 
-    private void MapAlignItems() {
+    private void MapAlignItems() 
+    {
         float cameraHeight = 2 * Camera.main.orthographicSize;
         float cameraWidth = cameraHeight * Camera.main.aspect;
         float leftPaddingAbsolutePositionX = -borderSign.transform.position.x - cameraWidth / 2 + 0.325f;
@@ -94,7 +100,8 @@ public class UIAlignController : MonoBehaviour
     }
 
     private void LevelAlignItems() {
-        switch(BlockController.GetBoardSize()) {
+        switch(BlockController.GetBoardSize()) 
+        {
             case 4: {
                 levelLeftArea.transform.GetChild(0).transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
                 break;
@@ -131,7 +138,8 @@ public class UIAlignController : MonoBehaviour
         }
         
 
-        foreach (var backgroundImage in backgroundImages) {
+        foreach (var backgroundImage in backgroundImages) 
+        {
             if (backgroundImage.name == $"bg_play_{backgroundImageIndex}") 
             {
                 mainCanvas.GetComponent<Image>().sprite = backgroundImage;
@@ -141,11 +149,25 @@ public class UIAlignController : MonoBehaviour
     
     public void UpdateBackgroundImage()
     {
-        foreach (var backgroundImage in backgroundImages) {
+        foreach (var backgroundImage in backgroundImages) 
+        {
             if (backgroundImage.name == $"bg_play_{backgroundImageIndex}_done") 
             {
                 background.GetComponent<Image>().sprite = backgroundImage;
                 background.GetComponent<CanvasGroup>().DOFade(1, 0.5f);
+            }
+        }
+    }
+
+    public void UpdateBlocksNumberColor()
+    {
+        var blocks = FindObjectsOfType<Block>();
+        foreach (var block in blocks)
+        {
+            // undestroyed normal block
+            if (!block.isDestroyed && block.GetBlockType() == String.Empty && !block.isClickable)
+            {
+                block.blockText.color = new Color32(72,170,92, 255);
             }
         }
     }
