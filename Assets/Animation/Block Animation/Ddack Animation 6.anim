@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ddack Animation 3
+  m_Name: Ddack Animation 6
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,11 +20,11 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: ca50a59c6d78a4efc8e55af5867e8edb, type: 3}
+      value: {fileID: 21300000, guid: b5e0578ad92774827b9b350bedaafc07, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: b41050828b67c4ebbb8b82380f1ce77f, type: 3}
+      value: {fileID: 21300000, guid: 37b1194094d024e5c9f93245b20a6f37, type: 3}
     - time: 0.6666667
-      value: {fileID: 21300000, guid: ca50a59c6d78a4efc8e55af5867e8edb, type: 3}
+      value: {fileID: 21300000, guid: b5e0578ad92774827b9b350bedaafc07, type: 3}
     attribute: m_Sprite
     path: 
     classID: 114
@@ -44,9 +44,9 @@ AnimationClip:
       customType: 0
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: ca50a59c6d78a4efc8e55af5867e8edb, type: 3}
-    - {fileID: 21300000, guid: b41050828b67c4ebbb8b82380f1ce77f, type: 3}
-    - {fileID: 21300000, guid: ca50a59c6d78a4efc8e55af5867e8edb, type: 3}
+    - {fileID: 21300000, guid: b5e0578ad92774827b9b350bedaafc07, type: 3}
+    - {fileID: 21300000, guid: 37b1194094d024e5c9f93245b20a6f37, type: 3}
+    - {fileID: 21300000, guid: b5e0578ad92774827b9b350bedaafc07, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

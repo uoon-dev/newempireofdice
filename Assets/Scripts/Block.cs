@@ -414,7 +414,7 @@ public class Block : MonoBehaviour
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT);
             //EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT_HUMAN_VOICE);
-            int randomNumber = Random.Range(0, 3);
+            int randomNumber = Random.Range(0, 8);
             GetComponentsInChildren<Image>()[0].sprite = clearLandOccupiedImage;
             ddackBody.GetComponentsInChildren<Image>()[randomNumber].enabled = true;
             ddackBody.GetComponentsInChildren<Image>()[randomNumber].color = new Color32(255, 255 , 255, 255);
