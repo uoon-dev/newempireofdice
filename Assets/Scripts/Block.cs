@@ -422,22 +422,6 @@ public class Block : MonoBehaviour
             FindObjectOfType<ResetDiceController>().ResetOneDice();
 
             SetDdackEffectAnimation();
-
-            // ddack.GetComponent<CanvasGroup>().alpha = 1;
-            // DOTween.KillAll();
-            // Debug.Log(ddack.GetComponent<CanvasGroup>().alpha);
-            // Sequence ddackSequence = DOTween.Sequence();
-            // ddackSequence.Append(ddack.GetComponent<CanvasGroup>().DOFade(1, 0));
-            // ddackSequence.Join(ddack.transform.DOScale(1.2f, 0f));
-            // ddackSequence.Join(ddack.transform.DOScale(1f, 0.3f));
-            // ddackSequence.Append(dem.GetComponent<CanvasGroup>().DOFade(1, 0));
-            // ddackSequence.Join(dem.transform.DOScale(1.15f, 0f));
-            // ddackSequence.Join(dem.transform.DOScale(1f, 0.3f));
-            // Debug.Log(ddack.GetComponent<CanvasGroup>().alpha);
-            // ddackSequence.Append(ddack.GetComponent<CanvasGroup>().DOFade(0, 0));
-            // ddackSequence.Append(dem.GetComponent<CanvasGroup>().DOFade(0, 0));
-            // ddackSequence.Play();
-            // Debug.Log(ddack.GetComponent<CanvasGroup>().alpha);
         }
         else
         {
@@ -446,8 +430,7 @@ public class Block : MonoBehaviour
             GetComponentsInChildren<Image>()[0].sprite = clearLandImage;
             FindObjectOfType<StatisticsController>().UpdateFactor02();
         }
-        // GetComponent<BoxCollider2D>().enabled = false;
-        // GetComponentInChildren<Button>().interactable = false;
+        
         blockText.text = "";
         GetComponentsInChildren<Text>()[1].text = "";
         GetSpecialBlockReward();

@@ -45,7 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   creditButton: {fileID: 0}
   helpButton: {fileID: 0}
-  homeButton: {fileID: 0}
   compassImage: {fileID: 0}
   pauseButton: {fileID: 0}
   resetDiceScreen: {fileID: 0}
@@ -66,6 +65,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d054c88f0c7454e909af1f93a10a10fb, type: 3}
   - {fileID: 21300000, guid: 9eeddac4b34a84fd892f5fb991003ea0, type: 3}
   - {fileID: 21300000, guid: dae2860518c1547229ee2d5eddff6383, type: 3}
-  - {fileID: 21300000, guid: 0fd9a31527fdf44a49b883c8d763dfe5, type: 3}
-  - {fileID: 21300000, guid: f41489c3def474b4f94a6d044c8942bf, type: 3}
   - {fileID: 21300000, guid: 5a890181967034e1c8a388641d1d269c, type: 3}
+  - {fileID: 21300000, guid: f41489c3def474b4f94a6d044c8942bf, type: 3}
+  - {fileID: 21300000, guid: b24cea7dd56b6482dacd5a67db094291, type: 3}
+  borderSign: {fileID: 0}
