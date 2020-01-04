@@ -50,6 +50,10 @@ public class Dice : MonoBehaviour
                 TutorialController.AllowClickEventNextButton();
                 TutorialController.ControllArrowUI();
             }
+            if (TutorialController.GetTutorialCount() == 5) {
+                // TutorialController.ToggleDiceArrow();
+                TutorialController.ToggleDiceArrow();
+            }
             if (TutorialController.GetTutorialCount() == 8) {
                 TutorialController.ToggleClonedArrow(int.Parse(this.name.Split(' ')[1]) - 1);
             }
