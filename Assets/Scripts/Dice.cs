@@ -33,7 +33,6 @@ public class Dice : MonoBehaviour
         diceAnimator.ResetTrigger("isAnimated");
     }
 
-
     public void OnClickButton() {
         
         var attackGageDisplay = FindObjectOfType<AttackGageDisplay>();

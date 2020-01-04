@@ -1042,4 +1042,9 @@ public class Block : MonoBehaviour
 
         return destroyedDiceCount;
     }
+
+    // public int GetClickedDiceCount()
+    // {
+        
+    // }
 }

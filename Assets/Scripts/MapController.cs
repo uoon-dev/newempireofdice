@@ -55,7 +55,7 @@ public class MapController : MonoBehaviour
         //     PlayerPrefs.DeleteKey($"LevelStar {i}");
         // }
 
-        // for (int i = 1; i < 70; i++) {
+        // for (int i = 1; i < 29; i++) {
         //     PlayerPrefs.SetInt($"Level {i}", 1);
         //     PlayerPrefs.SetInt($"LevelStar {i}", i % 3 + 1);
         // }
@@ -331,7 +331,7 @@ public class MapController : MonoBehaviour
     public void InitDiceController(bool isGoingToNextStage)
     {
         onClickedLastClearedNextMap = isGoingToNextStage;
-        var diceController = FindObjectOfType<DiceController>();
+        var diceController = FindObjectOfType<StartController>();
         int levelNumber = 0;
 
         if (isGoingToNextStage) {

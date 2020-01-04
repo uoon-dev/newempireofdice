@@ -61,7 +61,7 @@ public class ButtonController : MonoBehaviour
 
     public void UseDice(string currentDiceName) {
         var buttonControllers = FindObjectsOfType<ButtonController>();
-        var diceController = FindObjectOfType<DiceController>();
+        var startController = FindObjectOfType<StartController>();
 
         // 다른 주사위들은 다 사용하지 않는 걸로 표시해주기
         foreach (ButtonController buttonController in buttonControllers)
@@ -81,7 +81,7 @@ public class ButtonController : MonoBehaviour
     public void UseDice()
     {
         var buttonControllers = FindObjectsOfType<ButtonController>();
-        var diceController = FindObjectOfType<DiceController>();
+        var startController = FindObjectOfType<StartController>();
 
         // 다른 주사위들은 다 사용하지 않는 걸로 표시해주기
         foreach (ButtonController buttonController in buttonControllers)
@@ -98,7 +98,7 @@ public class ButtonController : MonoBehaviour
         UseButtonGroup.transform.GetChild(1).gameObject.SetActive(true);        
 
         // 현재 주사위를 StartController Display에 반영하기
-        diceController.SetCurrentDiceDisplay();
+        startController.SetCurrentDiceDisplay();
     }
 
     public void NotUseDice()
