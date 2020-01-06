@@ -315,7 +315,7 @@ public class HeartController : MonoBehaviour
         m_HeartAmount--;
         if (heartImagesObject != null) {
             SetHeartBar();
-        }        
+        }
         if (heartState != null) {
             heartState.GetComponent<Text>().text = m_HeartAmount.ToString();
         }

@@ -14,9 +14,19 @@ public class LevelLoader : MonoBehaviour
     public static int currentLevelNumber;
     public bool goingToNextLevel = false;
     private static GameObject mainCanvas;
+    public static NewHeartController newHeartController;
+    public static UIAlignController UIAlignController;
+
+    private void Initialize()
+    {
+        newHeartController = FindObjectOfType<NewHeartController>();
+        UIAlignController = FindObjectOfType<UIAlignController>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         currentSceneName = SceneManager.GetActiveScene().name;
         currentLevelNumber = PlayerPrefs.GetInt("currentLevelNumber");
@@ -45,8 +55,8 @@ public class LevelLoader : MonoBehaviour
                 SceneManager.LoadScene("Level 1");
             });
         } else {
-            if(CanUseHeart() == true) {
-                FindObjectOfType<UIAlignController>().ActiveHeartUseAnimation();
+            if(newHeartController.CanUseHeart() == true) {
+                UIAlignController.ActiveHeartUseAnimation();
                 mainCanvas.GetComponent<CanvasGroup>().DOFade(1, 0.4f).OnComplete(() => {
                     PlayerPrefs.SetInt("currentLevelNumber", levelNumber);
                     SceneManager.LoadScene("Level");
@@ -65,13 +75,8 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadNextLevel() 
     {
-        // if (currentSceneName == "Level 1") {
-        //     PlayerPrefs.SetInt("currentLevelNumber", 2);    
-        //     SceneManager.LoadScene("Level");
-        //     return;
-        // }
-        if(CanUseHeart() == false) return;
-        FindObjectOfType<UIAlignController>().ActiveHeartUseAnimation();
+        if(newHeartController.CanUseHeart() == false) return;
+        UIAlignController.ActiveHeartUseAnimation();
         Invoke("InvokedLoadNextLevel", 0.4f);
     }
 
@@ -98,11 +103,11 @@ public class LevelLoader : MonoBehaviour
             SceneManager.LoadScene(currentSceneName);
             return;
         }
-        if(CanUseHeart() == false) {
+        if(newHeartController.CanUseHeart() == false) {
             FindObjectOfType<PauseController>().HideScreen();
             return;
         }
-        FindObjectOfType<UIAlignController>().ActiveHeartUseAnimation();
+        UIAlignController.ActiveHeartUseAnimation();
         Invoke("InvokedLoadCurrentScene", 0.4f);
     }
     public void InvokedLoadCurrentScene()
@@ -115,16 +120,7 @@ public class LevelLoader : MonoBehaviour
         PlayerPrefs.SetInt("currentLevelNumber", currentLevelNumber + 1);
         SceneManager.LoadScene("Level");
     }
-    public static bool CanUseHeart()
-    {
-        var heartController = FindObjectOfType<HeartController>();
-        if (heartController.GetHeartAmount() <= 0) {
-            heartController.ToggleNoHeartCanvas(true);
-            return false;
-        }
-        heartController.UseHeart();
-        return true;
-    }
+
     public void LoadMapScene()
     {
         PlayerPrefs.DeleteKey("currentLevelNumber");

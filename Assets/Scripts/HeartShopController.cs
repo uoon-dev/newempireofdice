@@ -118,13 +118,13 @@ public class HeartShopController : MonoBehaviour
             purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
             priceText.GetComponent<Text>().text = "";
             purchaseButton.GetComponent<Button>().interactable = false;
-            closeButton.GetComponent<Button>().interactable = false;
+            // closeButton.GetComponent<Button>().interactable = false;
         } 
         else 
         {
             purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
             purchaseButton.GetComponent<Button>().interactable = true;
-            closeButton.GetComponent<Button>().interactable = true;
+            // closeButton.GetComponent<Button>().interactable = true;
             FindObjectOfType<IAPManager>().SetPricesInShop();
         }
     }
