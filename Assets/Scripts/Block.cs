@@ -103,7 +103,6 @@ public class Block : MonoBehaviour
             blockText.text = randomNum.ToString();
         }
 
-
         if (blocksType == "")
         {
             backgroundImage.color = new Color32(255, 255, 255, 0);
@@ -202,16 +201,8 @@ public class Block : MonoBehaviour
 
     public void OnClickButton()
     {
-        var dices = FindObjectsOfType<Dice>();
-        int clickedDiceCount = 0;
-
-        foreach (Dice dice in dices)
-        {
-            if (dice.CheckIsClicked())
-            {
-                clickedDiceCount++;
-            }
-        }
+        var diceController = FindObjectOfType<DiceController>();
+        int clickedDiceCount = diceController.GetClickedDiceCount();
 
         if (isClickable == true)
         {
@@ -304,13 +295,18 @@ public class Block : MonoBehaviour
     public void ToggleTooltip()
     {
         bool isShownTooltip = tooltip.GetComponent<CanvasGroup>().blocksRaycasts;
+        var diceController = FindObjectOfType<DiceController>();
         if (isShownTooltip)
         {
             CloseTooltip();
         }
         else
         {
-            ShowTooltip();
+            int clickedDiceCount = diceController.GetClickedDiceCount();
+            if (!(clickedDiceCount > 0 && isClickable)) 
+            {
+                ShowTooltip();
+            }
         }
     }
 
@@ -342,32 +338,19 @@ public class Block : MonoBehaviour
 
     private void ReduceBlockGage(string attackGage)
     {
-        var dices = FindObjectsOfType<Dice>();
+        var diceController = FindObjectOfType<DiceController>();
         var resetDiceController = FindObjectOfType<ResetDiceController>();
 
         if (TutorialController.GetTutorialCount() == 8)
         {
-            int clickedDiceCount = 0;
-            foreach (Dice dice in dices)
-            {
-                if (dice.CheckIsClicked())
-                {
-                    clickedDiceCount++;
-                }
-            }
+            int clickedDiceCount = diceController.GetClickedDiceCount();
             if (clickedDiceCount != 6)
             {
                 return;
             }
         }
 
-        foreach (Dice dice in dices)
-        {
-            if (dice.CheckIsClicked())
-            {
-                dice.DestoryDice();
-            }
-        }
+        diceController.DestroyDices();
 
         // 블록의 남은 게이지
         int resultGage = int.Parse(blockText.text) - int.Parse(attackGage);
@@ -431,7 +414,7 @@ public class Block : MonoBehaviour
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT);
             //EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_LAND_PERFECT_HUMAN_VOICE);
-            int randomNumber = Random.Range(0, 3);
+            int randomNumber = Random.Range(0, 8);
             GetComponentsInChildren<Image>()[0].sprite = clearLandOccupiedImage;
             ddackBody.GetComponentsInChildren<Image>()[randomNumber].enabled = true;
             ddackBody.GetComponentsInChildren<Image>()[randomNumber].color = new Color32(255, 255 , 255, 255);
@@ -439,22 +422,6 @@ public class Block : MonoBehaviour
             FindObjectOfType<ResetDiceController>().ResetOneDice();
 
             SetDdackEffectAnimation();
-
-            // ddack.GetComponent<CanvasGroup>().alpha = 1;
-            // DOTween.KillAll();
-            // Debug.Log(ddack.GetComponent<CanvasGroup>().alpha);
-            // Sequence ddackSequence = DOTween.Sequence();
-            // ddackSequence.Append(ddack.GetComponent<CanvasGroup>().DOFade(1, 0));
-            // ddackSequence.Join(ddack.transform.DOScale(1.2f, 0f));
-            // ddackSequence.Join(ddack.transform.DOScale(1f, 0.3f));
-            // ddackSequence.Append(dem.GetComponent<CanvasGroup>().DOFade(1, 0));
-            // ddackSequence.Join(dem.transform.DOScale(1.15f, 0f));
-            // ddackSequence.Join(dem.transform.DOScale(1f, 0.3f));
-            // Debug.Log(ddack.GetComponent<CanvasGroup>().alpha);
-            // ddackSequence.Append(ddack.GetComponent<CanvasGroup>().DOFade(0, 0));
-            // ddackSequence.Append(dem.GetComponent<CanvasGroup>().DOFade(0, 0));
-            // ddackSequence.Play();
-            // Debug.Log(ddack.GetComponent<CanvasGroup>().alpha);
         }
         else
         {
@@ -463,8 +430,7 @@ public class Block : MonoBehaviour
             GetComponentsInChildren<Image>()[0].sprite = clearLandImage;
             FindObjectOfType<StatisticsController>().UpdateFactor02();
         }
-        // GetComponent<BoxCollider2D>().enabled = false;
-        // GetComponentInChildren<Button>().interactable = false;
+        
         blockText.text = "";
         GetComponentsInChildren<Text>()[1].text = "";
         GetSpecialBlockReward();
@@ -938,7 +904,10 @@ public class Block : MonoBehaviour
 
     public void IncreaseDiceNumberBySpeicalBlock(int powerUpGage, Transform slot)
     {
-        if (GetDestroyedDiceCount() < 6)
+        var diceController = FindObjectOfType<DiceController>();
+        int destroyedDiceCount = diceController.GetDestroyedDiceCount();
+                
+        if (destroyedDiceCount < 6)
         {
             var speicalBlockController = FindObjectOfType<SpeicalBlockController>();
             speicalBlockController.IncreaseDiceNumber(powerUpGage);
@@ -966,7 +935,10 @@ public class Block : MonoBehaviour
 
     public void MultiplyDiceNumberBySpeicalBlock(Transform slot)
     {
-        if (GetDestroyedDiceCount() > 0)
+        var diceController = FindObjectOfType<DiceController>();
+        int destroyedDiceCount = diceController.GetDestroyedDiceCount();
+
+        if (destroyedDiceCount > 0)
         {
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.USE_RELICS_ITEM);
@@ -1030,16 +1002,7 @@ public class Block : MonoBehaviour
         wizardAnimationImage.GetComponent<Animator>().ResetTrigger("isAnimated");
     }
 
-    public int GetDestroyedDiceCount()
-    {
-        Dice[] dices = FindObjectsOfType<Dice>();
-        int destroyedDiceCount = 0;
 
-        foreach (Dice dice in dices)
-        {
-            if (dice.IsDestroyed() == true) destroyedDiceCount++;
-        }
 
-        return destroyedDiceCount;
-    }
+
 }

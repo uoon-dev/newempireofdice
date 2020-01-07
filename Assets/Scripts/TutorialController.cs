@@ -159,7 +159,7 @@
         public static void ControllArrowUI() {
             moneyArea = GameObject.Find("Money Area");
             dices = GameObject.Find("Dices");
-            DOTween.KillAll();
+            // DOTween.KillAll();
 
             switch(TutorialController.GetTutorialCount()) {
                 case 2: {
@@ -186,21 +186,22 @@
                 case 4: {
                     Vector3 firstPosition = new Vector3(dices.transform.GetChild(0).transform.localPosition.x - 50f , dices.transform.GetChild(0).transform.localPosition.y + 60f, 1);
                     Vector3 secondPosition = new Vector3(dices.transform.GetChild(0).transform.localPosition.x - 55f , dices.transform.GetChild(0).transform.localPosition.y + 65f, 1);
-                    GameObject.Find("Arrow 2").transform.localPosition = firstPosition;
-                    GameObject.Find("Arrow 2").transform.DOLocalMove(secondPosition, 0.5f).SetLoops(-1, LoopType.Yoyo);                    
+                    GameObject.Find("Arrow 2").transform.localPosition = firstPosition;   
+                    GameObject.Find("Arrow 2").transform.DOLocalMove(secondPosition, 0.5f).SetLoops(-1, LoopType.Yoyo);
                     GameObject.Find("Arrow 2").GetComponent<CanvasGroup>().DOFade(1, 0.2f);
+                    
                     GameObject.Find("Guider").GetComponent<Image>().sprite = staticGuiderSprites[1];
                     TutorialController.HideNextButton();
                     break;
                 }
                 case 5: {
-                    GameObject.Find("Arrow 2").GetComponent<CanvasGroup>().DOFade(0, 0.1f);
                     GameObject.Find("Arrow 3").GetComponent<Rigidbody2D>().DORotate(-90, 0);
                     Vector3 firstPosition = new Vector3(blocks.transform.localPosition.x + 87f , blocks.transform.localPosition.y + 85f, 1);
                     Vector3 secondPosition = new Vector3(blocks.transform.transform.localPosition.x + 92f , blocks.transform.transform.localPosition.y + 90f, 1);
                     GameObject.Find("Arrow 3").transform.DOLocalMove(firstPosition, 0).SetDelay(0.1f);
                     GameObject.Find("Arrow 3").transform.DOLocalMove(secondPosition, 0.5f).SetDelay(0.1f).SetLoops(-1, LoopType.Yoyo);
-                    GameObject.Find("Arrow 3").GetComponent<CanvasGroup>().DOFade(1, 1f).SetDelay(0.2f);
+
+                    // GameObject.Find("Arrow 3").GetComponent<CanvasGroup>().DOFade(1, 1f).SetDelay(0.2f);
                     GameObject.Find("Guider").GetComponent<Image>().sprite = staticGuiderSprites[0];
                     break;
                 }
@@ -276,6 +277,8 @@
                             newDice = dice;
                         }
                     }
+
+                    DOTween.KillAll();
 
                     Vector3 firstPosition2 = new Vector3(newDice.transform.localPosition.x - 55f , newDice.transform.localPosition.y + 65f, 1);
                     Vector3 secondPosition2 = new Vector3(newDice.transform.localPosition.x - 60f , newDice.transform.localPosition.y + 70f, 1);
@@ -394,7 +397,14 @@
         {
             float isShow = GameObject.Find("Arrow 2").GetComponent<CanvasGroup>().alpha;
             GameObject.Find("Arrow 2").GetComponent<CanvasGroup>().DOFade(1 - isShow, 0.2f);
-            GameObject.Find("Arrow 4").GetComponent<CanvasGroup>().DOFade(isShow, 0.2f);            
+
+            if (TutorialController.GetTutorialCount() == 5) 
+            {
+                GameObject.Find("Arrow 3").GetComponent<CanvasGroup>().DOFade(isShow, 0.2f);
+            } else
+            {
+                GameObject.Find("Arrow 4").GetComponent<CanvasGroup>().DOFade(isShow, 0.2f);
+            }
         }
 
         public static void ToggleCanvasBody(int isShow) 

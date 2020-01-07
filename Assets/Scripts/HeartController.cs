@@ -283,7 +283,7 @@ public class HeartController : MonoBehaviour
             if (heartShopController != null)
                 heartShopController.ToggleHeartShopCanvas(false);
 
-            var startController = FindObjectOfType<DiceController>();
+            var startController = FindObjectOfType<StartController>();
             if (startController != null)
                 startController.HideScreen();
 

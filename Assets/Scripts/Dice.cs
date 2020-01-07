@@ -33,7 +33,6 @@ public class Dice : MonoBehaviour
         diceAnimator.ResetTrigger("isAnimated");
     }
 
-
     public void OnClickButton() {
         
         var attackGageDisplay = FindObjectOfType<AttackGageDisplay>();
@@ -50,6 +49,10 @@ public class Dice : MonoBehaviour
                 TextTyperTester.Jump();
                 TutorialController.AllowClickEventNextButton();
                 TutorialController.ControllArrowUI();
+            }
+            if (TutorialController.GetTutorialCount() == 5) {
+                // TutorialController.ToggleDiceArrow();
+                TutorialController.ToggleDiceArrow();
             }
             if (TutorialController.GetTutorialCount() == 8) {
                 TutorialController.ToggleClonedArrow(int.Parse(this.name.Split(' ')[1]) - 1);

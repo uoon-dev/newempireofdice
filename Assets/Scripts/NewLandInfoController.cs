@@ -30,10 +30,10 @@ public class NewLandInfoController : MonoBehaviour
         var body = this.gameObject.transform.GetChild(0);
 
         if (isShow) {
-            body.transform.DOMoveY(Screen.height/2, 0.25f);
+            body.transform.DOMoveY(Screen.height/2, 0.25f).SetDelay(1f);
             return;
         }
-        body.transform.DOMoveY(-Screen.height/2, 0.25f);
+        body.transform.DOMoveY(-Screen.height/2, 0.25f).SetDelay(1f);
         return;
     }
 

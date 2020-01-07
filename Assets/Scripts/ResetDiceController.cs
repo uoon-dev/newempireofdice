@@ -120,7 +120,7 @@ public class ResetDiceController : MonoBehaviour
 
     private static void SetSpeicalDice(Dice[] dices)
     {
-        if (DiceController.GetCurrentDiceType() == Constants.MaldivesDice)
+        if (StartController.GetCurrentDiceType() == Constants.MaldivesDice)
         {
             dices[Random.Range(0, 6)].EffectMaldivesDice();
         }

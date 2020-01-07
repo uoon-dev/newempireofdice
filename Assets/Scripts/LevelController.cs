@@ -22,7 +22,7 @@ public class LevelController : MonoBehaviour
         loseLabel.SetActive(false);
 
         if (stageIntro != null)
-            UpdateStageNumber();
+            AnimateStageIntro();
     }
 
     public void FindObjects()
@@ -32,7 +32,7 @@ public class LevelController : MonoBehaviour
     }
 
 
-    public void UpdateStageNumber()
+    public void AnimateStageIntro()
     {
         int levelNumber = LevelLoader.GetCurrentLevelNumber();
         stageTextObject.GetComponent<Text>().text = $"Stage {levelNumber.ToString()}";
@@ -50,18 +50,20 @@ public class LevelController : MonoBehaviour
     IEnumerator HandleWinCondition()
     {
         yield return new WaitForSeconds(waitToSecond);
-        FindObjectOfType<UIAlignController>().UpdateBackgroundImage();
+        var UIController = FindObjectOfType<UIAlignController>();
+        UIController.UpdateBackgroundImage();
+        UIController.UpdateBlocksNumberColor();
+
         winLabel.SetActive(true);
         winLabel.GetComponent<Canvas>().sortingOrder = 13;
+        
         if (BackGroundSoundController.instance != null)
             BackGroundSoundController.instance.StopPlay(BackGroundSoundController.BGM_NAME.GAME_BGM);
         if (EffectSoundController.instance != null)
         EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.FINISH_ONE_ROUND);
 
-
         int currentLevelNumber = LevelLoader.GetCurrentLevelNumber();
-        int levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");
-        
+        int levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");        
 
         if (levelCleared == 0)
         {

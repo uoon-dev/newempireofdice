@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DiceController : MonoBehaviour
+public class StartController : MonoBehaviour
 {
     [SerializeField] GameObject[] purchasedDices = null;
     [SerializeField] GameObject leftButton = null;
