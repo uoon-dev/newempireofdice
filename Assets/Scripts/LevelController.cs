@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Analytics;
 
 public class LevelController : MonoBehaviour
 {
@@ -63,6 +64,7 @@ public class LevelController : MonoBehaviour
         EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.FINISH_ONE_ROUND);
 
         int currentLevelNumber = LevelLoader.GetCurrentLevelNumber();
+        AnalyticsEvent.LevelComplete(currentLevelNumber);
         int levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");        
 
         if (levelCleared == 0)
@@ -86,6 +88,8 @@ public class LevelController : MonoBehaviour
 
     public void HandleLoseCondition()
     {
+        int currentLevelNumber = LevelLoader.GetCurrentLevelNumber();
+        AnalyticsEvent.LevelFail(currentLevelNumber);
         loseLabel.SetActive(true);
     }
 }

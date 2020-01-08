@@ -6,6 +6,8 @@ using DG.Tweening;
 using UnityEngine.SceneManagement;
 using Controllers.TutorialController;
 using RedBlueGames.Tools.TextTyper;
+using UnityEngine.Analytics;
+
 public class LevelLoader : MonoBehaviour
 {
     [SerializeField] int timeToWait = 3;
@@ -127,6 +129,7 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadMapScene()
     {
+        AnalyticsEvent.LevelQuit(currentLevelNumber);
         PlayerPrefs.DeleteKey("currentLevelNumber");
         SceneManager.LoadScene("Map System");
     }

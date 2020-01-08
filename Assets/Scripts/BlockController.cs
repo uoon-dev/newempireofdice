@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class BlockController : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public class BlockController : MonoBehaviour
         List<string> blockTypes = new List<string>();
         SetBoardType(currentLevelNumber);
         CreateBlocks();
+        AnalyticsEvent.LevelStart(currentLevelNumber);
         if (StorageController.IsBlocksSaved(currentLevelNumber))
         {
             SpeicalBlockController.SetSpeicialBlocks(speicalBlocks, false);
