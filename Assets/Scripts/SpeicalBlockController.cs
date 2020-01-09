@@ -37,15 +37,22 @@ public class SpeicalBlockController : MonoBehaviour
     static List<int> blockNumberList = null;
 
     static string[] blocksType = { "광산", "던전", "용병", "기병대", "공습", "폭탄", "마법사", "유물" };
+    LevelLoader levelLoader;
 
     void Start()
     {
+        Initialize();
     }
-
-
-    public static void SetSpeicialBlocks(object speicalBlocks,bool placeSpecialBlock = true)
+    
+    private void Initialize()
     {
-        if (LevelLoader.GetCurrentSceneName() != "Level") return;
+        levelLoader = FindObjectOfType<LevelLoader>();
+    }   
+
+
+    public void SetSpeicialBlocks(object speicalBlocks,bool placeSpecialBlock = true)
+    {
+        if (levelLoader.GetCurrentSceneName() != "Level") return;
 
         if (speicalBlocks != null) 
         {

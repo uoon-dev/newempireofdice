@@ -44,6 +44,7 @@ public class MapController : MonoBehaviour
     float speed = 1.5f;
     float[,] flagPositions;
     string currenetSceneName;
+    LevelLoader levelLoader;
 
 
     void Start()
@@ -64,6 +65,7 @@ public class MapController : MonoBehaviour
 
         if (currenetSceneName == "Map System") 
         {
+            Initialize();
             SetCanvasWidthAndHeight();
             UpdateLastClearedMapNumber();
             SetFlagPositions();
@@ -74,8 +76,12 @@ public class MapController : MonoBehaviour
 
             startController.SetActive(true);
         }
-
     }
+
+    private void Initialize()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
+    }    
 
     private void InitPositionByRatio()
     {
@@ -129,7 +135,7 @@ public class MapController : MonoBehaviour
         while (!stop)
         {
             int isClear = PlayerPrefs.GetInt($"Level {i}");
-            int currentLevelNumber = LevelLoader.currentLevelNumber;
+            int currentLevelNumber = levelLoader.GetCurrentLevelNumber();
 
             if (isClear == 1)
             {
@@ -358,7 +364,7 @@ public class MapController : MonoBehaviour
         } else {
             levelNumber = int.Parse(previousClickedMap.name.Split(' ')[1]);
         }
-        LevelLoader.LoadClickedMap(levelNumber);
+        levelLoader.LoadClickedMap(levelNumber);
     }
 
     public static bool CanUseHeart()

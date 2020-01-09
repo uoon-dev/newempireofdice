@@ -13,11 +13,12 @@ public class LevelController : MonoBehaviour
     [SerializeField] GameObject buttonsInLoseScreen = null;
     private GameObject stageIntro = null;
     private GameObject stageTextObject = null;
+    LevelLoader levelLoader;
 
 
     void Start()
     {
-        FindObjects();
+        Initialize();
         winLabel.SetActive(false);
         loseLabel.SetActive(false);
 
@@ -25,16 +26,17 @@ public class LevelController : MonoBehaviour
             AnimateStageIntro();
     }
 
-    public void FindObjects()
+    private void Initialize()
     {
+        levelLoader = FindObjectOfType<LevelLoader>();
         stageIntro = GameObject.Find("Stage Intro");
-        stageTextObject = GameObject.Find("Stage Number");
+        stageTextObject = GameObject.Find("Stage Number");        
     }
 
 
     public void AnimateStageIntro()
     {
-        int levelNumber = LevelLoader.GetCurrentLevelNumber();
+        int levelNumber = levelLoader.GetCurrentLevelNumber();
         stageTextObject.GetComponent<Text>().text = $"Stage {levelNumber.ToString()}";
         stageIntro.transform.DOScale(new Vector3(1.15f, 1.15f, 1.15f), 0.2f).SetDelay(0.5f).OnComplete(() => {
             stageIntro.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), 0.25f);
@@ -62,7 +64,7 @@ public class LevelController : MonoBehaviour
         if (EffectSoundController.instance != null)
         EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.FINISH_ONE_ROUND);
 
-        int currentLevelNumber = LevelLoader.GetCurrentLevelNumber();
+        int currentLevelNumber = levelLoader.GetCurrentLevelNumber();
         int levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");        
 
         if (levelCleared == 0)

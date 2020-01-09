@@ -9,12 +9,12 @@ using RedBlueGames.Tools.TextTyper;
 public class LevelLoader : MonoBehaviour
 {
     [SerializeField] int timeToWait = 3;
-    public static string currentSceneName = "";
+    public string currentSceneName = "";
     int currentSceneIndex;
-    public static int currentLevelNumber;
+    public int currentLevelNumber;
     public bool goingToNextLevel = false;
     private static GameObject mainCanvas;
-    public static NewHeartController newHeartController;
+    public NewHeartController newHeartController;
     public static UIAlignController UIAlignController;
 
     private void Initialize()
@@ -47,7 +47,7 @@ public class LevelLoader : MonoBehaviour
         yield return new WaitForSeconds(timeToWait);
         LoadNextScene();
     }
-    public static void LoadClickedMap(int levelNumber)
+    public void LoadClickedMap(int levelNumber)
     {
         if (levelNumber == 1) {
             mainCanvas.GetComponent<CanvasGroup>().DOFade(1, 0.4f).OnComplete(() => {
@@ -134,11 +134,11 @@ public class LevelLoader : MonoBehaviour
     {
         Application.Quit();
     }
-    public static string GetCurrentSceneName()
+    public string GetCurrentSceneName()
     {
         return currentSceneName;
     }
-    public static int GetCurrentLevelNumber()
+    public int GetCurrentLevelNumber()
     {
         return currentLevelNumber;
     }

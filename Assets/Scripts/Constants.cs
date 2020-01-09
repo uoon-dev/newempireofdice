@@ -7,6 +7,12 @@ public class Constants : MonoBehaviour
         public const string TIME_STAMP = "https://cueyedcuq4.execute-api.ap-northeast-2.amazonaws.com/default/get-time-stamp";
     }
 
+    public static class SCENE_NAME {
+        public const string MAP_SYSTEM = "Map System";
+        public const string LEVEL = "Level";
+        public const string LEVEL1 = "Level 1";
+    }
+
     public static class GAME_OBJECT_NAME {
         public const string NO_HEART_CANVAS = "No Heart Canvas";
         public const string AFTER_PURCHASE_EFFECT_CANVAS = "After Purchase Effect Canvas";

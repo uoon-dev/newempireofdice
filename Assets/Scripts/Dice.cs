@@ -23,14 +23,21 @@ public class Dice : MonoBehaviour
 
     bool isClicked = false;
     bool isDestroyed = false;
+    LevelLoader levelLoader;
 
     void Start()
     {
+        Initialize();
         SetDiceNumber(minNumber, maxNumber);
         SetClickSound();
         diceAnimator = GetComponent<Animator>();
         diceAnimator.ResetTrigger("isClicked");
         diceAnimator.ResetTrigger("isAnimated");
+    }
+
+    private void Initialize()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
     }
 
     public void OnClickButton() {
@@ -44,7 +51,7 @@ public class Dice : MonoBehaviour
 
         ToggleDice();
 
-        if (LevelLoader.GetCurrentSceneName() == "Level 1") {
+        if (levelLoader.GetCurrentSceneName() == "Level 1") {
             if (TutorialController.GetTutorialCount() == 4) {
                 TextTyperTester.Jump();
                 TutorialController.AllowClickEventNextButton();
@@ -172,7 +179,7 @@ public class Dice : MonoBehaviour
         int randomNumber =  Random.Range(startNumber, endNumber);
         diceText = GetComponentInChildren<Text>();
 
-        if (LevelLoader.GetCurrentSceneName() == "Level 1") {
+        if (levelLoader.GetCurrentSceneName() == "Level 1") {
             int tutorialCount = TutorialController.GetTutorialCount(); 
 
             if (tutorialCount == 3) {

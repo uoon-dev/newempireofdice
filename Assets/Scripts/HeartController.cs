@@ -34,6 +34,8 @@ public class HeartController : MonoBehaviour
     public GameObject heartBarTimer = null;
     [SerializeField]
     public GameObject noHeartCanvas = null;
+    LevelLoader levelLoader;
+
 
     // Start is called before the first frame update
     private void Awake() 
@@ -93,6 +95,7 @@ public class HeartController : MonoBehaviour
         if (heartBarTimer != null) {
             heartBarTimer.SetActive(false);
         }
+        levelLoader = FindObjectOfType<LevelLoader>();
     }
     public bool LoadRechargeSpeedInfo() {
         bool result = false;
@@ -290,14 +293,14 @@ public class HeartController : MonoBehaviour
             if (startController != null)
                 startController.HideScreen();
 
-            if(LevelLoader.GetCurrentSceneName() == "Map System") {
+            if(levelLoader.GetCurrentSceneName() == "Map System") {
                 noHeartCanvas.transform.DOMoveY(0, 0.25f);
                 return;
             }
             body.transform.DOMoveY(Screen.height/2 - 20, 0.25f);
             return;
         }
-        if(LevelLoader.GetCurrentSceneName() == "Map System") {
+        if(levelLoader.GetCurrentSceneName() == "Map System") {
             noHeartCanvas.transform.DOMoveY(-3, 0.25f);
             return;
         }

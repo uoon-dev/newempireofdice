@@ -10,10 +10,19 @@ public class HeartShopController : MonoBehaviour
     [SerializeField] GameObject HeartButton;
     [SerializeField] Sprite defaultPurchaseButtonImage;
     [SerializeField] Sprite loadingButtonImage;
+
+    LevelLoader levelLoader;
+
     void Start()
     {
         SetSpeedUpText();
+        Initialize();
     }
+
+    private void Initialize()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
+    }    
 
     public void SetSpeedUpText()
     {
@@ -28,7 +37,7 @@ public class HeartShopController : MonoBehaviour
             {
                 HeartRechargeSpeedText.text = "구매함";
                 HeartRechargeSpeedText.color = new Color32(0, 0, 0, 100);
-                if (LevelLoader.GetCurrentSceneName() == "Map System")
+                if (levelLoader.GetCurrentSceneName() == "Map System")
                 {
                     HeartRechargeSpeedText.fontSize = 20;
                 }else{
@@ -61,7 +70,7 @@ public class HeartShopController : MonoBehaviour
             if (heartController != null)
                 heartController.ToggleNoHeartCanvas(false);
 
-            if(LevelLoader.GetCurrentSceneName() == "Map System") {
+            if(levelLoader.GetCurrentSceneName() == "Map System") {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
                 return;
             }
@@ -69,7 +78,7 @@ public class HeartShopController : MonoBehaviour
             return;
         }
         this.gameObject.GetComponent<Image>().raycastTarget = false;
-        if(LevelLoader.GetCurrentSceneName() == "Map System") {
+        if(levelLoader.GetCurrentSceneName() == "Map System") {
             this.gameObject.transform.DOMoveY(-3, 0.25f);
             return;
         }

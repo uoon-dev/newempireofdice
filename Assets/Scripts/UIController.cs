@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
     HeartShopController heartShopController;
     StartController startController;
     NewHeartController newHeartController;
+    LevelLoader levelLoader;
     Text heartTimerText;
     Text heartTimerTextInNoHeartCanvas;
     Text heartTimerTextInShop;
@@ -21,17 +22,23 @@ public class UIController : MonoBehaviour
 
     private void Initialize()
     {
+        heartShopController = FindObjectOfType<HeartShopController>();
+        startController = FindObjectOfType<StartController>();
+        newHeartController = FindObjectOfType<NewHeartController>();
+        levelLoader = FindObjectOfType<LevelLoader>();
+
         heartImageParentObject = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_IMAGE_PARENT_OBJECT);
         noHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.NO_HEART_CANVAS);
         afterPurchaseEffectCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.AFTER_PURCHASE_EFFECT_CANVAS);
-        heartTimerText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT).GetComponent<Text>();
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+        {
+            Debug.Log(levelLoader.GetCurrentSceneName());
+            heartTimerText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT).GetComponent<Text>();
+        }
         heartTimerTextInNoHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_NO_HEART_CANVAS).GetComponent<Text>();
         heartTimerTextInShop = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_SHOP).GetComponent<Text>();
         heartCountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_COUNT_TEXT).GetComponent<Text>();
         heartUpdatedCountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_UPDATED_COUNT_TEXT).GetComponent<Text>();
-        heartShopController = FindObjectOfType<HeartShopController>();
-        startController = FindObjectOfType<StartController>();
-        newHeartController = FindObjectOfType<NewHeartController>();
     }
 
     private void Awake()
@@ -104,14 +111,14 @@ public class UIController : MonoBehaviour
             if (startController != null)
                 startController.HideScreen();
 
-            if(LevelLoader.GetCurrentSceneName() == "Map System") {
+            if(levelLoader.GetCurrentSceneName() == "Map System") {
                 noHeartCanvas.transform.DOMoveY(0, 0.25f);
                 return;
             }
             body.transform.DOMoveY(Screen.height/2 - 20, 0.25f);
             return;
         }
-        if(LevelLoader.GetCurrentSceneName() == "Map System") {
+        if(levelLoader.GetCurrentSceneName() == "Map System") {
             noHeartCanvas.transform.DOMoveY(-3, 0.25f);
             return;
         }
