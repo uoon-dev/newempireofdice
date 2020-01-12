@@ -43,15 +43,24 @@ public class IAPManager : MonoBehaviour, IStoreListener
     private IExtensionProvider storeExtensionProvider; // 여러 플랫폼을 위한 확장 처리를 제공
 
     public bool IsInitialized => storeController != null && storeExtensionProvider != null;
+    NewHeartController newHeartController;
+    AfterPurchaseEffectController afterPurchaseEffectController;
 
     void Awake()
     {
+        Initialize();
         if (mInstance != null && mInstance != this)
         {
             Destroy(gameObject);
             return;
         }
         InitUnityIAP();
+    }
+
+    private void Initialize()
+    {
+        newHeartController = FindObjectOfType<NewHeartController>();
+        afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
     }
 
     void InitUnityIAP()
@@ -146,10 +155,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
                 {
                     Debug.Log("하트 구매...");
 
-                    var heartController = FindObjectOfType<HeartController>();
-                    heartController.SetHeartAmount(heartController.GetHeartAmount() + 15);
-
-                    var afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+                    newHeartController.AddHeartAmount(15);
                     afterPurchaseEffectController.ShowScreen("0");
                     break;
                 }
@@ -157,21 +163,15 @@ public class IAPManager : MonoBehaviour, IStoreListener
                 {
                     Debug.Log("하트 많이 구매...");
 
-                    var heartController = FindObjectOfType<HeartController>();
-                    heartController.SetHeartAmount(heartController.GetHeartAmount() + 75);
-
-                    var afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+                    newHeartController.AddHeartAmount(75);
                     afterPurchaseEffectController.ShowScreen("0");
                     break;
                 }
             case Constants.HeartRechargeSpeedUp:
                 {
                     Debug.Log("하트 충전 속도 업...");
-
-                    var heartController = FindObjectOfType<HeartController>();
-                    heartController.UpgradeHeartRechargeSpeed(2);
-
-                    var afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+                    // Todo
+                    // newHeartController.UpgradeHeartRechargeSpeed(2);
                     afterPurchaseEffectController.ShowScreen("1");
                     break;
                 }
@@ -198,10 +198,9 @@ public class IAPManager : MonoBehaviour, IStoreListener
             Debug.Log($"구매 시도 - {product.definition.id}");
             if (product.definition.id == Constants.HeartRechargeSpeedUp && RestorePurchase())
             {
-                var heartController = FindObjectOfType<HeartController>();
-                heartController.UpgradeHeartRechargeSpeed(2);
-
-                var afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+                // todo
+                // var heartController = FindObjectOfType<HeartController>();
+                // heartController.UpgradeHeartRechargeSpeed(2);
                 afterPurchaseEffectController.ShowScreen("1");
             }
             else {

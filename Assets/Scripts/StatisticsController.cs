@@ -16,6 +16,9 @@ public class StatisticsController : MonoBehaviour
     float ddackCount = 0;
     float turnCount = 0;
     LevelLoader levelLoader;
+    NewHeartController newHeartController;
+    AfterPurchaseEffectController afterPurchaseEffectController;
+
 
     void Start()
     {
@@ -45,6 +48,8 @@ public class StatisticsController : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
+        newHeartController = FindObjectOfType<NewHeartController>();
+        afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
     }    
 
     IEnumerator HandleStarsAnimation()
@@ -83,11 +88,9 @@ public class StatisticsController : MonoBehaviour
 
                 int levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");
                 int savedLevelStartCount = PlayerPrefs.GetInt($"LevelStar {currentLevelNumber}", 0);
-                var HeartController = FindObjectOfType<HeartController>();
 
                 if (levelLoader.GetCurrentSceneName() == "Level" && ((levelCleared != 1) || savedLevelStartCount<3)) {
-                    HeartController.SetHeartAmount(HeartController.GetHeartAmount() + 2);
-                    var afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+                    newHeartController.AddHeartAmount(2);
                     afterPurchaseEffectController.ShowScreen("2");
                 }
                 

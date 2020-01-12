@@ -23,15 +23,12 @@ public class NewHeartController : MonoBehaviour
     private static int heartTargetTimeStamp;
     private static bool isNetworkConnected;
     UIController UIController;
+    LevelLoader levelLoader;
 
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            Initialize();
-        }
+        Initialize();
         // else if (Instance != this) {
         //     Destroy(gameObject);
         // }
@@ -48,12 +45,17 @@ public class NewHeartController : MonoBehaviour
 
         heartTargetTimeStamp = PlayerPrefs.GetInt("HeartTargetTimeStamp");
         UIController = FindObjectOfType<UIController>();
+        levelLoader = FindObjectOfType<LevelLoader>();
         InitializeHeartBar();
         InitializeTimer();
     }
 
     private void InitializeHeartBar() {
-        UIController.HandleHeartBarUI();
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+        {
+            UIController.HandleHeartBarUI();
+            UIController.HandleHeartBarInEffectUI();
+        }
     }
 
     private void InitializeTimer() {
@@ -87,7 +89,10 @@ public class NewHeartController : MonoBehaviour
                     {
                         heartAmount = Constants.HEART_MAX_CHARGE_COUNT;
                     }
-                    UIController.HandleHeartBarUI();
+                    if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+                    {
+                        UIController.HandleHeartBarUI();
+                    }
                     heartTargetTimeStamp = heartTargetTimeStamp + Constants.HEART_CHARGE_SECONDS * (targetDeltaCount + 1) - 1;
                 }
                 else
@@ -204,15 +209,20 @@ public class NewHeartController : MonoBehaviour
 
     public void AddHeartAmount(int addedCount) {
         heartAmount += addedCount;
-        UIController.HandleHeartBarUI();
-
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+        {        
+            UIController.HandleHeartBarUI();
+        }
+        UIController.HandleHeartBarInEffectUI();
         SaveHeartAmount(heartAmount);
     }
 
     public void SubtractHeartAmount(int subtractedCount) {
         heartAmount -= subtractedCount;
-        UIController.HandleHeartBarUI();
-        
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+        {
+            UIController.HandleHeartBarUI();
+        }
         if (!timer.Enabled && heartAmount< Constants.HEART_MAX_CHARGE_COUNT) {
             heartTargetTimeStamp = Utils.GetTimeStamp() + Constants.HEART_CHARGE_SECONDS;
             StartTimer();

@@ -17,6 +17,9 @@ public class AdsController : MonoBehaviour
     private string adsAndroidId = "3259037";
     private static string rewardType = "";
     private int targetLevel = 0;
+    NewHeartController newHeartController;
+    UIController UIController;
+
     
     void Start()
     {
@@ -29,6 +32,8 @@ public class AdsController : MonoBehaviour
         rewardType = "";
         Yodo1U3dAds.InitializeSdk();
         SetListners();
+        newHeartController = FindObjectOfType<NewHeartController>();
+        UIController = FindObjectOfType<UIController>();
     }
 
    
@@ -120,10 +125,8 @@ public class AdsController : MonoBehaviour
         }
         else
         {
-            var heartController = FindObjectOfType<HeartController>();
-            heartController.ToggleNoHeartCanvas(false);
-            int currentHeartAmount = heartController.GetHeartAmount();
-            heartController.SetHeartAmount(currentHeartAmount + 1);
+            UIController.ToggleNoHeartCanvas(false);
+            newHeartController.AddHeartAmount(1);
         }
 
         switch(rewardType) {

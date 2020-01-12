@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
     [SerializeField]    
     public Sprite[] heartImageSprites = null;
     GameObject heartImageParentObject;
+    GameObject heartImageParentObjectInEffect;
     GameObject noHeartCanvas;
     GameObject afterPurchaseEffectCanvas;
     HeartShopController heartShopController;
@@ -27,18 +28,18 @@ public class UIController : MonoBehaviour
         newHeartController = FindObjectOfType<NewHeartController>();
         levelLoader = FindObjectOfType<LevelLoader>();
 
-        heartImageParentObject = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_IMAGE_PARENT_OBJECT);
         noHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.NO_HEART_CANVAS);
         afterPurchaseEffectCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.AFTER_PURCHASE_EFFECT_CANVAS);
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
         {
-            Debug.Log(levelLoader.GetCurrentSceneName());
+            heartImageParentObject = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_IMAGE_PARENT_OBJECT);
             heartTimerText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT).GetComponent<Text>();
+            heartCountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_COUNT_TEXT).GetComponent<Text>();
         }
+        heartImageParentObjectInEffect = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_IMAGE_PARENT_OBJECT_IN_EFFECT);
+        heartUpdatedCountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_UPDATED_COUNT_TEXT).GetComponent<Text>();
         heartTimerTextInNoHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_NO_HEART_CANVAS).GetComponent<Text>();
         heartTimerTextInShop = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_SHOP).GetComponent<Text>();
-        heartCountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_COUNT_TEXT).GetComponent<Text>();
-        heartUpdatedCountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_UPDATED_COUNT_TEXT).GetComponent<Text>();
     }
 
     private void Awake()
@@ -61,13 +62,34 @@ public class UIController : MonoBehaviour
             if (heartAmount < Constants.HEART_MAX_CHARGE_COUNT)
             {
                 string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
-                heartTimerText.text = remainTime;
+                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+                {
+                    heartTimerText.text = remainTime;
+                    heartTimerText.fontSize = 32;
+                    heartTimerText.color = new Color32(0, 0, 0, 255);
+                }
+                heartTimerTextInNoHeartCanvas.text = remainTime;
+                heartTimerTextInShop.text = remainTime;
+            } else 
+            {
+                string remainTime = string.Format("{0:0}:{1:00}", 0, 0);
+                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+                {
+                    heartTimerText.text = remainTime;
+                    heartTimerText.fontSize = 32;
+                    heartTimerText.color = new Color32(0, 0, 0, 255);                    
+                }
                 heartTimerTextInNoHeartCanvas.text = remainTime;
                 heartTimerTextInShop.text = remainTime;
             }
         }
         else {
-            // heartTimerText.text = Texts.OFFLINE;
+            if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+            {            
+                heartTimerText.text = "오프라인";
+                heartTimerText.fontSize = 24;
+                heartTimerText.color = new Color32(193, 193, 193, 255);
+            }
         }
     }
 
@@ -87,14 +109,37 @@ public class UIController : MonoBehaviour
                 if (i == 0 && copiedHeartAmount > Constants.HEART_MAX_CHARGE_COUNT) {
                     heartImage.sprite = heartImageSprites[0];
                     heartCountText.text = heartAmount.ToString();
-                    heartUpdatedCountText.gameObject.SetActive(true);
-                    heartUpdatedCountText.text = heartAmount.ToString();
                 }
             }
 
             if (heartAmount <= Constants.HEART_MAX_CHARGE_COUNT) {
                 heartCountText.text = string.Empty;
-                heartUpdatedCountText.gameObject.SetActive(false);
+            }
+            copiedHeartAmount--;
+        }
+    }
+
+    public void HandleHeartBarInEffectUI() 
+    {
+        int heartAmount = newHeartController.GetHeartAmount();
+        int copiedHeartAmount = heartAmount;
+
+        for (int i = 0; i < heartImageParentObjectInEffect.transform.childCount; i++) {
+            var heartImageObject = heartImageParentObjectInEffect.transform.GetChild(heartImageParentObjectInEffect.transform.childCount - i - 1);
+            var heartImage = heartImageObject.GetComponent<Image>();
+
+            heartImage.sprite = heartImageSprites[1];                        
+            if (copiedHeartAmount <= 0) {
+                heartImage.sprite = heartImageSprites[2];
+            } else {
+                if (i == 0 && copiedHeartAmount > Constants.HEART_MAX_CHARGE_COUNT) {
+                    heartImage.sprite = heartImageSprites[0];
+                    heartUpdatedCountText.text = heartAmount.ToString();
+                }
+            }
+
+            if (heartAmount <= Constants.HEART_MAX_CHARGE_COUNT) {
+                heartUpdatedCountText.text = string.Empty;
             }
             copiedHeartAmount--;
         }

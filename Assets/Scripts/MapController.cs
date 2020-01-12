@@ -45,6 +45,8 @@ public class MapController : MonoBehaviour
     float[,] flagPositions;
     string currenetSceneName;
     LevelLoader levelLoader;
+    NewHeartController newHeartController;
+    UIController UIController;
 
 
     void Start()
@@ -81,6 +83,8 @@ public class MapController : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
+        newHeartController = FindObjectOfType<NewHeartController>();
+        UIController = FindObjectOfType<UIController>();
     }    
 
     private void InitPositionByRatio()
@@ -365,17 +369,6 @@ public class MapController : MonoBehaviour
             levelNumber = int.Parse(previousClickedMap.name.Split(' ')[1]);
         }
         levelLoader.LoadClickedMap(levelNumber);
-    }
-
-    public static bool CanUseHeart()
-    {
-        var heartController = FindObjectOfType<HeartController>();
-        if (heartController.GetHeartAmount() <= 0) {
-            heartController.ToggleNoHeartCanvas(true);
-            return false;
-        }
-        heartController.UseHeart();
-        return true;
     }
 
     public int GetRestrictedMapCount()

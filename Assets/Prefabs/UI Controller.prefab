@@ -43,4 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95f3e977750e64a1b8eecc9a43101fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heartImageSprites: []
+  heartImageSprites:
+  - {fileID: 21300000, guid: b787ed40eeb5a4cf2a19293893eb50b2, type: 3}
+  - {fileID: 21300000, guid: 48a3a1c2b8d684cc0bfbb4a833f4c48c, type: 3}
+  - {fileID: 21300000, guid: 90f6afed592ed42768867cd29d1b300e, type: 3}

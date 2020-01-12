@@ -14,6 +14,7 @@ public class LevelController : MonoBehaviour
     private GameObject stageIntro = null;
     private GameObject stageTextObject = null;
     LevelLoader levelLoader;
+    NewHeartController newHeartController;
 
 
     void Start()
@@ -29,6 +30,7 @@ public class LevelController : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
+        newHeartController = FindObjectOfType<NewHeartController>();
         stageIntro = GameObject.Find("Stage Intro");
         stageTextObject = GameObject.Find("Stage Number");        
     }
@@ -70,9 +72,8 @@ public class LevelController : MonoBehaviour
         if (levelCleared == 0)
         {
             if (currentLevelNumber % 10 == 0) {
-                var heartController = FindObjectOfType<HeartController>();
-                if (heartController.GetHeartAmount() < 5) {
-                    heartController.SetHeartAmount(5);
+                if (newHeartController.GetHeartAmount() < 5) {
+                    newHeartController.AddHeartAmount(5 - newHeartController.GetHeartAmount());
                 }
             }
         }

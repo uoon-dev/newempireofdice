@@ -11,6 +11,7 @@ public class AfterPurchaseEffectController : MonoBehaviour
 
     void Start()
     {
+        AfterPurchaseEffectCanvas.GetComponent<CanvasGroup>().DOFade(0, 0);
     }
 
     public void ShowScreen(string type)
@@ -39,11 +40,10 @@ public class AfterPurchaseEffectController : MonoBehaviour
             heartReward.SetActive(true);            
         }
 
-        AfterPurchaseEffectCanvas.gameObject.SetActive(true);
         AfterPurchaseEffectCanvas.GetComponent<CanvasGroup>().DOFade(1, 0.2f).OnComplete(() => {
 
             AfterPurchaseEffectCanvas.GetComponent<CanvasGroup>().DOFade(0, 1f).SetDelay(1f).SetEase(Ease.Linear).OnComplete(() => {
-                AfterPurchaseEffectCanvas.gameObject.SetActive(false);
+                // AfterPurchaseEffectCanvas.gameObject.SetActive(false);
             });
         });
     }

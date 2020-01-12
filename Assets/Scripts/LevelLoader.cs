@@ -24,11 +24,12 @@ public class LevelLoader : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Initialize();
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         currentSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log(currentSceneName + ":currentSceneName");
         currentLevelNumber = PlayerPrefs.GetInt("currentLevelNumber");
         if (BackGroundSoundController.instance != null)
             BackGroundSoundController.instance.StartPlay(BackGroundSoundController.BGM_NAME.MAIN_BGM);
@@ -93,7 +94,8 @@ public class LevelLoader : MonoBehaviour
     public void OnClickLoadCurrentScene()
     {
         LoadCurrentScene();
-    }    
+    }
+    
     // 플레이 중 다시 시작할 때 사용
     public void LoadCurrentScene()
     {

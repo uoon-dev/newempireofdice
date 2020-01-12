@@ -14,9 +14,12 @@ public class Constants : MonoBehaviour
     }
 
     public static class GAME_OBJECT_NAME {
+        public const string BODY = "Body";
         public const string NO_HEART_CANVAS = "No Heart Canvas";
         public const string AFTER_PURCHASE_EFFECT_CANVAS = "After Purchase Effect Canvas";
+        public const string HEART_BAR_OBJECT = "Heart Bar";
         public const string HEART_IMAGE_PARENT_OBJECT = "Heart Images";
+        public const string HEART_IMAGE_PARENT_OBJECT_IN_EFFECT = "Heart Images In Effect";
         public const string HEART_UPDATED_COUNT_TEXT = "Heart Updated Count Text";
         public const string HEART_TIMER_TEXT = "Heart Timer Text";
         public const string HEART_TIMER_TEXT_IN_NO_HEART_CANVAS = "Heart Timer Text in No Heart Canvas";

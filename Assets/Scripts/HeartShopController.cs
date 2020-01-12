@@ -12,6 +12,7 @@ public class HeartShopController : MonoBehaviour
     [SerializeField] Sprite loadingButtonImage;
 
     LevelLoader levelLoader;
+    UIController UIController;
 
     void Start()
     {
@@ -22,6 +23,7 @@ public class HeartShopController : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
+        UIController = FindObjectOfType<UIController>();
     }    
 
     public void SetSpeedUpText()
@@ -40,7 +42,9 @@ public class HeartShopController : MonoBehaviour
                 if (levelLoader.GetCurrentSceneName() == "Map System")
                 {
                     HeartRechargeSpeedText.fontSize = 20;
-                }else{
+                } 
+                else
+                {
                     HeartRechargeSpeedText.fontSize = 10;
                 }
                 
@@ -66,9 +70,7 @@ public class HeartShopController : MonoBehaviour
                 TogglePurchaseButton(false, Constants.HeartRechargeSpeedUp);
             }
  
-            var heartController = FindObjectOfType<HeartController>();
-            if (heartController != null)
-                heartController.ToggleNoHeartCanvas(false);
+            UIController.ToggleNoHeartCanvas(false);
 
             if(levelLoader.GetCurrentSceneName() == "Map System") {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
