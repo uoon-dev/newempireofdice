@@ -14,10 +14,10 @@ public class HeartShopController : MonoBehaviour
     LevelLoader levelLoader;
     UIController UIController;
 
-    void Start()
+    void Awake()
     {
-        SetSpeedUpText();
         Initialize();
+        SetSpeedUpText();
     }
 
     private void Initialize()
@@ -34,12 +34,11 @@ public class HeartShopController : MonoBehaviour
 
         if (HeartRechargeSpeedText != null) {
             int heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
-            Debug.Log("heartChargeSpeed : "+heartRechargeSpeed);
             if (heartRechargeSpeed == 2)
             {
                 HeartRechargeSpeedText.text = "구매함";
                 HeartRechargeSpeedText.color = new Color32(0, 0, 0, 100);
-                if (levelLoader.GetCurrentSceneName() == "Map System")
+                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
                 {
                     HeartRechargeSpeedText.fontSize = 20;
                 } 

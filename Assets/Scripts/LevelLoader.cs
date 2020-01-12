@@ -29,7 +29,6 @@ public class LevelLoader : MonoBehaviour
         Initialize();
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         currentSceneName = SceneManager.GetActiveScene().name;
-        Debug.Log(currentSceneName + ":currentSceneName");
         currentLevelNumber = PlayerPrefs.GetInt("currentLevelNumber");
         if (BackGroundSoundController.instance != null)
             BackGroundSoundController.instance.StartPlay(BackGroundSoundController.BGM_NAME.MAIN_BGM);

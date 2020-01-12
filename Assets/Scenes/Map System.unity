@@ -2931,6 +2931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d14fec72ffcf84a0794982988ad9d000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Instance: {fileID: 0}
 --- !u!4 &263488872
 Transform:
   m_ObjectHideFlags: 0
@@ -16095,6 +16096,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715922900184663810, guid: ead8fbf11fc604715b03064a06841f63,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 263488871}
+    - target: {fileID: 8715922900184663810, guid: ead8fbf11fc604715b03064a06841f63,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClickUseHeart
       objectReference: {fileID: 0}
     - target: {fileID: 8715922900184663870, guid: ead8fbf11fc604715b03064a06841f63,
         type: 3}

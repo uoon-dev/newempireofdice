@@ -171,7 +171,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
                 {
                     Debug.Log("하트 충전 속도 업...");
                     // Todo
-                    // newHeartController.UpgradeHeartRechargeSpeed(2);
+                    newHeartController.UpgradeHeartRechargeSpeed(2);
                     afterPurchaseEffectController.ShowScreen("1");
                     break;
                 }
@@ -200,7 +200,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
             {
                 // todo
                 // var heartController = FindObjectOfType<HeartController>();
-                // heartController.UpgradeHeartRechargeSpeed(2);
+                newHeartController.UpgradeHeartRechargeSpeed(2);
                 afterPurchaseEffectController.ShowScreen("1");
             }
             else {

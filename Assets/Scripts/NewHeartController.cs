@@ -5,25 +5,28 @@ using UnityEngine;
 
 /* 
     Todo 
-    다른 씬에도 NewHeartController, UIController 넣어주기
-    하트 잘 사용되는지 테스트하기
-    하트 상점에서 구입 잘 되는지 테스트하기 
+    다른 씬에도 NewHeartController, UIController 넣어주기 (완료)
+    하트 잘 사용되는지 테스트하기 (완료)
+    하트 상점에서 구입 잘 되는지 테스트하기 (완료)
+    하트 타이머 잘 작동되는지 테스트하기 (완료)
+    클리어 조건 완료시 하트 보상 잘되는지 테스트하기 (완료)
+    10x 스테이지 클리어시 하트 풀 충전 되는지 테스트하기 (완료)
+    하트 충전속도 증가 로직 구현하기
     광고 리워드로 하트 잘 얻을 수 있는지 테스트하기
-    하트 타이머 잘 작동되는지 테스트하기
-    클리어 조건 완료시 하트 보상 잘되는지 테스트하기
-    10x 스테이지 클리어시 하트 풀 충전 되는지 테스트하기
 */
 
 public class NewHeartController : MonoBehaviour
 {
-    public static NewHeartController Instance; 
-    private static Timer timer;
+    public NewHeartController Instance; 
+    private Timer timer;
     private const int timerInterval = 500;
-    private static int heartAmount;
-    private static int heartTargetTimeStamp;
-    private static bool isNetworkConnected;
+    private int heartRechargeSpeed = 1;
+    private int heartAmount;
+    private int heartTargetTimeStamp;
+    private bool isNetworkConnected;
     UIController UIController;
     LevelLoader levelLoader;
+    HeartShopController heartShopController;
 
 
     private void Awake()
@@ -43,9 +46,17 @@ public class NewHeartController : MonoBehaviour
             heartAmount = Constants.HEART_MAX_CHARGE_COUNT;
         }
 
+        if (PlayerPrefs.HasKey("HeartRechargeSpeed")) {
+            heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
+        } else {
+            heartRechargeSpeed = 1;
+        }
+
         heartTargetTimeStamp = PlayerPrefs.GetInt("HeartTargetTimeStamp");
         UIController = FindObjectOfType<UIController>();
         levelLoader = FindObjectOfType<LevelLoader>();
+        heartShopController = FindObjectOfType<HeartShopController>();
+
         InitializeHeartBar();
         InitializeTimer();
     }
@@ -83,7 +94,9 @@ public class NewHeartController : MonoBehaviour
                 bool IsDeviceTimeValid = await Utils.IsDeviceTimeValid();
                 if (IsDeviceTimeValid)
                 {
-                    int targetDeltaCount = (currentTimeStamp - heartTargetTimeStamp) / Constants.HEART_CHARGE_SECONDS;
+                    int targetDeltaCount = (currentTimeStamp - heartTargetTimeStamp) / (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
+                    heartTargetTimeStamp = heartTargetTimeStamp + (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed) * (targetDeltaCount + 1) - 1;
+
                     heartAmount += targetDeltaCount + 1;
                     if (heartAmount > Constants.HEART_MAX_CHARGE_COUNT)
                     {
@@ -93,7 +106,6 @@ public class NewHeartController : MonoBehaviour
                     {
                         UIController.HandleHeartBarUI();
                     }
-                    heartTargetTimeStamp = heartTargetTimeStamp + Constants.HEART_CHARGE_SECONDS * (targetDeltaCount + 1) - 1;
                 }
                 else
                 {
@@ -224,7 +236,7 @@ public class NewHeartController : MonoBehaviour
             UIController.HandleHeartBarUI();
         }
         if (!timer.Enabled && heartAmount< Constants.HEART_MAX_CHARGE_COUNT) {
-            heartTargetTimeStamp = Utils.GetTimeStamp() + Constants.HEART_CHARGE_SECONDS;
+            heartTargetTimeStamp = Utils.GetTimeStamp() + (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
             StartTimer();
         }
     }
@@ -237,5 +249,25 @@ public class NewHeartController : MonoBehaviour
     public int GetHeartTargetTimeStamp()
     {
         return heartTargetTimeStamp;
+    }
+
+    public void UpgradeHeartRechargeSpeed(int speed)
+    {
+        heartRechargeSpeed = speed;
+        PlayerPrefs.SetInt("HeartRechargeSpeed", speed);
+        heartShopController.SetSpeedUpText();
+
+        int heartCharteRemainSecond = GetHeartTargetTimeStamp() - Utils.GetTimeStamp();
+        if (heartCharteRemainSecond > Constants.HEART_CHARGE_SECONDS / speed)
+        {
+            StopTimer();
+            if (heartAmount < Constants.HEART_MAX_CHARGE_COUNT) 
+            {
+                int currentTimeStamp = Utils.GetTimeStamp();
+                int targetDeltaCount = (currentTimeStamp - heartTargetTimeStamp) / (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
+                heartTargetTimeStamp = currentTimeStamp + (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
+                StartTimer();
+            }
+        }
     }
 }

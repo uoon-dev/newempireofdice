@@ -72,8 +72,8 @@ public class LevelController : MonoBehaviour
         if (levelCleared == 0)
         {
             if (currentLevelNumber % 10 == 0) {
-                if (newHeartController.GetHeartAmount() < 5) {
-                    newHeartController.AddHeartAmount(5 - newHeartController.GetHeartAmount());
+                if (newHeartController.GetHeartAmount() < Constants.HEART_MAX_CHARGE_COUNT) {
+                    newHeartController.AddHeartAmount(Constants.HEART_MAX_CHARGE_COUNT - newHeartController.GetHeartAmount());
                 }
             }
         }

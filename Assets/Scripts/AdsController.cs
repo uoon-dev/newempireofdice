@@ -117,12 +117,14 @@ public class AdsController : MonoBehaviour
     }
     private void OnRewaredVideoSuccess()
     {
+        // 주사위 굴리기
         if (rewardType == AD_REWARD_TYPE.GET_ALL_DICES)
         {
             FindObjectOfType<NoDiceNoCoinController>().HideScreen();
             FindObjectOfType<ResetDiceController>().AbleResetDiceButton();
             FindObjectOfType<ResetDiceController>().ResetDices();
         }
+        // 게임 시작하기
         else
         {
             UIController.ToggleNoHeartCanvas(false);
