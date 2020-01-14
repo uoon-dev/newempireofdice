@@ -170,7 +170,6 @@ public class IAPManager : MonoBehaviour, IStoreListener
             case Constants.HeartRechargeSpeedUp:
                 {
                     Debug.Log("하트 충전 속도 업...");
-                    // Todo
                     newHeartController.UpgradeHeartRechargeSpeed(2);
                     afterPurchaseEffectController.ShowScreen("1");
                     break;

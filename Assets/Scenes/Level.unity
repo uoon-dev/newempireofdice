@@ -19811,11 +19811,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: No Heart Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 8609739382962993227, guid: dca933a6b7ea3402487530f254460e09,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8609739382962993231, guid: dca933a6b7ea3402487530f254460e09,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -19925,7 +19920,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 677665164}
+      objectReference: {fileID: 897849092}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dca933a6b7ea3402487530f254460e09, type: 3}
 --- !u!114 &8158044594491923706

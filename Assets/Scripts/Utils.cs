@@ -18,10 +18,14 @@ public static class Utils
     public static bool IsNetworkConnected() => Application.internetReachability != NetworkReachability.NotReachable;
 
     public static async Task<bool> IsDeviceTimeValid(){
-        int localTimestamp = GetTimeStamp();
-        int liveTimestamp = await GetLiveTimeStampAsync();
-        bool isDeviceTimeValid = Mathf.Abs(liveTimestamp - localTimestamp) < Constants.TIMESTAMP_VALID_OFFSET_SECONDS;
-        return isDeviceTimeValid;
-    }
+        try {
+            int localTimestamp = GetTimeStamp();
+            int liveTimestamp = await GetLiveTimeStampAsync();
+            bool isDeviceTimeValid = Mathf.Abs(liveTimestamp - localTimestamp) < Constants.TIMESTAMP_VALID_OFFSET_SECONDS;
+            return isDeviceTimeValid;
 
+        } catch (System.Exception e) {
+            return false;
+        }
+    }
 }

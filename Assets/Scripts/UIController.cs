@@ -33,7 +33,6 @@ public class UIController : MonoBehaviour
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
         {
             heartImageParentObject = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_IMAGE_PARENT_OBJECT);
-            Debug.Log(heartImageParentObject);
             heartTimerText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT).GetComponent<Text>();
             heartCountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_COUNT_TEXT).GetComponent<Text>();
         }
@@ -47,50 +46,41 @@ public class UIController : MonoBehaviour
     {
         Initialize();
     }
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
         int heartAmount = newHeartController.GetHeartAmount();
-        int heartCharteRemainSecond = newHeartController.GetHeartTargetTimeStamp() - Utils.GetTimeStamp();
-        // heartCountText.text = heartAmount + "";
+        int heartCharteRemainSecond = heartAmount < Constants.HEART_MAX_CHARGE_COUNT ? 
+            newHeartController.GetHeartTargetTimeStamp() - Utils.GetTimeStamp() : 0;
+
         if (Utils.IsNetworkConnected())
         {
-            if (heartAmount < Constants.HEART_MAX_CHARGE_COUNT)
+            string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
+            if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
             {
-                string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
-                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-                {
-                    heartTimerText.text = remainTime;
-                    heartTimerText.fontSize = 32;
-                    heartTimerText.color = new Color32(0, 0, 0, 255);
-                }
-                heartTimerTextInNoHeartCanvas.text = remainTime;
-                heartTimerTextInShop.text = remainTime;
-            } else 
-            {
-                string remainTime = string.Format("{0:0}:{1:00}", 0, 0);
-                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-                {
-                    heartTimerText.text = remainTime;
-                    heartTimerText.fontSize = 32;
-                    heartTimerText.color = new Color32(0, 0, 0, 255);                    
-                }
-                heartTimerTextInNoHeartCanvas.text = remainTime;
-                heartTimerTextInShop.text = remainTime;
+                heartTimerText.text = remainTime;
+                heartTimerText.fontSize = 32;
+                heartTimerText.color = new Color32(0, 0, 0, 255);
             }
+            heartTimerTextInNoHeartCanvas.text = remainTime;
+            heartTimerTextInShop.text = remainTime;
         }
-        else {
-            if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-            {            
+        else
+        {
+            if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
+            {
                 heartTimerText.text = "오프라인";
                 heartTimerText.fontSize = 24;
                 heartTimerText.color = new Color32(193, 193, 193, 255);
             }
+            heartTimerTextInNoHeartCanvas.text = "오프라인";
+            heartTimerTextInShop.text = "오프라인";
+        }
+
+        if (heartAmount > 0)
+        {
+            ToggleNoHeartCanvas(false);
         }
     }
 
@@ -147,7 +137,6 @@ public class UIController : MonoBehaviour
     }
 
     public void ToggleNoHeartCanvas(bool isShow) {
-        // noHeartCanvas.SetActive(isShow);
         var body = noHeartCanvas.transform.GetChild(0);
 
         if (isShow) {

@@ -11,31 +11,28 @@ using UnityEngine;
     하트 타이머 잘 작동되는지 테스트하기 (완료)
     클리어 조건 완료시 하트 보상 잘되는지 테스트하기 (완료)
     10x 스테이지 클리어시 하트 풀 충전 되는지 테스트하기 (완료)
-    하트 충전속도 증가 로직 구현하기
+    하트 충전속도 증가 로직 구현하기 (완료)
     광고 리워드로 하트 잘 얻을 수 있는지 테스트하기
 */
 
 public class NewHeartController : MonoBehaviour
 {
     public NewHeartController Instance; 
-    private Timer timer;
+    private System.Timers.Timer timer;
     private const int timerInterval = 500;
     private int heartRechargeSpeed = 1;
     private int heartAmount;
+    public static bool isHeartAmountUpdated = false;
     private int heartTargetTimeStamp;
     private bool isNetworkConnected;
+    private bool IsDeviceTimeValid = false;
     UIController UIController;
     LevelLoader levelLoader;
     HeartShopController heartShopController;
 
-
     private void Awake()
     {
         Initialize();
-        // else if (Instance != this) {
-        //     Destroy(gameObject);
-        // }
-        // DontDestroyOnLoad(gameObject);
     }
 
     private void Initialize()
@@ -71,8 +68,8 @@ public class NewHeartController : MonoBehaviour
 
     private void InitializeTimer() {
         if (timer == null) {
-            timer = new Timer(timerInterval);
-            timer.AutoReset = true;
+            timer = new System.Timers.Timer(timerInterval);
+            timer.AutoReset = false;
             timer.Elapsed += Tick;
         }
     }
@@ -82,35 +79,40 @@ public class NewHeartController : MonoBehaviour
     }
 
     private void StopTimer() {
-        timer.Stop();
+        if (timer.Enabled) 
+        {
+            timer.Stop();
+        }
     }
 
     private async void Tick(object sender, ElapsedEventArgs e) {
         int currentTimeStamp = Utils.GetTimeStamp();
         if (heartAmount < Constants.HEART_MAX_CHARGE_COUNT)
         {
+            bool IsDeviceTimeValid = true;
             if (currentTimeStamp >= heartTargetTimeStamp)
             {
-                bool IsDeviceTimeValid = await Utils.IsDeviceTimeValid();
+                IsDeviceTimeValid = await Utils.IsDeviceTimeValid();
                 if (IsDeviceTimeValid)
                 {
                     int targetDeltaCount = (currentTimeStamp - heartTargetTimeStamp) / (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
-                    heartTargetTimeStamp = heartTargetTimeStamp + (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed) * (targetDeltaCount + 1) - 1;
 
                     heartAmount += targetDeltaCount + 1;
                     if (heartAmount > Constants.HEART_MAX_CHARGE_COUNT)
                     {
                         heartAmount = Constants.HEART_MAX_CHARGE_COUNT;
                     }
-                    if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-                    {
-                        UIController.HandleHeartBarUI();
-                    }
+                    heartTargetTimeStamp = heartTargetTimeStamp + (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed) * (targetDeltaCount + 1) - 1;
+                    isHeartAmountUpdated = true;
                 }
-                else
-                {
-                    StopTimer();
-                }
+            }
+            if (IsDeviceTimeValid)
+            {
+                StartTimer();
+            } 
+            else 
+            {
+                StopTimer();
             }
         }
         else
@@ -127,18 +129,30 @@ public class NewHeartController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private async void Update()
     {
         bool newIsNetworkConnected = Utils.IsNetworkConnected();
+
         if (isNetworkConnected && !newIsNetworkConnected) {
             StopTimer();
         }
+
         if (!isNetworkConnected && newIsNetworkConnected) {
             if (heartAmount < Constants.HEART_MAX_CHARGE_COUNT)
             {
                 StartTimer();
             }
         }
+
+        if (isHeartAmountUpdated)
+        {
+            isHeartAmountUpdated = false;
+            if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+            {
+                UIController.HandleHeartBarUI();
+            }
+        }
+        
         isNetworkConnected = newIsNetworkConnected;
     }
 
