@@ -13,6 +13,14 @@ using UnityEngine;
     10x 스테이지 클리어시 하트 풀 충전 되는지 테스트하기 (완료)
     하트 충전속도 증가 로직 구현하기 (완료)
     광고 리워드로 하트 잘 얻을 수 있는지 테스트하기
+
+    bug
+    처음 앱을 실행했을 때 하트가 0개이다.
+    타이머 충전 중간에 인터넷을 꺼도 타이머 상태가 오프라인으로 변하지 않는다.
+    타이머 충전 중간에 인터넷을 끄고 앱을 껐다가 다시 켜도 오프라인 표시가 나타나지 않는다.
+    인터넷을 중간에 다시 연결해도 타이머가 동작하지 않는다.
+    앱을 pause 했다가 다시 돌아가보면 하트 하나가 더 충전되어 있다. 
+
 */
 
 public class NewHeartController : MonoBehaviour
@@ -129,7 +137,7 @@ public class NewHeartController : MonoBehaviour
         }
     }
 
-    private async void Update()
+    private void Update()
     {
         bool newIsNetworkConnected = Utils.IsNetworkConnected();
 
@@ -171,22 +179,21 @@ public class NewHeartController : MonoBehaviour
         SaveHeartTargetTimeStamp(heartTargetTimeStamp);
     }
 
-    private void OnApplicationFocus(bool focus)
-    {
-        if (focus)
-        {
-            if (heartAmount < Constants.HEART_MAX_CHARGE_COUNT)
-            {
-                StartTimer();
-            }
-        }
-        else {
-            StopTimer();
-            SaveHeartAmount(heartAmount);
-            SaveHeartTargetTimeStamp(heartTargetTimeStamp);
-        }
-        
-    }
+    // private void OnApplicationFocus(bool focus)
+    // {
+    //     if (focus)
+    //     {
+    //         if (heartAmount < Constants.HEART_MAX_CHARGE_COUNT)
+    //         {
+    //             StartTimer();
+    //         }
+    //     }
+    //     else {
+    //         StopTimer();
+    //         SaveHeartAmount(heartAmount);
+    //         SaveHeartTargetTimeStamp(heartTargetTimeStamp);
+    //     }
+    // }
 
     private void OnApplicationPause(bool pause)
     {
