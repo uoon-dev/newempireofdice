@@ -137,7 +137,7 @@ public class LevelLoader : MonoBehaviour
     }
     public string GetCurrentSceneName()
     {
-        return currentSceneName;
+        return SceneManager.GetActiveScene().name;;
     }
     public int GetCurrentLevelNumber()
     {

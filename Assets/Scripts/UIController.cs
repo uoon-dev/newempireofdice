@@ -27,8 +27,7 @@ public class UIController : MonoBehaviour
         startController = FindObjectOfType<StartController>();
         newHeartController = FindObjectOfType<NewHeartController>();
         levelLoader = FindObjectOfType<LevelLoader>();
-
-        noHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.NO_HEART_CANVAS);
+        
         afterPurchaseEffectCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.AFTER_PURCHASE_EFFECT_CANVAS);
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
         {
@@ -86,27 +85,33 @@ public class UIController : MonoBehaviour
 
     public void HandleHeartBarUI() 
     {
-        int heartAmount = newHeartController.GetHeartAmount();
-        int copiedHeartAmount = heartAmount;
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
+        {
+            int heartAmount = newHeartController.GetHeartAmount();
+            int copiedHeartAmount = heartAmount;
 
-        for (int i = 0; i < heartImageParentObject.transform.childCount; i++) {
-            var heartImageObject = heartImageParentObject.transform.GetChild(heartImageParentObject.transform.childCount - i - 1);
-            var heartImage = heartImageObject.GetComponent<Image>();
+            if (heartImageParentObject != null)
+            {
+                for (int i = 0; i < heartImageParentObject.transform.childCount; i++) {
+                    var heartImageObject = heartImageParentObject.transform.GetChild(heartImageParentObject.transform.childCount - i - 1);
+                    var heartImage = heartImageObject.GetComponent<Image>();
 
-            heartImage.sprite = heartImageSprites[1];                        
-            if (copiedHeartAmount <= 0) {
-                heartImage.sprite = heartImageSprites[2];
-            } else {
-                if (i == 0 && copiedHeartAmount > Constants.HEART_MAX_CHARGE_COUNT) {
-                    heartImage.sprite = heartImageSprites[0];
-                    heartCountText.text = heartAmount.ToString();
+                    heartImage.sprite = heartImageSprites[1];                        
+                    if (copiedHeartAmount <= 0) {
+                        heartImage.sprite = heartImageSprites[2];
+                    } else {
+                        if (i == 0 && copiedHeartAmount > Constants.HEART_MAX_CHARGE_COUNT) {
+                            heartImage.sprite = heartImageSprites[0];
+                            heartCountText.text = heartAmount.ToString();
+                        }
+                    }
+
+                    if (heartAmount <= Constants.HEART_MAX_CHARGE_COUNT) {
+                        heartCountText.text = string.Empty;
+                    }
+                    copiedHeartAmount--;
                 }
             }
-
-            if (heartAmount <= Constants.HEART_MAX_CHARGE_COUNT) {
-                heartCountText.text = string.Empty;
-            }
-            copiedHeartAmount--;
         }
     }
 
@@ -115,28 +120,32 @@ public class UIController : MonoBehaviour
         int heartAmount = newHeartController.GetHeartAmount();
         int copiedHeartAmount = heartAmount;
 
-        for (int i = 0; i < heartImageParentObjectInEffect.transform.childCount; i++) {
-            var heartImageObject = heartImageParentObjectInEffect.transform.GetChild(heartImageParentObjectInEffect.transform.childCount - i - 1);
-            var heartImage = heartImageObject.GetComponent<Image>();
+        if (heartImageParentObjectInEffect != null)
+        {
+            for (int i = 0; i < heartImageParentObjectInEffect.transform.childCount; i++) {
+                var heartImageObject = heartImageParentObjectInEffect.transform.GetChild(heartImageParentObjectInEffect.transform.childCount - i - 1);
+                var heartImage = heartImageObject.GetComponent<Image>();
 
-            heartImage.sprite = heartImageSprites[1];                        
-            if (copiedHeartAmount <= 0) {
-                heartImage.sprite = heartImageSprites[2];
-            } else {
-                if (i == 0 && copiedHeartAmount > Constants.HEART_MAX_CHARGE_COUNT) {
-                    heartImage.sprite = heartImageSprites[0];
-                    heartUpdatedCountText.text = heartAmount.ToString();
+                heartImage.sprite = heartImageSprites[1];                        
+                if (copiedHeartAmount <= 0) {
+                    heartImage.sprite = heartImageSprites[2];
+                } else {
+                    if (i == 0 && copiedHeartAmount > Constants.HEART_MAX_CHARGE_COUNT) {
+                        heartImage.sprite = heartImageSprites[0];
+                        heartUpdatedCountText.text = heartAmount.ToString();
+                    }
                 }
-            }
 
-            if (heartAmount <= Constants.HEART_MAX_CHARGE_COUNT) {
-                heartUpdatedCountText.text = string.Empty;
+                if (heartAmount <= Constants.HEART_MAX_CHARGE_COUNT) {
+                    heartUpdatedCountText.text = string.Empty;
+                }
+                copiedHeartAmount--;
             }
-            copiedHeartAmount--;
         }
     }
 
     public void ToggleNoHeartCanvas(bool isShow) {
+        noHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.NO_HEART_CANVAS);
         var body = noHeartCanvas.transform.GetChild(0);
 
         if (isShow) {

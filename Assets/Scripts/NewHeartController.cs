@@ -242,7 +242,7 @@ public class NewHeartController : MonoBehaviour
 
     public void AddHeartAmount(int addedCount) {
         heartAmount += addedCount;
-        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
         {        
             UIController.HandleHeartBarUI();
         }
