@@ -15,12 +15,12 @@ using UnityEngine;
     광고 리워드로 하트 잘 얻을 수 있는지 테스트하기
 
     bug
-    처음 앱을 실행했을 때 하트가 0개이다.
-    타이머 충전 중간에 인터넷을 꺼도 타이머 상태가 오프라인으로 변하지 않는다.
-    타이머 충전 중간에 인터넷을 끄고 앱을 껐다가 다시 켜도 오프라인 표시가 나타나지 않는다.
-    인터넷을 중간에 다시 연결해도 타이머가 동작하지 않는다.
-    앱을 pause 했다가 다시 돌아가보면 하트 하나가 더 충전되어 있다. 
+    처음 앱을 실행했을 때 하트가 0개이다. (solved)
+    타이머 충전 중간에 인터넷을 꺼도 타이머 상태가 오프라인으로 변하지 않는다. (solved)
+    타이머 충전 중간에 인터넷을 끄고 앱을 껐다가 다시 켜도 오프라인 표시가 나타나지 않는다. (solved)
+    앱을 pause 했다가 다시 돌아가보면 하트 하나가 더 충전되어 있다. (solved)
 
+    * 인터넷을 중간에 다시 연결해도 타이머가 동작하지 않는다. -> 플레이를 해야 동작하는데 10분으로 리셋된다. *
 */
 
 public class NewHeartController : MonoBehaviour
@@ -45,15 +45,21 @@ public class NewHeartController : MonoBehaviour
 
     private void Initialize()
     {
-        if (PlayerPrefs.HasKey("HeartAmount")) {
+        if (PlayerPrefs.HasKey("HeartAmount")) 
+        {
             heartAmount = PlayerPrefs.GetInt("HeartAmount");
-        } else {
+        } 
+        else 
+        {
             heartAmount = Constants.HEART_MAX_CHARGE_COUNT;
         }
 
-        if (PlayerPrefs.HasKey("HeartRechargeSpeed")) {
+        if (PlayerPrefs.HasKey("HeartRechargeSpeed")) 
+        {
             heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
-        } else {
+        } 
+        else 
+        {
             heartRechargeSpeed = 1;
         }
 
@@ -61,17 +67,16 @@ public class NewHeartController : MonoBehaviour
         UIController = FindObjectOfType<UIController>();
         levelLoader = FindObjectOfType<LevelLoader>();
         heartShopController = FindObjectOfType<HeartShopController>();
-
-        InitializeHeartBar();
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+        {
+            InitializeHeartBar();
+        }
         InitializeTimer();
     }
 
     private void InitializeHeartBar() {
-        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-        {
-            UIController.HandleHeartBarUI();
-            UIController.HandleHeartBarInEffectUI();
-        }
+        UIController.HandleHeartBarUI();
+        UIController.HandleHeartBarInEffectUI();
     }
 
     private void InitializeTimer() {
@@ -256,7 +261,7 @@ public class NewHeartController : MonoBehaviour
         {
             UIController.HandleHeartBarUI();
         }
-        if (!timer.Enabled && heartAmount< Constants.HEART_MAX_CHARGE_COUNT) {
+        if (!timer.Enabled && heartAmount < Constants.HEART_MAX_CHARGE_COUNT) {
             heartTargetTimeStamp = Utils.GetTimeStamp() + (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
             StartTimer();
         }

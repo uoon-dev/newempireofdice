@@ -51,14 +51,14 @@ public class UIController : MonoBehaviour
     {
         int heartAmount = newHeartController.GetHeartAmount();
         int heartCharteRemainSecond = heartAmount < Constants.HEART_MAX_CHARGE_COUNT ? 
-            newHeartController.GetHeartTargetTimeStamp() - Utils.GetTimeStamp() : 0;
+                newHeartController.GetHeartTargetTimeStamp() - Utils.GetTimeStamp() : 0;
 
         if (Utils.IsNetworkConnected())
         {
             string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
             if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
             {
-                heartTimerText.text = remainTime;
+                heartTimerText.text = heartAmount < Constants.HEART_MAX_CHARGE_COUNT ? remainTime : "";
                 heartTimerText.fontSize = 32;
                 heartTimerText.color = new Color32(0, 0, 0, 255);
             }
