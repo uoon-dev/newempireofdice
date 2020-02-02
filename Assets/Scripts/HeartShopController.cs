@@ -50,8 +50,7 @@ public class HeartShopController : MonoBehaviour
                 HeartRechargeSpeedImage.color = new Color32(255, 255, 255, 100);
                 HeartRechargeSpeedButton.interactable = false;
             }
-        }
-        
+        }   
     }
 
     public void ToggleHeartShopCanvas(bool isShow) {

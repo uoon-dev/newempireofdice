@@ -25,8 +25,8 @@ using UnityEngine;
 
 public class NewHeartController : MonoBehaviour
 {
-    public NewHeartController Instance; 
-    private System.Timers.Timer timer;
+    public static NewHeartController Instance; 
+    public static Timer timer;
     private const int timerInterval = 500;
     private int heartRechargeSpeed = 1;
     private int heartAmount;
@@ -34,13 +34,23 @@ public class NewHeartController : MonoBehaviour
     private int heartTargetTimeStamp;
     private bool isNetworkConnected;
     private bool IsDeviceTimeValid = false;
-    UIController UIController;
-    LevelLoader levelLoader;
-    HeartShopController heartShopController;
+    public static UIController UIController;
+    public static LevelLoader levelLoader;
+    public static HeartShopController heartShopController;
 
     private void Awake()
     {
-        Initialize();
+        // Initialize();
+        if (Instance == null)
+        {
+            Instance = this;
+            Initialize();
+            
+        }
+        else if (Instance != this) {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);        
     }
 
     private void Initialize()
@@ -48,7 +58,7 @@ public class NewHeartController : MonoBehaviour
         if (PlayerPrefs.HasKey("HeartAmount")) 
         {
             heartAmount = PlayerPrefs.GetInt("HeartAmount");
-        } 
+        }
         else 
         {
             heartAmount = Constants.HEART_MAX_CHARGE_COUNT;
@@ -67,10 +77,10 @@ public class NewHeartController : MonoBehaviour
         UIController = FindObjectOfType<UIController>();
         levelLoader = FindObjectOfType<LevelLoader>();
         heartShopController = FindObjectOfType<HeartShopController>();
-        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-        {
-            InitializeHeartBar();
-        }
+        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+        // {
+        //     InitializeHeartBar();
+        // }
         InitializeTimer();
     }
 
@@ -156,15 +166,6 @@ public class NewHeartController : MonoBehaviour
                 StartTimer();
             }
         }
-
-        if (isHeartAmountUpdated)
-        {
-            isHeartAmountUpdated = false;
-            if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-            {
-                UIController.HandleHeartBarUI();
-            }
-        }
         
         isNetworkConnected = newIsNetworkConnected;
     }
@@ -172,14 +173,12 @@ public class NewHeartController : MonoBehaviour
 
     private void OnDestroy()
     {
-        StopTimer();
         SaveHeartAmount(heartAmount);
         SaveHeartTargetTimeStamp(heartTargetTimeStamp);
     }
 
     private void OnApplicationQuit()
     {
-        StopTimer();
         SaveHeartAmount(heartAmount);
         SaveHeartTargetTimeStamp(heartTargetTimeStamp);
     }
@@ -216,6 +215,7 @@ public class NewHeartController : MonoBehaviour
             }
         }
     }
+
     private void SaveHeartTargetTimeStamp(int timestamp) {
         PlayerPrefs.SetInt("HeartTargetTimeStamp", timestamp);
     }
@@ -243,24 +243,25 @@ public class NewHeartController : MonoBehaviour
 
     private void SaveHeartAmount(int targetHeartAmount) {
         PlayerPrefs.SetInt("HeartAmount", targetHeartAmount);
+        PlayerPrefs.Save();
     }
 
     public void AddHeartAmount(int addedCount) {
         heartAmount += addedCount;
-        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
-        {        
-            UIController.HandleHeartBarUI();
-        }
-        UIController.HandleHeartBarInEffectUI();
+        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
+        // {        
+        //     UIController.HandleHeartBarUI();
+        // }
+        // UIController.HandleHeartBarInEffectUI();
         SaveHeartAmount(heartAmount);
     }
 
     public void SubtractHeartAmount(int subtractedCount) {
         heartAmount -= subtractedCount;
-        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-        {
-            UIController.HandleHeartBarUI();
-        }
+        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
+        // {
+        //     UIController.HandleHeartBarUI();
+        // }
         if (!timer.Enabled && heartAmount < Constants.HEART_MAX_CHARGE_COUNT) {
             heartTargetTimeStamp = Utils.GetTimeStamp() + (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
             StartTimer();
@@ -281,7 +282,6 @@ public class NewHeartController : MonoBehaviour
     {
         heartRechargeSpeed = speed;
         PlayerPrefs.SetInt("HeartRechargeSpeed", speed);
-        heartShopController.SetSpeedUpText();
 
         int heartCharteRemainSecond = GetHeartTargetTimeStamp() - Utils.GetTimeStamp();
         if (heartCharteRemainSecond > Constants.HEART_CHARGE_SECONDS / speed)

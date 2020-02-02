@@ -172,6 +172,7 @@ public class IAPManager : MonoBehaviour, IStoreListener
                     Debug.Log("하트 충전 속도 업...");
                     newHeartController.UpgradeHeartRechargeSpeed(2);
                     afterPurchaseEffectController.ShowScreen("1");
+                    heartShopController.SetSpeedUpText();
                     break;
                 }
             default: break;

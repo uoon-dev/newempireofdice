@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -3700,8 +3701,9 @@ MonoBehaviour:
     and is automatically added to your scene when you enter Play mode.
 
 
-    To stop this from automatically being added to your scene, go to ''Window > Easy
-    Save 3 > Settings'' and deselect the ''Auto Add Manager to Scene'' checkbox.'
+    To stop
+    this from automatically being added to your scene, go to ''Window > Easy Save
+    3 > Settings'' and deselect the ''Auto Add Manager to Scene'' checkbox.'
 --- !u!4 &118753708
 Transform:
   m_ObjectHideFlags: 0
@@ -11410,10 +11412,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC8FC\uC0AC\uC704 \uC81C\uAD6D\uC758 \uD669\uC81C\uAC00 \uB418\uC2E0 \uAC83\uC744
-    \uACBD\uD558\uB4DC\uB9AC\uC635\uB2C8\uB2E4, \uC8FC\uAD70(\uC8FC\uC0AC\uC704 \uAD70\uC8FC\uB77C\uB294
-    \uB73B)!\n\uC8FC\uC0AC\uC704\uB97C \uAD74\uB824\uC11C \uC774 \uB545 \uACF3\uACF3\uC5D0
-    \uBFCC\uB9AC\uB0B4\uB9B0 \uB9C8\uC655\uC131\uC744 \uC815\uBCF5\uD574\uC8FC\uC2ED\uC2DC\uC624!\n"
+  m_Text: "\uC8FC\uC0AC\uC704 \uC81C\uAD6D\uC758 \uD669\uC81C\uAC00 \uB418\uC2E0
+    \uAC83\uC744 \uACBD\uD558\uB4DC\uB9AC\uC635\uB2C8\uB2E4, \uC8FC\uAD70(\uC8FC\uC0AC\uC704
+    \uAD70\uC8FC\uB77C\uB294 \uB73B)!\n\uC8FC\uC0AC\uC704\uB97C \uAD74\uB824\uC11C
+    \uC774 \uB545 \uACF3\uACF3\uC5D0 \uBFCC\uB9AC\uB0B4\uB9B0 \uB9C8\uC655\uC131\uC744
+    \uC815\uBCF5\uD574\uC8FC\uC2ED\uC2DC\uC624!\n"
 --- !u!222 &1741928416
 CanvasRenderer:
   m_ObjectHideFlags: 0

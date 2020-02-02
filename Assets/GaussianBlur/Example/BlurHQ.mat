@@ -65,7 +65,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Size: 1
+    - _Size: 3.5
     - _SrcBlend: 1
     - _Stencil: 0
     - _StencilComp: 8
@@ -74,7 +74,7 @@ Material:
     - _StencilWriteMask: 255
     - _UVSec: 0
     - _Vibrance: 0
-    - _Vibrancy: 0
+    - _Vibrancy: 0.07
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
