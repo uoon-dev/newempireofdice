@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlurHQ
+  m_Name: Music Canvas BlurHQ
   m_Shader: {fileID: 4800000, guid: 54d0ad70cd0c44037ad52d9697449988, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 5
@@ -65,7 +65,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Size: 2.42
+    - _Size: 1.97
     - _SrcBlend: 1
     - _Stencil: 0
     - _StencilComp: 8
@@ -74,7 +74,7 @@ Material:
     - _StencilWriteMask: 255
     - _UVSec: 0
     - _Vibrance: 0
-    - _Vibrancy: 0.12
+    - _Vibrancy: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0}

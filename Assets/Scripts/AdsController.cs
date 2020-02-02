@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 //using UnityEngine.Advertisements;
 
 public static class AD_REWARD_TYPE
@@ -62,6 +63,7 @@ public class AdsController : MonoBehaviour
             switch (adEvent)
             {
                 case Yodo1U3dConstants.AdEvent.AdEventClick:
+                    AnalyticsEvent.AdStart(false);
                     Debug.Log("Interstital ad has been clicked.");
                     break;
                 case Yodo1U3dConstants.AdEvent.AdEventClose:
@@ -70,6 +72,7 @@ public class AdsController : MonoBehaviour
                     break;
                 case Yodo1U3dConstants.AdEvent.AdEventShowSuccess:
                     //LevelLoader.LoadClickedMap(targetLevel);
+                    AnalyticsEvent.AdComplete(false);
                     break;
                 case Yodo1U3dConstants.AdEvent.AdEventShowFail:
                     Debug.Log("Interstital ad has been show failed, the error message:" + error);
@@ -86,12 +89,14 @@ public class AdsController : MonoBehaviour
             switch (adEvent)
             {
                 case Yodo1U3dConstants.AdEvent.AdEventClick:
+                    AnalyticsEvent.AdStart(true);
                     Debug.Log("Rewarded video ad has been clicked.");
                     break;
                 case Yodo1U3dConstants.AdEvent.AdEventClose:
                     Debug.Log("Rewarded video ad has been closed.");
                     break;
                 case Yodo1U3dConstants.AdEvent.AdEventShowSuccess:
+                    AnalyticsEvent.AdComplete(true);
                     OnRewaredVideoSuccess();
                     Debug.Log("Rewarded video ad has shown successful.");
                     break;
@@ -107,7 +112,7 @@ public class AdsController : MonoBehaviour
 
     public void PlayAds(string reward)
     {
-        if (Yodo1U3dAds.VideoIsReady()) {
+        if (Yodo1U3dAds.VideoIsReady()) {   
             rewardType = reward;
             Yodo1U3dAds.ShowVideo();
         }

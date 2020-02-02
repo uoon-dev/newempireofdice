@@ -20,7 +20,7 @@ public class UIController : MonoBehaviour
     Text heartShopTimer;
     Text heartCountText;
     Text heartUpdatedCountText;
-    private int prevHeartAmount;
+    private int prevHeartAmount = -1;
 
     void Awake()
     {

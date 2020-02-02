@@ -46,7 +46,6 @@
         }
 
         public static void SetTutorialCount(int count) {
-            AnalyticsEvent.TutorialStep(count);
             tutorialCount = count;
         }
 

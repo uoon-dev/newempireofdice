@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Analytics;
 
 public class LevelController : MonoBehaviour
 {
@@ -89,6 +90,8 @@ public class LevelController : MonoBehaviour
 
     public void HandleLoseCondition()
     {
+        int currentLevelNumber = levelLoader.GetCurrentLevelNumber();
+        AnalyticsEvent.LevelFail(currentLevelNumber);
         loseLabel.SetActive(true);
     }
 }
