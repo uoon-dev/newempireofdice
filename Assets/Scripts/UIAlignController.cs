@@ -24,11 +24,12 @@ public class UIAlignController : MonoBehaviour
     GameObject heartUseAnimationObject;
     string currentSceneName;
     private int backgroundImageIndex = 0;
+    LevelLoader levelLoader;
 
     void Start()
     {
-        SetObjects();
-        currentSceneName = LevelLoader.GetCurrentSceneName();
+        Initialize();
+        currentSceneName = levelLoader.GetCurrentSceneName();
         switch(currentSceneName) 
         {
             case "Start Screen": 
@@ -55,10 +56,12 @@ public class UIAlignController : MonoBehaviour
         DeactiveHeartUseAnimation();
     }
 
-    public void SetObjects()
+    private void Initialize()
     {
+        levelLoader = FindObjectOfType<LevelLoader>();
+        
         borderSign = GameObject.Find("Border Sign");
-    }
+    }    
 
     public void DeactiveHeartUseAnimation()
     {
@@ -127,7 +130,7 @@ public class UIAlignController : MonoBehaviour
 
     public void SetBackgroundImage()
     {
-        int currentLevel = LevelLoader.GetCurrentLevelNumber();
+        int currentLevel = levelLoader.GetCurrentLevelNumber();
         if (StorageController.IsBackgroundImageIndexSaved(currentLevel))
         {
             backgroundImageIndex = StorageController.LoadBackgroundImageIndex(currentLevel);

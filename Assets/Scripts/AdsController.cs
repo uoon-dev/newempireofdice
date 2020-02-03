@@ -18,16 +18,34 @@ public class AdsController : MonoBehaviour
     private string adsAndroidId = "3259037";
     private static string rewardType = "";
     private int targetLevel = 0;
+    NewHeartController newHeartController;
+    UIController UIController;
+    NoDiceNoCoinController noDiceNoCoinController;
+    ResetDiceController resetDiceController;
+    MapController mapController;
+    LevelLoader levelLoader;
+
     
     void Start()
     {
-       Initialize();
-    }
-
-    public void Initialize(){
+        Initialize();
         if(isIntitialized) return; 
         isIntitialized = true;
-        rewardType = "";
+        InitializeAds();        
+    }
+
+    public void Initialize()
+    {
+        newHeartController = FindObjectOfType<NewHeartController>();
+        UIController = FindObjectOfType<UIController>();
+        noDiceNoCoinController = FindObjectOfType<NoDiceNoCoinController>();
+        resetDiceController = FindObjectOfType<ResetDiceController>();
+        mapController = FindObjectOfType<MapController>();
+        levelLoader = FindObjectOfType<LevelLoader>();
+    }
+
+    public void InitializeAds()
+    {
         Yodo1U3dAds.InitializeSdk();
         SetListners();
     }
@@ -115,27 +133,26 @@ public class AdsController : MonoBehaviour
     }
     private void OnRewaredVideoSuccess()
     {
+        Initialize();
+        // 주사위 굴리기
         if (rewardType == AD_REWARD_TYPE.GET_ALL_DICES)
         {
-            FindObjectOfType<NoDiceNoCoinController>().HideScreen();
-            FindObjectOfType<ResetDiceController>().AbleResetDiceButton();
-            FindObjectOfType<ResetDiceController>().ResetDices();
+            noDiceNoCoinController.HideScreen();
+            resetDiceController.AbleResetDiceButton();
+            resetDiceController.ResetDices();
         }
+        // 게임 시작하기
         else
         {
-            var heartController = FindObjectOfType<HeartController>();
-            heartController.ToggleNoHeartCanvas(false);
-            int currentHeartAmount = heartController.GetHeartAmount();
-            heartController.SetHeartAmount(currentHeartAmount + 1);
+            newHeartController.AddHeartAmount(1);
         }
 
         switch(rewardType) {
             case AD_REWARD_TYPE.LOAD_CLICKED_MAP: {
-                FindObjectOfType<MapController>().OnClickMap();
+                mapController.OnClickMap();
                 break;
             }
             case AD_REWARD_TYPE.LOAD_LEVEL_SCENE: {
-                var levelLoader = FindObjectOfType<LevelLoader>();
                 if (levelLoader.GetIsGoingToNextLevel()) {
                     levelLoader.LoadNextLevel();
                     levelLoader.SetIsGoingToNextLevel(false);

@@ -20,18 +20,15 @@ public class ResetDiceController : MonoBehaviour
     Text costText;
     int cost = 5;
     int attackPower = 6;
+    LevelLoader levelLoader;
 
     void Start()
     {   
-        money = GetComponentsInChildren<Text>();
-        moneyArea = GameObject.Find("Money Area");
-        moneyText = GameObject.Find("Money Text").GetComponent<Text>();
-        costText = GameObject.Find("Cost Text").GetComponent<Text>();
-        costIconImage = GameObject.Find("Cost Icon").GetComponent<Image>();
+        Initialize();
 
-        if (LevelLoader.GetCurrentLevelNumber() <= 5) {
+        if (levelLoader.GetCurrentLevelNumber() <= 5) {
             moneyText.text = "25";
-        } else if (LevelLoader.GetCurrentLevelNumber() <= 19) {
+        } else if (levelLoader.GetCurrentLevelNumber() <= 19) {
             moneyText.text = "20";
         } else {
             moneyText.text = "15";
@@ -41,8 +38,18 @@ public class ResetDiceController : MonoBehaviour
         money[2].text = "1-6";
 
 
-        if (LevelLoader.GetCurrentSceneName() == "Level")
+        if (levelLoader.GetCurrentSceneName() == "Level")
             DisableResetDiceButton();
+    }
+
+    private void Initialize()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
+        money = GetComponentsInChildren<Text>();
+        moneyArea = GameObject.Find("Money Area");
+        moneyText = GameObject.Find("Money Text").GetComponent<Text>();
+        costText = GameObject.Find("Cost Text").GetComponent<Text>();
+        costIconImage = GameObject.Find("Cost Icon").GetComponent<Image>();        
     }
 
     public void AddMoneyAfterKill()
@@ -73,7 +80,7 @@ public class ResetDiceController : MonoBehaviour
 
     public void ResetDices()
     {
-        if (LevelLoader.GetCurrentSceneName() == "Level 1") {
+        if (levelLoader.GetCurrentSceneName() == "Level 1") {
             diceBox.gameObject.SetActive(true);
             if (TutorialController.GetTutorialCount() == 2 || 
                 TutorialController.GetTutorialCount() == 12) {

@@ -44,6 +44,9 @@ public class MapController : MonoBehaviour
     float speed = 1.5f;
     float[,] flagPositions;
     string currenetSceneName;
+    LevelLoader levelLoader;
+    NewHeartController newHeartController;
+    UIController UIController;
 
 
     void Start()
@@ -55,15 +58,17 @@ public class MapController : MonoBehaviour
         //     PlayerPrefs.DeleteKey($"LevelStar {i}");
         // }
 
-        // for (int i = 1; i < 29; i++) {
+        // for (int i = 1; i < 10; i++) {
         //     PlayerPrefs.SetInt($"Level {i}", 1);
-        //     PlayerPrefs.SetInt($"LevelStar {i}", i % 3 + 1);
+        //     // PlayerPrefs.SetInt($"LevelStar {i}", i % 3 + 1);
+        //     PlayerPrefs.SetInt($"LevelStar {i}", 1);
         // }
 
         // PlayerPrefs.SetInt("LevelCycled", 1);
 
         if (currenetSceneName == "Map System") 
         {
+            Initialize();
             SetCanvasWidthAndHeight();
             UpdateLastClearedMapNumber();
             SetFlagPositions();
@@ -74,8 +79,14 @@ public class MapController : MonoBehaviour
 
             startController.SetActive(true);
         }
-
     }
+
+    private void Initialize()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
+        newHeartController = FindObjectOfType<NewHeartController>();
+        UIController = FindObjectOfType<UIController>();
+    }    
 
     private void InitPositionByRatio()
     {
@@ -129,7 +140,7 @@ public class MapController : MonoBehaviour
         while (!stop)
         {
             int isClear = PlayerPrefs.GetInt($"Level {i}");
-            int currentLevelNumber = LevelLoader.currentLevelNumber;
+            int currentLevelNumber = levelLoader.GetCurrentLevelNumber();
 
             if (isClear == 1)
             {
@@ -358,18 +369,7 @@ public class MapController : MonoBehaviour
         } else {
             levelNumber = int.Parse(previousClickedMap.name.Split(' ')[1]);
         }
-        LevelLoader.LoadClickedMap(levelNumber);
-    }
-
-    public static bool CanUseHeart()
-    {
-        var heartController = FindObjectOfType<HeartController>();
-        if (heartController.GetHeartAmount() <= 0) {
-            heartController.ToggleNoHeartCanvas(true);
-            return false;
-        }
-        heartController.UseHeart();
-        return true;
+        levelLoader.LoadClickedMap(levelNumber);
     }
 
     public int GetRestrictedMapCount()

@@ -55,10 +55,11 @@ public class Block : MonoBehaviour
     private static int relicsAnimationTurn = 0;
     private GameObject wizardAnimationImage;
     private GameObject armyAnimationImage;
+    LevelLoader levelLoader;
 
     void Awake()
     {
-        Initiate();
+        Initialize();
         SetBlocksValue();
     }
     void Start()
@@ -71,8 +72,10 @@ public class Block : MonoBehaviour
         slotOrder1 = 0;
         slotOrder2 = 0;
     }
-    private void Initiate()
+
+    private void Initialize()
     {
+        levelLoader = FindObjectOfType<LevelLoader>();
         Image[] images = GetComponentsInChildren<Image>();
 
         backgroundImage = images[0];
@@ -80,6 +83,7 @@ public class Block : MonoBehaviour
         wizardAnimationImage = GameObject.Find("Wizard Image");
         armyAnimationImage = GameObject.Find("Army Image");
     }
+
     public void SetBlocksValue(bool setNumber = true)
     {
         var blocks = FindObjectsOfType<Block>();
@@ -92,7 +96,7 @@ public class Block : MonoBehaviour
         randomNum = Random.Range(1, posX + posY+2) * 2 + Random.Range(1, 7);
             // Random.Range(1, posX + posY) + Random.Range(1, 7) + posX + posY;
 
-        if (LevelLoader.GetCurrentSceneName() == "Level 1")
+        if (levelLoader.GetCurrentSceneName() == "Level 1")
         {
             randomNum = GetTutorialBlocksValue(posX, posY);
         }
@@ -358,7 +362,7 @@ public class Block : MonoBehaviour
         {
             ChangeDestroyedBlockDisplay(resultGage);
             MakeNextBlockClickable();
-            if (LevelLoader.GetCurrentSceneName() == "Level 1")
+            if (levelLoader.GetCurrentSceneName() == "Level 1")
             {
                 ControllTutorialBlock();
             }

@@ -6,6 +6,17 @@ using UnityEngine;
 public static class HTTP_METHOD {
     public const string GET = "GET";
 }
+
+public static class HTTPResponse
+{
+    [Serializable]
+    public class TimeStampResponse
+    {
+        public Int32 timestamp;
+    }
+}
+
+
 public class HTTPRequestController
 {
     public static HttpClient httpClient = new HttpClient();
@@ -18,6 +29,4 @@ public class HTTPRequestController
         string responseBody = await httpResponse.Content.ReadAsStringAsync();
         return responseBody;
     }
-
-    
 }

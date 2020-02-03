@@ -13,6 +13,8 @@ public class BlockController : MonoBehaviour
     public static int boardSize = 1;
     object speicalBlocks;
     List<GameObject> blocks;
+    LevelLoader levelLoader;
+    SpeicalBlockController speicalBlockController;
 
     private void Awake()
     {
@@ -25,6 +27,7 @@ public class BlockController : MonoBehaviour
         // ES3.DeleteKey("blockByLevelText1");
         // ES3.DeleteKey("blockByLevelText2");
         // ES3.DeleteKey("blockByLevelText3");
+        Initialize();
         InitBlocks();
 
         // int blockLoadAdsCount = PlayerPrefs.GetInt("blockLoadAdsCount", 1);
@@ -42,7 +45,11 @@ public class BlockController : MonoBehaviour
         //     blockLoadAdsCount += 1;
         // }
         // PlayerPrefs.SetInt("blockLoadAdsCount", blockLoadAdsCount);
-
+    }
+    private void Initialize()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
+        speicalBlockController = FindObjectOfType<SpeicalBlockController>();
     }
 
     void OnApplicationQuit()
@@ -52,7 +59,7 @@ public class BlockController : MonoBehaviour
 
     private void InitBlocks()
     {
-        int currentLevelNumber = LevelLoader.GetCurrentLevelNumber();
+        int currentLevelNumber = levelLoader.GetCurrentLevelNumber();
         List<string> blockTexts = new List<string>();
         List<string> blockTypes = new List<string>();
         SetBoardType(currentLevelNumber);
@@ -60,7 +67,7 @@ public class BlockController : MonoBehaviour
         AnalyticsEvent.LevelStart(currentLevelNumber);
         if (StorageController.IsBlocksSaved(currentLevelNumber))
         {
-            SpeicalBlockController.SetSpeicialBlocks(speicalBlocks, false);
+            speicalBlockController.SetSpeicialBlocks(speicalBlocks, false);
             blockTexts = StorageController.LoadBlocksText(currentLevelNumber);
             blockTypes = StorageController.LoadBlocksType(currentLevelNumber);
 
@@ -98,7 +105,7 @@ public class BlockController : MonoBehaviour
                 Block tmpBlock = cloendBlock.GetComponent<Block>();
                 tmpBlock.SetBlocksValue();
             }
-            SpeicalBlockController.SetSpeicialBlocks(speicalBlocks);
+            speicalBlockController.SetSpeicialBlocks(speicalBlocks);
 
             foreach (GameObject cloendBlock in blocks)
             {
@@ -142,7 +149,7 @@ public class BlockController : MonoBehaviour
         var newLandInfoController = FindObjectOfType<NewLandInfoController>();
         var guideCanvasController = FindObjectOfType<GuideCanvasController>();
 
-        if (LevelLoader.GetCurrentSceneName() == "Level")
+        if (levelLoader.GetCurrentSceneName() == "Level")
         {
             if (currentLevelNumber == 2)
             {

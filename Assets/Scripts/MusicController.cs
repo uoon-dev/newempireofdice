@@ -13,6 +13,7 @@ public class MusicController: MonoBehaviour
     [SerializeField] Text effectText = null;
     [SerializeField] GameObject controlEffectSoundButton = null;
     [SerializeField] GameObject controlBGMMusicButton = null;
+    LevelLoader levelLoader;
 
 
     public static MusicController instance = null;
@@ -38,11 +39,18 @@ public class MusicController: MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
         SetMusicUI();
         SetEffectUI();
         controlEffectSoundButton.GetComponent<Button>().onClick.AddListener(OnClickChangeEffect);
         controlBGMMusicButton.GetComponent<Button>().onClick.AddListener(OnClickChangeMusic);
     }
+
+    private void Initialize()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
+    }  
+
     public void SetMusicUI() {
         if (PlayerPrefs.GetInt(SOUND_KEY.BGM, SOUND_STATUS.ON) == SOUND_STATUS.ON)
         {
@@ -81,7 +89,7 @@ public class MusicController: MonoBehaviour
     }
     public string GetBGMName()
     {
-        string currentSceneName= LevelLoader.GetCurrentSceneName();
+        string currentSceneName= levelLoader.GetCurrentSceneName();
         return currentSceneName == "Level" ? BackGroundSoundController.BGM_NAME.GAME_BGM : BackGroundSoundController.BGM_NAME.MAIN_BGM;
     }
     public void OnClickChangeMusic() {

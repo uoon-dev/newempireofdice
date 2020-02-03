@@ -10,10 +10,21 @@ public class HeartShopController : MonoBehaviour
     [SerializeField] GameObject HeartButton;
     [SerializeField] Sprite defaultPurchaseButtonImage;
     [SerializeField] Sprite loadingButtonImage;
-    void Start()
+
+    LevelLoader levelLoader;
+    UIController UIController;
+
+    void Awake()
     {
+        Initialize();
         SetSpeedUpText();
     }
+
+    private void Initialize()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
+        UIController = FindObjectOfType<UIController>();
+    }    
 
     public void SetSpeedUpText()
     {
@@ -23,23 +34,23 @@ public class HeartShopController : MonoBehaviour
 
         if (HeartRechargeSpeedText != null) {
             int heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
-            Debug.Log("heartChargeSpeed : "+heartRechargeSpeed);
             if (heartRechargeSpeed == 2)
             {
                 HeartRechargeSpeedText.text = "구매함";
                 HeartRechargeSpeedText.color = new Color32(0, 0, 0, 100);
-                if (LevelLoader.GetCurrentSceneName() == "Map System")
+                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
                 {
                     HeartRechargeSpeedText.fontSize = 20;
-                }else{
+                } 
+                else
+                {
                     HeartRechargeSpeedText.fontSize = 10;
                 }
                 
                 HeartRechargeSpeedImage.color = new Color32(255, 255, 255, 100);
                 HeartRechargeSpeedButton.interactable = false;
             }
-        }
-        
+        }   
     }
 
     public void ToggleHeartShopCanvas(bool isShow) {
@@ -57,11 +68,9 @@ public class HeartShopController : MonoBehaviour
                 TogglePurchaseButton(false, Constants.HeartRechargeSpeedUp);
             }
  
-            var heartController = FindObjectOfType<HeartController>();
-            if (heartController != null)
-                heartController.ToggleNoHeartCanvas(false);
+            UIController.ToggleNoHeartCanvas(false);
 
-            if(LevelLoader.GetCurrentSceneName() == "Map System") {
+            if(levelLoader.GetCurrentSceneName() == "Map System") {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
                 return;
             }
@@ -69,7 +78,7 @@ public class HeartShopController : MonoBehaviour
             return;
         }
         this.gameObject.GetComponent<Image>().raycastTarget = false;
-        if(LevelLoader.GetCurrentSceneName() == "Map System") {
+        if(levelLoader.GetCurrentSceneName() == "Map System") {
             this.gameObject.transform.DOMoveY(-3, 0.25f);
             return;
         }
@@ -118,13 +127,13 @@ public class HeartShopController : MonoBehaviour
             purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
             priceText.GetComponent<Text>().text = "";
             purchaseButton.GetComponent<Button>().interactable = false;
-            closeButton.GetComponent<Button>().interactable = false;
+            // closeButton.GetComponent<Button>().interactable = false;
         } 
         else 
         {
             purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
             purchaseButton.GetComponent<Button>().interactable = true;
-            closeButton.GetComponent<Button>().interactable = true;
+            // closeButton.GetComponent<Button>().interactable = true;
             FindObjectOfType<IAPManager>().SetPricesInShop();
         }
     }

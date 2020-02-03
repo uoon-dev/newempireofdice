@@ -15,9 +15,14 @@ public class StatisticsController : MonoBehaviour
     float clearedBlockCount = 0;
     float ddackCount = 0;
     float turnCount = 0;
+    LevelLoader levelLoader;
+    NewHeartController newHeartController;
+    AfterPurchaseEffectController afterPurchaseEffectController;
+
 
     void Start()
     {
+        Initialize();
         factor01.text = "0%";
         factor02.text = "0";
         factor03.text = "0";
@@ -40,6 +45,13 @@ public class StatisticsController : MonoBehaviour
         // FindObjectOfType<LevelController>().WinLastBlock();
     }
 
+    private void Initialize()
+    {
+        levelLoader = FindObjectOfType<LevelLoader>();
+        newHeartController = FindObjectOfType<NewHeartController>();
+        afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+    }    
+
     IEnumerator HandleStarsAnimation()
     {
         GameObject star01Image = star01.transform.GetChild(0).gameObject;
@@ -51,7 +63,7 @@ public class StatisticsController : MonoBehaviour
         var resetDiceController = FindObjectOfType<ResetDiceController>();
 
         int getStarCount = 0;
-        int currentLevelNumber = LevelLoader.GetCurrentLevelNumber();
+        int currentLevelNumber = levelLoader.GetCurrentLevelNumber();
         bool inTurnLimit = resetDiceController.GetTurnCount() <= 30;
 
         star01Image.GetComponent<Animator>().enabled = true;
@@ -75,12 +87,10 @@ public class StatisticsController : MonoBehaviour
                 star03Text.GetComponent<Animator>().enabled = true;
 
                 int levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");
-                int savedLevelStartCount = PlayerPrefs.GetInt($"LevelStar {LevelLoader.currentLevelNumber}", 0);
-                var HeartController = FindObjectOfType<HeartController>();
+                int savedLevelStartCount = PlayerPrefs.GetInt($"LevelStar {currentLevelNumber}", 0);
 
-                if (LevelLoader.GetCurrentSceneName() == "Level" && ((levelCleared != 1) || savedLevelStartCount<3)) {
-                    HeartController.SetHeartAmount(HeartController.GetHeartAmount() + 2);
-                    var afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+                if (levelLoader.GetCurrentSceneName() == "Level" && ((levelCleared != 1) || savedLevelStartCount<3)) {
+                    newHeartController.AddHeartAmount(2);
                     afterPurchaseEffectController.ShowScreen("2");
                 }
                 
@@ -95,7 +105,7 @@ public class StatisticsController : MonoBehaviour
         }
 
         PlayerPrefs.SetInt($"Level {currentLevelNumber}", 1);
-        PlayerPrefs.SetInt($"LevelStar {LevelLoader.currentLevelNumber}", getStarCount);
+        PlayerPrefs.SetInt($"LevelStar {currentLevelNumber}", getStarCount);
 
         yield return new WaitForSeconds(1.5f);
         buttons.transform.GetChild(0).gameObject.GetComponent<Animator>().enabled = true;
