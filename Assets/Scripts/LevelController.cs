@@ -85,7 +85,12 @@ public class LevelController : MonoBehaviour
         if (currentLevelNumber % restrictedMapCount == 0)
         {
             PlayerPrefs.SetInt($"LevelCycled", 1);
-        }        
+        }
+
+        if (currentLevelNumber == 1 || currentLevelNumber == 0)
+        {
+            AnalyticsEvent.TutorialComplete();
+        }
     }
 
     public void HandleLoseCondition()
