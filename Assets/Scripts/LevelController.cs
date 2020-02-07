@@ -68,16 +68,6 @@ public class LevelController : MonoBehaviour
         EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.FINISH_ONE_ROUND);
 
         int currentLevelNumber = levelLoader.GetCurrentLevelNumber();
-        int levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");        
-
-        if (levelCleared == 0)
-        {
-            if (currentLevelNumber % 10 == 0) {
-                if (newHeartController.GetHeartAmount() < Constants.HEART_MAX_CHARGE_COUNT) {
-                    newHeartController.AddHeartAmount(Constants.HEART_MAX_CHARGE_COUNT - newHeartController.GetHeartAmount());
-                }
-            }
-        }
 
         FindObjectOfType<StatisticsController>().UpdateStarsStatisticDisplay();
 

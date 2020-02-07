@@ -20,7 +20,8 @@ public class AfterPurchaseEffectController : MonoBehaviour
 
         Text effectText = AfterPurchaseEffectCanvas.transform.GetChild(0).GetComponentInChildren<Text>();
         GameObject effectImage = AfterPurchaseEffectCanvas.transform.GetChild(0).GetChild(4).gameObject;
-        GameObject heartReward = AfterPurchaseEffectCanvas.transform.GetChild(0).GetChild(5).gameObject;;
+        GameObject heartReward = AfterPurchaseEffectCanvas.transform.GetChild(0).GetChild(5).gameObject;
+        GameObject heartRewardAmount = AfterPurchaseEffectCanvas.transform.GetChild(0).GetChild(5).transform.GetChild(0).gameObject;
 
         if (type == "0") {
             effectText.text = "하트가 충전됐어요!";
@@ -37,11 +38,17 @@ public class AfterPurchaseEffectController : MonoBehaviour
             effectText.text = "별 3개 달성 보상!";
             heartBar.SetActive(false);
             effectImage.SetActive(false);
-            heartReward.SetActive(true);            
+            heartReward.SetActive(true);
+            heartRewardAmount.GetComponent<Text>().text = "2";
+        } else if (type == "3") {
+            effectText.text = "스테이지 보상!";
+            heartBar.SetActive(false);
+            effectImage.SetActive(false);
+            heartReward.SetActive(true);
+            heartRewardAmount.GetComponent<Text>().text = "FULL";
         }
 
         AfterPurchaseEffectCanvas.GetComponent<CanvasGroup>().DOFade(1, 0.2f).OnComplete(() => {
-
             AfterPurchaseEffectCanvas.GetComponent<CanvasGroup>().DOFade(0, 1f).SetDelay(1f).SetEase(Ease.Linear).OnComplete(() => {
                 // AfterPurchaseEffectCanvas.gameObject.SetActive(false);
             });

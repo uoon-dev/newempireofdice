@@ -14,6 +14,11 @@ public class Constants : MonoBehaviour
         public const string LEVEL1 = "Level 1";
     }
 
+    public static class STAGE_REWARD_TYPE {
+        public const string HEART_REWARD_FULL = "heartRewardFull";
+        public const string HEART_REWARD_ADD = "heartRewardADD";
+    }
+
     public static class GAME_OBJECT_NAME {
         public const string BODY = "Body";
         public const string NO_HEART_CANVAS = "No Heart Canvas";

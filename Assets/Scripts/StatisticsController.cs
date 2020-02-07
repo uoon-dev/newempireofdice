@@ -15,9 +15,14 @@ public class StatisticsController : MonoBehaviour
     float clearedBlockCount = 0;
     float ddackCount = 0;
     float turnCount = 0;
+    int currentLevelNumber = 0;
+    int savedLevelStarCount = 0;
+    int getStarCount = 0;
+    int levelCleared = 0;
     LevelLoader levelLoader;
     NewHeartController newHeartController;
     AfterPurchaseEffectController afterPurchaseEffectController;
+    ResetDiceController resetDiceController;
 
 
     void Start()
@@ -42,7 +47,7 @@ public class StatisticsController : MonoBehaviour
         buttons.transform.GetChild(1).gameObject.GetComponent<Animator>().enabled = false;
 
         // for test
-        // FindObjectOfType<LevelController>().WinLastBlock();
+        FindObjectOfType<LevelController>().WinLastBlock();
     }
 
     private void Initialize()
@@ -50,9 +55,14 @@ public class StatisticsController : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         newHeartController = FindObjectOfType<NewHeartController>();
         afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
-    }    
+        resetDiceController = FindObjectOfType<ResetDiceController>();
 
-    IEnumerator HandleStarsAnimation()
+        currentLevelNumber = levelLoader.GetCurrentLevelNumber();
+        savedLevelStarCount = PlayerPrefs.GetInt("LevelStar");
+        levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");
+    }
+
+    IEnumerator HandleRewardUI()
     {
         GameObject star01Image = star01.transform.GetChild(0).gameObject;
         GameObject star01Text = star01.transform.GetChild(1).gameObject;
@@ -60,56 +70,104 @@ public class StatisticsController : MonoBehaviour
         GameObject star02Text = star02.transform.GetChild(1).gameObject;
         GameObject star03Image = star03.transform.GetChild(0).gameObject;
         GameObject star03Text = star03.transform.GetChild(1).gameObject;
-        var resetDiceController = FindObjectOfType<ResetDiceController>();
 
-        int getStarCount = 0;
-        int currentLevelNumber = levelLoader.GetCurrentLevelNumber();
         bool inTurnLimit = resetDiceController.GetTurnCount() <= 30;
 
+        SetStarCount();
+        SetRewardHeart();
+
         star01Image.GetComponent<Animator>().enabled = true;
-        star01Text.GetComponent<Animator>().enabled = true;
+        star01Text.GetComponent<Animator>().enabled = true;        
 
-        getStarCount = 1;
-
-        yield return new WaitForSeconds(0.7f);
         if (clearedBlockCount == ddackCount)
         {
-            getStarCount = 2;
+            yield return new WaitForSeconds(0.7f);
             star02Image.GetComponent<Animator>().enabled = true;
             star02Text.GetComponent<Animator>().enabled = true;
             star02Text.GetComponent<Text>().text = "딱뎀 100%";
 
-            if (inTurnLimit) 
+            if (inTurnLimit)
             {
-                getStarCount = 3;
                 yield return new WaitForSeconds(0.7f);
                 star03Image.GetComponent<Animator>().enabled = true;
                 star03Text.GetComponent<Animator>().enabled = true;
 
-                int levelCleared = PlayerPrefs.GetInt($"Level {currentLevelNumber}");
-                int savedLevelStartCount = PlayerPrefs.GetInt($"LevelStar {currentLevelNumber}", 0);
-
-                if (levelLoader.GetCurrentSceneName() == "Level" && ((levelCleared != 1) || savedLevelStartCount<3)) {
-                    newHeartController.AddHeartAmount(2);
+                if (levelCleared != 1)
+                {
+                    bool isHeartFullReward = false;
+                    if (currentLevelNumber % 10 == 0)
+                    {
+                        isHeartFullReward = true;
+                        yield return new WaitForSeconds(0.7f);
+                        afterPurchaseEffectController.ShowScreen("3");
+                    }
+                    yield return new WaitForSeconds(isHeartFullReward ? 2f : 0.7f);
                     afterPurchaseEffectController.ShowScreen("2");
                 }
-                
             }
-        } else {
-            if (inTurnLimit) {
-                getStarCount = 2;
+        } 
+        else 
+        {
+            yield return new WaitForSeconds(0.7f);
+            if (inTurnLimit) 
+            {
                 star02Image.GetComponent<Animator>().enabled = true;
                 star02Text.GetComponent<Animator>().enabled = true;
                 star02Text.GetComponent<Text>().text = "30턴 안에 클리어!";
             }
         }
 
+        if (levelCleared != 1 && getStarCount <= 2)
+        {
+            if (currentLevelNumber % 10 == 0)
+            {
+                Debug.Log("afterPurchaseEffectController.ShowScreen('3')");
+                yield return new WaitForSeconds(0.7f);
+                afterPurchaseEffectController.ShowScreen("3");
+            }
+        }        
+
         PlayerPrefs.SetInt($"Level {currentLevelNumber}", 1);
         PlayerPrefs.SetInt($"LevelStar {currentLevelNumber}", getStarCount);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(getStarCount > 1 ? 1.5f : 0.7f);
         buttons.transform.GetChild(0).gameObject.GetComponent<Animator>().enabled = true;
         buttons.transform.GetChild(1).gameObject.GetComponent<Animator>().enabled = true;
+    }
+
+    public void SetStarCount()
+    {
+        bool inTurnLimit = resetDiceController.GetTurnCount() <= 30;
+        getStarCount = 1;
+
+        if (clearedBlockCount == ddackCount) 
+        { 
+            getStarCount = 2;
+            if (inTurnLimit)
+            {
+                getStarCount = 3;
+            }
+        } else 
+        {
+            if (inTurnLimit)
+            {
+                getStarCount = 2;
+            }
+        }
+    }
+
+    public void SetRewardHeart()
+    {
+        if (levelLoader.GetCurrentSceneName() == "Level" && levelCleared != 1) {
+            if (currentLevelNumber % 10 == 0 && newHeartController.GetHeartAmount() < Constants.HEART_MAX_CHARGE_COUNT) {
+            // if (newHeartController.GetHeartAmount() < Constants.HEART_MAX_CHARGE_COUNT) {
+                newHeartController.AddHeartAmount(Constants.HEART_MAX_CHARGE_COUNT - newHeartController.GetHeartAmount());
+            }
+            if (getStarCount == 3)
+            {
+                newHeartController.AddHeartAmount(2);
+            }
+        }
     }
 
     public void UpdateFactor01()
@@ -135,6 +193,6 @@ public class StatisticsController : MonoBehaviour
 
     public void UpdateStarsStatisticDisplay()
     {
-        StartCoroutine(HandleStarsAnimation());
+        StartCoroutine(HandleRewardUI());
     }
 }
