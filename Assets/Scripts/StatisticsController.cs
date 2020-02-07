@@ -47,7 +47,7 @@ public class StatisticsController : MonoBehaviour
         buttons.transform.GetChild(1).gameObject.GetComponent<Animator>().enabled = false;
 
         // for test
-        FindObjectOfType<LevelController>().WinLastBlock();
+        // FindObjectOfType<LevelController>().WinLastBlock();
     }
 
     private void Initialize()

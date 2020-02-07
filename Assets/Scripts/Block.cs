@@ -344,7 +344,7 @@ public class Block : MonoBehaviour
     {
         var diceController = FindObjectOfType<DiceController>();
         var resetDiceController = FindObjectOfType<ResetDiceController>();
-
+        var speicalBlockController = FindObjectOfType<SpeicalBlockController>();
         if (TutorialController.GetTutorialCount() == 8)
         {
             int clickedDiceCount = diceController.GetClickedDiceCount();
@@ -381,6 +381,7 @@ public class Block : MonoBehaviour
             blockText.text = resultGage.ToString();
         }
 
+        speicalBlockController.IncreaseLastBlockGage();
         resetDiceController.IncreaseTurnCount();
         resetDiceController.ToggleResetDiceButton();
 
@@ -438,7 +439,6 @@ public class Block : MonoBehaviour
         blockText.text = "";
         GetComponentsInChildren<Text>()[1].text = "";
         GetSpecialBlockReward();
-        FindObjectOfType<SpeicalBlockController>().IncreaseLastBlockGage();
     }
 
     public void SetDdackEffectAnimation()
