@@ -18,7 +18,7 @@ public class StartUIController : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
-        startButtonImage = GameObject.Find(Constants.GAME_OBJECT_NAME.START_BUTTON_IMAGE).GetComponent<Image>();
+        startButtonImage = GameObject.Find(Constants.GAME_OBJECT_NAME.START_BUTTON).GetComponent<Image>();
     }
 
     public void ClickStartButton()

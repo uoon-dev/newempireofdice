@@ -25,11 +25,12 @@ public class MapController : MonoBehaviour
 
     [SerializeField] Sprite clearStar = null;
     [SerializeField] Sprite unclearStar = null;
+    [SerializeField] Sprite startButtonLoadingImage = null;
 
     public static GameObject previousClickedMap = null;
     public bool onClickedLastClearedNextMap = false;
     Image previousMapImage = null;
-
+    Image startButtonImage = null;
     int leftScrollCount = 0;
     int lastClearedMapNumber = 0;
     int restrictedMapCount = 20;
@@ -86,6 +87,8 @@ public class MapController : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         newHeartController = FindObjectOfType<NewHeartController>();
         UIController = FindObjectOfType<UIController>();
+
+        startButtonImage = GameObject.Find(Constants.GAME_OBJECT_NAME.START_BUTTON).GetComponent<Image>();
     }    
 
     private void InitPositionByRatio()
@@ -361,14 +364,18 @@ public class MapController : MonoBehaviour
 
     public void OnClickMap()
     {
+        startButtonImage.sprite = startButtonLoadingImage;
+
         int levelNumber = 0;
         
         if (onClickedLastClearedNextMap) 
         {
             levelNumber = lastClearedMapNumber + 1;
-        } else {
+        } else 
+        {
             levelNumber = int.Parse(previousClickedMap.name.Split(' ')[1]);
         }
+        
         levelLoader.LoadClickedMap(levelNumber);
     }
 
