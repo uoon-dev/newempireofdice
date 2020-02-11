@@ -32,16 +32,10 @@ public class PauseController : MonoBehaviour
         }
         PauseCanvas.GetComponent<Canvas>().sortingOrder = 13;
         PauseCanvas.SetActive(true);
-        // PauseCanvas.GetComponent<CanvasGroup>().alpha = 1;
-        // PauseCanvas.GetComponent<CanvasGroup>().interactable = true;
-        // PauseCanvas.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
     public void HideScreen()
     {
         PauseCanvas.SetActive(false);
-        // PauseCanvas.GetComponent<CanvasGroup>().alpha = 0;
-        // PauseCanvas.GetComponent<CanvasGroup>().interactable = true;
-        // PauseCanvas.GetComponent<CanvasGroup>().blocksRaycasts = true;        
     }
 }

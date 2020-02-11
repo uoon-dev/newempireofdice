@@ -381,7 +381,10 @@ public class Block : MonoBehaviour
             blockText.text = resultGage.ToString();
         }
 
-        speicalBlockController.IncreaseLastBlockGage();
+        if (blocksType != "마왕성")
+        {
+            speicalBlockController.IncreaseLastBlockGage();
+        }
         resetDiceController.IncreaseTurnCount();
         resetDiceController.ToggleResetDiceButton();
 
