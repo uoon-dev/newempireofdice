@@ -558,8 +558,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1285156696}
-        m_MethodName: LoadNextScene
+      - m_Target: {fileID: 1764133545}
+        m_MethodName: ClickStartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -721,6 +721,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Level Loader
       objectReference: {fileID: 0}
+    - target: {fileID: 1341643983761939634, guid: 0b87faebf7c44407a8d23dd33a5c1717,
+        type: 3}
+      propertyPath: timeToWait
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1341643983761939635, guid: 0b87faebf7c44407a8d23dd33a5c1717,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -775,11 +780,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1341643983761939634, guid: 0b87faebf7c44407a8d23dd33a5c1717,
-        type: 3}
-      propertyPath: timeToWait
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b87faebf7c44407a8d23dd33a5c1717, type: 3}
@@ -897,6 +897,51 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1764133544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1764133546}
+  - component: {fileID: 1764133545}
+  m_Layer: 0
+  m_Name: Start UI Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1764133545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764133544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7235dfb3f031c49c99ae50e34c46d071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startButtonLoadingImage: {fileID: 21300000, guid: d4fab88102d054b97a16b86f4df805b5,
+    type: 3}
+--- !u!4 &1764133546
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764133544}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 901.2715, y: 580.4907, z: -564.04065}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1769018133
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +1009,7 @@ MonoBehaviour:
   openReferences: 0
   openPrefabs: 0
   idRef:
-    _Keys: 0910f2a398c508269c3c6fa52e47ac7647b7ff72f854721ea1d70cfcb97f95111bb46a86aeb35c3919e26ba25aa0ad5d01dda462c5e1504a622bfe3f46f3931ad281c0e2b132256b5bc58bdabf1478427c960269db082803fc4a18264e647f24b1ae2e2620355431b939be8b6c2b0a765bbf3b4f0ed6c13759bce7671afe1c4045af2911e652214e15cb4e5db663683040a1820ea0cf3324edf77fdd1dbb4c46e3812ee4abe3a2099eec3a4387638043dae8d88683f16014e34e23eed344315963fbca0f9eed1d5a6a0d395e38f5d33adfc3d1a6360797250ab2936ad772436ddff7abb59c44f2362868f6c71e53020af2c3cf11ce7c6822b059d9a728098b1509cf39c0a31e764da6ca436e7c7b4f74e128ce8ac4dc6f5ba1329a0ae265a11d231f40b0e5be992d4e816b0438f9a633f59b77af28e9261a3f952071836b6a3fd7d96d644300a5228fa0d745487394597498ff8122afba3af926ef7bdf0ab01e172bdb11660a770af6541f8712e0d24dd6851ae394139d27e2cd94e2eed6bd7bf0b85c734fa6c07e0f0a8bcd90332818ad5e5aa50f33752ac902309976941b33119a9659835ffe2f3c642b75783068140a52c96f84e89423d279c3ad29a50a5bdb40440a63316b0ba2759655f8004d6766e35b36a174472906732afd22ac5969a52f64c814a14f3be811180c58be2e3eaf6a158a7a56156bcada152f0c71370bb7625c8d5fadfa2db02d3e477ded1673110e9f370289402ed619a9335793eb1df855b58ef0ec2602656e0815808f68229ae68914ec5ef239c81867b844a62562
+    _Keys: 0910f2a398c508269c3c6fa52e47ac7647b7ff72f854721ea1d70cfcb97f95111bb46a86aeb35c3919e26ba25aa0ad5d01dda462c5e1504a622bfe3f46f3931ad281c0e2b132256b5bc58bdabf1478427c960269db082803fc4a18264e647f24b1ae2e2620355431b939be8b6c2b0a765bbf3b4f0ed6c13759bce7671afe1c4045af2911e652214e15cb4e5db663683040a1820ea0cf3324edf77fdd1dbb4c46e3812ee4abe3a2099eec3a4387638043dae8d88683f16014e34e23eed344315963fbca0f9eed1d5a6a0d395e38f5d33adfc3d1a6360797250ab2936ad772436ddff7abb59c44f2362868f6c71e53020af2c3cf11ce7c6822b059d9a728098b1509cf39c0a31e764da6ca436e7c7b4f74e128ce8ac4dc6f5ba1329a0ae265a11d231f40b0e5be992d4e816b0438f9a633f59b77af28e9261a3f952071836b6a3fd7d96d644300a5228fa0d745487394597498ff8122afba3af926ef7bdf0ab01e172bdb11660a770af6541f8712e0d24dd6851ae394139d27e2cd94e2eed6bd7bf0b85c734fa6c07e0f0a8bcd90332818ad5e5aa50f33752ac902309976941b33119a9659835ffe2f3c642b75783068140a52c96f84e89423d279c3ad29a50a5bdb40440a63316b0ba2759655f8004d6766e35b36a174472906732afd22ac5969a52f64c814a14f3be811180c58be2e3eaf6a158a7a56156bcada152f0c71370bb7625c8d5fadfa2db02d3e477ded1673110e9f370289402ed619a9335793eb1df855b58ef0ec2602656e0815808f68229ae68914ec5ef239c81867b844a62562b8420226675277511fa1d46807bcdc246cba402ffd1d443e30390966e4ded455
     _Values:
     - {fileID: 519420028}
     - {fileID: 519420032}
@@ -1038,6 +1083,10 @@ MonoBehaviour:
     - {fileID: 21300000, guid: faa698603f686484e9521914dec833c2, type: 3}
     - {fileID: 2800000, guid: 0c630772ecdcd4257b35b9a1a6a668f5, type: 3}
     - {fileID: 21300000, guid: 0c630772ecdcd4257b35b9a1a6a668f5, type: 3}
+    - {fileID: 1764133544}
+    - {fileID: 1764133546}
+    - {fileID: 11500000, guid: 7235dfb3f031c49c99ae50e34c46d071, type: 3}
+    - {fileID: 1764133545}
   prefabs: []
 --- !u!114 &1769018136
 MonoBehaviour:
