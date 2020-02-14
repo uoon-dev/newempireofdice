@@ -56,6 +56,7 @@ public class Block : MonoBehaviour
     private GameObject wizardAnimationImage;
     private GameObject armyAnimationImage;
     LevelLoader levelLoader;
+    DiceController diceController;
 
     void Awake()
     {
@@ -76,6 +77,7 @@ public class Block : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
+        diceController = FindObjectOfType<DiceController>();
         Image[] images = GetComponentsInChildren<Image>();
 
         backgroundImage = images[0];
@@ -91,14 +93,22 @@ public class Block : MonoBehaviour
 
         posX = (int)transform.localPosition.x / blockSize;
         posY = (int)transform.localPosition.y / blockSize;
+        
         blocksLength = (int)Mathf.Sqrt(blocks.Length);
-            // randomNum = (Random.Range(1, (int)minNumber + posX + (int)maxNumber + posY));
-        randomNum = Random.Range(1, posX + posY+2) * 2 + Random.Range(1, 7);
-            // Random.Range(1, posX + posY) + Random.Range(1, 7) + posX + posY;
 
         if (levelLoader.GetCurrentSceneName() == "Level 1")
         {
             randomNum = GetTutorialBlocksValue(posX, posY);
+        } else
+        {
+            if (posX == 1 && posY == 1)
+            {
+                randomNum = diceController.GetDiceNumberRandomly();
+            }
+            else
+            {
+                randomNum = Random.Range(1, posX + posY+2) * 2 + Random.Range(1, 7);
+            }
         }
 
         blockText = GetComponentInChildren<Text>();
@@ -107,7 +117,12 @@ public class Block : MonoBehaviour
             blockText.text = randomNum.ToString();
         }
 
-        if (blocksType == "")
+        UpdateBlocksUI();
+    }
+
+    public void UpdateBlocksUI()
+    {
+        if (blocksType == string.Empty)
         {
             backgroundImage.color = new Color32(255, 255, 255, 0);
             specialBlockImage.color = new Color32(255, 255, 255, 0);
@@ -140,9 +155,6 @@ public class Block : MonoBehaviour
             {
                 blockText.text = lastBlockCount.ToString();
             }
-
-            Text[] texts = GetComponentsInChildren<Text>();
-            texts[1].text = "마왕성";
             blocksType = "마왕성";
         }
     }

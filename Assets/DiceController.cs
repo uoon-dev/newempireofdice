@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class DiceController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public int GetClickedDiceCount()
     {
         var dices = FindObjectsOfType<Dice>();
@@ -41,7 +35,7 @@ public class DiceController : MonoBehaviour
 
     public int GetDestroyedDiceCount()
     {
-        Dice[] dices = FindObjectsOfType<Dice>();
+        var dices = FindObjectsOfType<Dice>();
         int destroyedDiceCount = 0;
 
         foreach (Dice dice in dices)
@@ -50,5 +44,23 @@ public class DiceController : MonoBehaviour
         }
 
         return destroyedDiceCount;
-    }    
+    }
+
+    public int GetDiceNumberRandomly()
+    {
+        var dices = FindObjectsOfType<Dice>();
+
+        List<int> diceNumbers = new List<int>();
+        foreach (Dice dice in dices)
+        {
+            if (!dice.IsDestroyed())
+            {
+                diceNumbers.Add(dice.GetCurrentNumber());
+            }
+        }
+
+        int randomDiceNumber = diceNumbers[Random.Range(0, 6)];
+
+        return randomDiceNumber;
+    }
 }

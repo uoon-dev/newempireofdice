@@ -86,7 +86,7 @@ public class BlockController : MonoBehaviour
                     tmpBlock.isClickable = true;
                 }
 
-                if (blockType != "")
+                if (blockType != string.Empty)
                 {
                     tmpBlock.SetBlockType(blockTypes[i]);
                     tmpBlock.SetTooltipInfo();
