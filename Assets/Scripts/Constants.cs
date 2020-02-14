@@ -34,6 +34,8 @@ public class Constants : MonoBehaviour
         public const string HEART_CONTROLLER = "HeartController";
         public const string STAGE_TEXT = "StageText";
         public const string START_BUTTON = "Start Button";
+        public const string RETRY_BUTTON = "Retry Button";
+        public const string NEXT_LEVEL_BUTTON = "Next Level Button";
     }
 
     public const string MaldivesDice = "maldivesdice";

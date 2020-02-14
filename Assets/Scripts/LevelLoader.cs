@@ -58,6 +58,7 @@ public class LevelLoader : MonoBehaviour
             });
         } else {
             if(newHeartController.CanUseHeart() == true) {
+                UIAlignController.DeactiveStartButton();
                 UIAlignController.ActiveHeartUseAnimation();
                 mainCanvas.GetComponent<CanvasGroup>().DOFade(1, 0.4f).OnComplete(() => {
                     PlayerPrefs.SetInt("currentLevelNumber", levelNumber);
@@ -78,6 +79,7 @@ public class LevelLoader : MonoBehaviour
     public void LoadNextLevel() 
     {
         if(newHeartController.CanUseHeart() == false) return;
+        UIAlignController.DeactiveStartButton();
         UIAlignController.ActiveHeartUseAnimation();
         Invoke("InvokedLoadNextLevel", 0.4f);
     }
@@ -110,9 +112,11 @@ public class LevelLoader : MonoBehaviour
             FindObjectOfType<PauseController>().HideScreen();
             return;
         }
+        UIAlignController.DeactiveStartButton();
         UIAlignController.ActiveHeartUseAnimation();
         Invoke("InvokedLoadCurrentScene", 0.4f);
     }
+
     public void InvokedLoadCurrentScene()
     {
         PlayerPrefs.SetInt("currentLevelNumber", currentLevelNumber);

@@ -20,8 +20,13 @@ public class UIAlignController : MonoBehaviour
     [SerializeField] GameObject mainCanvas = null;
     [SerializeField] GameObject background = null;
     [SerializeField] Sprite[] backgroundImages = null;
-    public GameObject borderSign = null;
+    [SerializeField] Sprite startButtonLoadingImage = null;
+
+    GameObject borderSign = null;
     GameObject heartUseAnimationObject;
+    Image startButtonImage = null;
+    Button startButton = null;
+    Button nextLevelButton = null;
     string currentSceneName;
     private int backgroundImageIndex = 0;
     LevelLoader levelLoader;
@@ -61,7 +66,7 @@ public class UIAlignController : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         
         borderSign = GameObject.Find("Border Sign");
-    }    
+    }
 
     public void DeactiveHeartUseAnimation()
     {
@@ -199,4 +204,31 @@ public class UIAlignController : MonoBehaviour
         heartUseAnimationObject.GetComponent<CanvasGroup>().DOFade(1, 0);
         heartUseAnimationObject.GetComponent<Animator>().enabled = true;
     }
+
+    public void DeactiveStartButton()
+    {
+        string currentSceneName = levelLoader.GetCurrentSceneName();
+
+        if (currentSceneName == Constants.SCENE_NAME.MAP_SYSTEM)
+        {
+            startButtonImage = GameObject.Find(Constants.GAME_OBJECT_NAME.START_BUTTON).GetComponent<Image>();
+            startButtonImage.sprite = startButtonLoadingImage;
+            
+            startButton = GameObject.Find(Constants.GAME_OBJECT_NAME.START_BUTTON).GetComponent<Button>();        
+            startButton.interactable = false;
+        } 
+        else if (currentSceneName == Constants.SCENE_NAME.LEVEL)
+        {
+            if (GameObject.Find(Constants.GAME_OBJECT_NAME.RETRY_BUTTON) != null)
+            {
+                startButton = GameObject.Find(Constants.GAME_OBJECT_NAME.RETRY_BUTTON).GetComponent<Button>();
+                startButton.interactable = false;
+            }
+            if (GameObject.Find(Constants.GAME_OBJECT_NAME.NEXT_LEVEL_BUTTON) != null)
+            {
+                nextLevelButton = GameObject.Find(Constants.GAME_OBJECT_NAME.NEXT_LEVEL_BUTTON).GetComponent<Button>();
+                nextLevelButton.interactable = false;
+            }
+        }
+    }    
 }

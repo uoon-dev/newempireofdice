@@ -6433,7 +6433,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -7447,7 +7447,8 @@ MonoBehaviour:
   mainCanvas: {fileID: 1603028669}
   background: {fileID: 0}
   backgroundImages: []
-  borderSign: {fileID: 0}
+  startButtonLoadingImage: {fileID: 21300000, guid: 0690106d5eab04a6facee4d6d1570089,
+    type: 3}
 --- !u!4 &1003650080
 Transform:
   m_ObjectHideFlags: 0
@@ -11359,8 +11360,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 72ca124693a214ca699f6c1de8044ba8, type: 3}
   clearStar: {fileID: 21300000, guid: c390b052d57714f4489212dd9494c441, type: 3}
   unclearStar: {fileID: 21300000, guid: 1d6a348c18b2f4c7d898943d9b854923, type: 3}
-  startButtonLoadingImage: {fileID: 21300000, guid: 0690106d5eab04a6facee4d6d1570089,
-    type: 3}
   onClickedLastClearedNextMap: 0
 --- !u!4 &1830405381
 Transform:
