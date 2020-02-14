@@ -45,6 +45,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
     public bool IsInitialized => storeController != null && storeExtensionProvider != null;
     NewHeartController newHeartController;
     AfterPurchaseEffectController afterPurchaseEffectController;
+    HeartShopController heartShopController;
+    UIController UIController;
 
     void Awake()
     {
@@ -61,6 +63,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
     {
         newHeartController = FindObjectOfType<NewHeartController>();
         afterPurchaseEffectController = FindObjectOfType<AfterPurchaseEffectController>();
+        heartShopController = FindObjectOfType<HeartShopController>();
+        UIController = FindObjectOfType<UIController>();
     }
 
     void InitUnityIAP()
@@ -117,7 +121,13 @@ public class IAPManager : MonoBehaviour, IStoreListener
         Debug.Log("유니티 IAP 초기화 성공");
         storeController = controller;
         storeExtensionProvider = extensions;
-        SetPricesInShop();
+
+        bool isNetworkConnected = Utils.IsNetworkConnected();
+
+        if (isNetworkConnected)
+        {
+            UIController.ActivePurchaseButtonInHeartShop();
+        }
     }
 
     public void OnInitializeFailed(InitializationFailureReason error)
@@ -243,27 +253,18 @@ public class IAPManager : MonoBehaviour, IStoreListener
         return false;
     }
 
-    public void SetPricesInShop()
-    {
-        var heartShopCanvas = GameObject.Find("Heart Shop Canvas");
-        if (heartShopCanvas == null) return;
-
-        var smallHeartPrice = heartShopCanvas.transform.Find("Body").transform.Find("Left").transform.Find("Small Heart").transform.Find("Price");
-        var largeHeartPrice = heartShopCanvas.transform.Find("Body").transform.Find("Left").transform.Find("Large Heart").transform.Find("Price");
-        var heartRechargeSpeed = heartShopCanvas.transform.Find("Body").transform.Find("Right").transform.Find("Heart Recharge Speed").transform.Find("Price");
-        smallHeartPrice.GetComponent<Text>().text = GetPrice(IOSSmallHeartId);
-        largeHeartPrice.GetComponent<Text>().text = GetPrice(IOSLargeHeartId);
-
-        int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
-        if (heartRechargeSpeedPurchased != 2) 
-        {
-            heartRechargeSpeed.GetComponent<Text>().text = GetPrice(IOSHeartRechargeSpeedUpId);
-        }
-    }
 
     public string GetPrice(string productId)
     {
         if (!IsInitialized) return "";
-        return storeController.products.WithID(productId).metadata.localizedPriceString;
-    }    
+        string price = storeController.products.WithID(productId).metadata.localizedPriceString;
+        Debug.Log(productId + ":" + price);
+        return price;
+    }
+
+    public bool isIAPInitialized()
+    {
+        return IsInitialized;
+    }
+    
 }

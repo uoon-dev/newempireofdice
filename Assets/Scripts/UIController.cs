@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     StartController startController;
     NewHeartController newHeartController;
     LevelLoader levelLoader;
+    IAPManager iAPManager;
     Text heartTimerText;
     Text heartTimerTextInNoHeartCanvas;
     Text heartTimerTextInShop;
@@ -21,6 +22,8 @@ public class UIController : MonoBehaviour
     Text heartCountText;
     Text heartUpdatedCountText;
     private int prevHeartAmount = -1;
+    private bool isNetworkConnected;
+
 
     void Awake()
     {
@@ -30,7 +33,27 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool newIsNetworkConnected = Utils.IsNetworkConnected();
+
+        if (isNetworkConnected && !newIsNetworkConnected) 
+        {
+            DeactivePurchaseButtonInHeartShop();
+            Debug.Log("DeactivePurchaseButtonInHeartShop");
+        }
+
+        if (!isNetworkConnected && newIsNetworkConnected) 
+        {
+            if (iAPManager.isIAPInitialized())
+            {
+                ActivePurchaseButtonInHeartShop();
+                Debug.Log("ActivePurchaseButtonInHeartShop");
+            }
+        }
+
+        isNetworkConnected = newIsNetworkConnected;
+
         UpdateTimerText();
+        
 
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
         {
@@ -47,10 +70,13 @@ public class UIController : MonoBehaviour
 
     private void Initialize()
     {
+        bool newIsNetworkConnected = Utils.IsNetworkConnected();
+
         heartShopController = FindObjectOfType<HeartShopController>();
         startController = FindObjectOfType<StartController>();
         newHeartController = FindObjectOfType<NewHeartController>();
         levelLoader = FindObjectOfType<LevelLoader>();
+        iAPManager = FindObjectOfType<IAPManager>();
         
         afterPurchaseEffectCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.AFTER_PURCHASE_EFFECT_CANVAS);
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
@@ -62,7 +88,15 @@ public class UIController : MonoBehaviour
         heartImageParentObjectInEffect = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_IMAGE_PARENT_OBJECT_IN_EFFECT);
         heartUpdatedCountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_UPDATED_COUNT_TEXT).GetComponent<Text>();
         heartTimerTextInNoHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_NO_HEART_CANVAS).GetComponent<Text>();
-        heartTimerTextInShop = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_SHOP).GetComponent<Text>();        
+        heartTimerTextInShop = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_SHOP).GetComponent<Text>();
+
+        if (newIsNetworkConnected)
+        {
+            ActivePurchaseButtonInHeartShop();
+        }
+        else {
+            DeactivePurchaseButtonInHeartShop();
+        }
     }
 
     public void UpdateTimerText()
@@ -80,6 +114,11 @@ public class UIController : MonoBehaviour
                 heartTimerText.fontSize = 32;
                 heartTimerText.color = new Color32(0, 0, 0, 255);
             }
+            else
+            {
+                heartTimerTextInNoHeartCanvas.fontSize = 14;
+                heartTimerTextInShop.fontSize = 14;
+            }
             heartTimerTextInNoHeartCanvas.text = remainTime;
             heartTimerTextInShop.text = remainTime;
         }
@@ -91,8 +130,38 @@ public class UIController : MonoBehaviour
                 heartTimerText.fontSize = 24;
                 heartTimerText.color = new Color32(193, 193, 193, 255);
             }
+            else
+            {
+                heartTimerTextInNoHeartCanvas.fontSize = 12;
+                heartTimerTextInShop.fontSize = 12;
+            }            
             heartTimerTextInNoHeartCanvas.text = "오프라인";
             heartTimerTextInShop.text = "오프라인";
+        }
+    }
+
+    public void ActivePurchaseButtonInHeartShop()
+    {
+        Debug.Log(heartShopController);
+        heartShopController.TogglePurchaseButton(false, Constants.SmallHeart);
+        heartShopController.TogglePurchaseButton(false, Constants.LargeHeart);
+
+        int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
+        if (heartRechargeSpeedPurchased != 2) 
+        {
+            heartShopController.TogglePurchaseButton(false, Constants.HeartRechargeSpeedUp);
+        }
+    }
+
+    public void DeactivePurchaseButtonInHeartShop()
+    {
+        heartShopController.TogglePurchaseButton(true, Constants.SmallHeart);
+        heartShopController.TogglePurchaseButton(true, Constants.LargeHeart);
+
+        int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
+        if (heartRechargeSpeedPurchased != 2) 
+        {
+            heartShopController.TogglePurchaseButton(true, Constants.HeartRechargeSpeedUp);
         }
     }
 

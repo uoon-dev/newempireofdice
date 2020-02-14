@@ -13,6 +13,7 @@ public class HeartShopController : MonoBehaviour
 
     LevelLoader levelLoader;
     UIController UIController;
+    IAPManager iAPManager;
 
     void Awake()
     {
@@ -24,6 +25,7 @@ public class HeartShopController : MonoBehaviour
     {
         levelLoader = FindObjectOfType<LevelLoader>();
         UIController = FindObjectOfType<UIController>();
+        iAPManager = FindObjectOfType<IAPManager>();
     }    
 
     public void SetSpeedUpText()
@@ -54,24 +56,18 @@ public class HeartShopController : MonoBehaviour
     }
 
     public void ToggleHeartShopCanvas(bool isShow) {
-        this.gameObject.SetActive(isShow);
         var body = this.gameObject.transform.GetChild(0);
 
         if (isShow) {
             this.gameObject.GetComponent<Image>().raycastTarget = true;
-            TogglePurchaseButton(false, Constants.SmallHeart);
-            TogglePurchaseButton(false, Constants.LargeHeart);
-
-            int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
-            if (heartRechargeSpeedPurchased != 2) 
-            {
-                TogglePurchaseButton(false, Constants.HeartRechargeSpeedUp);
-            }
  
             UIController.ToggleNoHeartCanvas(false);
 
             if(levelLoader.GetCurrentSceneName() == "Map System") {
                 this.gameObject.transform.DOMoveY(0, 0.25f);
+                this.gameObject.GetComponent<CanvasGroup>().DOFade(1, 0.1f);
+                this.gameObject.GetComponent<CanvasGroup>().interactable = true;
+                this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;                
                 return;
             }
             body.transform.DOMoveY(Screen.height/2, 0.25f);
@@ -79,7 +75,10 @@ public class HeartShopController : MonoBehaviour
         }
         this.gameObject.GetComponent<Image>().raycastTarget = false;
         if(levelLoader.GetCurrentSceneName() == "Map System") {
-            this.gameObject.transform.DOMoveY(-3, 0.25f);
+            this.gameObject.transform.DOMoveY(-4, 0.25f);
+            this.gameObject.GetComponent<CanvasGroup>().DOFade(0, 0.01f);
+            this.gameObject.GetComponent<CanvasGroup>().interactable = false;
+            this.gameObject.GetComponent<CanvasGroup>().blocksRaycasts = false;
             return;
         }
         body.transform.DOMoveY(-Screen.height/2, 0.25f);
@@ -98,11 +97,12 @@ public class HeartShopController : MonoBehaviour
         IAPManager.Instance.Purchase(targetProductId);
     }
 
-    public void TogglePurchaseButton(bool isLoadinng, string targetProductId)
+    public void TogglePurchaseButton(bool isLoading, string targetProductId)
     {
         GameObject purchaseButton = null;
         Transform closeButton = this.transform.Find("Body").transform.Find("Header").transform.Find("Close Button");
         Transform priceText = null;
+        int heartRechargeSpeedPurchased = PlayerPrefs.GetInt("HeartRechargeSpeed");
 
         switch (targetProductId) {
             case Constants.SmallHeart: {
@@ -122,19 +122,30 @@ public class HeartShopController : MonoBehaviour
             }
         }
 
-        if (isLoadinng) 
+        if (isLoading) 
         {
             purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
             priceText.GetComponent<Text>().text = "";
             purchaseButton.GetComponent<Button>().interactable = false;
-            // closeButton.GetComponent<Button>().interactable = false;
-        } 
+            Debug.Log(purchaseButton);
+        }
         else 
         {
             purchaseButton.GetComponent<Image>().sprite = defaultPurchaseButtonImage;
             purchaseButton.GetComponent<Button>().interactable = true;
-            // closeButton.GetComponent<Button>().interactable = true;
-            FindObjectOfType<IAPManager>().SetPricesInShop();
+            // iAPManager.SetPricesInShop();
+            if (targetProductId == Constants.HeartRechargeSpeedUp)
+            {
+                if (heartRechargeSpeedPurchased != 2)
+                {
+                    priceText.GetComponent<Text>().text = iAPManager.GetPrice(targetProductId);
+                }
+            }
+            else
+            {
+                priceText.GetComponent<Text>().text = iAPManager.GetPrice(targetProductId);
+            }
+            Debug.Log(iAPManager.GetPrice(targetProductId) + ":iAPManager.GetPrice(targetProductId)");
         }
     }
 }

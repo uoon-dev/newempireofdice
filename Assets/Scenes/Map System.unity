@@ -291,7 +291,7 @@ PrefabInstance:
     - target: {fileID: 2816281317839753318, guid: d31ba5f111be6459c9b54b519dc3a236,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 2816281317839753318, guid: d31ba5f111be6459c9b54b519dc3a236,
         type: 3}
@@ -9472,7 +9472,7 @@ RectTransform:
   - {fileID: 298339072}
   - {fileID: 1946540202}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11373,7 +11373,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1852530256
 GameObject:
@@ -12092,7 +12092,7 @@ RectTransform:
   - {fileID: 308088185}
   - {fileID: 2020420123}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -14264,7 +14264,7 @@ PrefabInstance:
     - target: {fileID: 2971073056381824537, guid: 811664e67293c471d9f8ea6870d61d7c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2971073056381824537, guid: 811664e67293c471d9f8ea6870d61d7c,
         type: 3}
@@ -15811,7 +15811,7 @@ RectTransform:
   m_Children:
   - {fileID: 8609739382123291087}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -16377,7 +16377,7 @@ PrefabInstance:
     - target: {fileID: 8715922898695977685, guid: ead8fbf11fc604715b03064a06841f63,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8715922898695977685, guid: ead8fbf11fc604715b03064a06841f63,
         type: 3}
@@ -16698,7 +16698,7 @@ RectTransform:
   m_Children:
   - {fileID: 8792364401097002989}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -16741,6 +16741,7 @@ GameObject:
   - component: {fileID: 8792364400200511029}
   - component: {fileID: 8792364400200511040}
   - component: {fileID: 8792364400200511039}
+  - component: {fileID: 8792364400200511041}
   m_Layer: 0
   m_Name: Heart Shop Canvas
   m_TagString: Untagged
@@ -16784,6 +16785,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8792364400200511038}
   m_CullTransparentMesh: 0
+--- !u!225 &8792364400200511041
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8792364400200511038}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!222 &8792364400217038340
 CanvasRenderer:
   m_ObjectHideFlags: 0

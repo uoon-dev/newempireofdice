@@ -111,7 +111,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 89.7, y: 7.6}
+  m_AnchoredPosition: {x: 92.3, y: 8.3}
   m_SizeDelta: {x: 150, y: 56.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &137654757296315083
@@ -141,7 +141,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 60d16a6194a324c40b12ad45de803359, type: 3}
+    m_Font: {fileID: 12800000, guid: 9749b0b6adecb4870aa0bef6f036e4cc, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
@@ -1510,6 +1510,7 @@ GameObject:
   - component: {fileID: 6942040518630178386}
   - component: {fileID: 774173177}
   - component: {fileID: 774173176}
+  - component: {fileID: 6259564577562154694}
   m_Layer: 0
   m_Name: Heart Shop Canvas
   m_TagString: Untagged
@@ -1650,6 +1651,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &6259564577562154694
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6942040518630178393}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6942040518647221916
 GameObject:
   m_ObjectHideFlags: 0
