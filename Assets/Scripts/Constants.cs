@@ -21,6 +21,7 @@ public class Constants : MonoBehaviour
 
     public static class GAME_OBJECT_NAME {
         public const string BODY = "Body";
+        public const string PANEL_SETTING = "PanelSetting";
         public const string NO_HEART_CANVAS = "No Heart Canvas";
         public const string AFTER_PURCHASE_EFFECT_CANVAS = "After Purchase Effect Canvas";
         public const string HEART_BAR_OBJECT = "Heart Bar";
