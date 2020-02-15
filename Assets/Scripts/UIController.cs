@@ -21,8 +21,12 @@ public class UIController : MonoBehaviour
     Text heartShopTimer;
     Text heartCountText;
     Text heartUpdatedCountText;
+    Text iapInitTest;
     private int prevHeartAmount = -1;
     private bool isNetworkConnected;
+    private bool isIAPInitialized;
+    private bool isSetSpeedUp = false;
+
 
 
     void Awake()
@@ -34,6 +38,7 @@ public class UIController : MonoBehaviour
     void Update()
     {
         bool newIsNetworkConnected = Utils.IsNetworkConnected();
+        isIAPInitialized = iAPManager.isIAPInitialized();
 
         if (isNetworkConnected && !newIsNetworkConnected) 
         {
@@ -41,13 +46,18 @@ public class UIController : MonoBehaviour
             Debug.Log("DeactivePurchaseButtonInHeartShop");
         }
 
-        if (!isNetworkConnected && newIsNetworkConnected) 
+        if (!isNetworkConnected && newIsNetworkConnected && isIAPInitialized) 
         {
-            if (iAPManager.isIAPInitialized())
-            {
-                ActivePurchaseButtonInHeartShop();
-                Debug.Log("ActivePurchaseButtonInHeartShop");
-            }
+            ActivePurchaseButtonInHeartShop();
+            Debug.Log("ActivePurchaseButtonInHeartShop");
+        }
+
+        if (isIAPInitialized && !isSetSpeedUp 
+            && IAPManager.Instance.HadPurchased(Constants.HeartRechargeSpeedUp))
+        {
+            newHeartController.UpgradeHeartRechargeSpeed(2);
+            heartShopController.SetSpeedUpText();
+            isSetSpeedUp = true;
         }
 
         isNetworkConnected = newIsNetworkConnected;
@@ -89,7 +99,7 @@ public class UIController : MonoBehaviour
         heartTimerTextInNoHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_NO_HEART_CANVAS).GetComponent<Text>();
         heartTimerTextInShop = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_SHOP).GetComponent<Text>();
 
-        if (newIsNetworkConnected)
+        if (newIsNetworkConnected && isIAPInitialized)
         {
             ActivePurchaseButtonInHeartShop();
         }
@@ -237,6 +247,7 @@ public class UIController : MonoBehaviour
 
     public void ToggleNoHeartCanvas(bool isShow) {
         noHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.NO_HEART_CANVAS);
+        startController = FindObjectOfType<StartController>();
         var body = noHeartCanvas.transform.GetChild(0);
 
         if (isShow) {

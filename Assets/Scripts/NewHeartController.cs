@@ -64,9 +64,10 @@ public class NewHeartController : MonoBehaviour
             heartAmount = Constants.HEART_MAX_CHARGE_COUNT;
         }
 
-        if (PlayerPrefs.HasKey("HeartRechargeSpeed")) 
+        if (PlayerPrefs.HasKey("HeartRechargeSpeed") || IAPManager.Instance.HadPurchased(Constants.HeartRechargeSpeedUp))
         {
-            heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
+            // heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
+            heartRechargeSpeed = 2;
         } 
         else 
         {

@@ -193,7 +193,8 @@ public class IAPManager : MonoBehaviour, IStoreListener
     public void OnPurchaseFailed(Product product, PurchaseFailureReason reason)
     {
         var heartShopController = FindObjectOfType<HeartShopController>();
-        heartShopController.TogglePurchaseButton(false, product.definition.id);        
+        heartShopController.TogglePurchaseButton(false, product.definition.id);
+        // GameObject.Find("IAP Error Reason").GetComponent<Text>().text = reason.ToString();
         Debug.LogWarning($"구매 실패 - {product.definition.id}, {reason}");
     }
 

@@ -14,6 +14,7 @@ public class HeartShopController : MonoBehaviour
     LevelLoader levelLoader;
     UIController UIController;
     IAPManager iAPManager;
+    NewHeartController newHeartController;
 
     void Awake()
     {
@@ -26,6 +27,7 @@ public class HeartShopController : MonoBehaviour
         levelLoader = FindObjectOfType<LevelLoader>();
         UIController = FindObjectOfType<UIController>();
         iAPManager = FindObjectOfType<IAPManager>();
+        newHeartController = FindObjectOfType<NewHeartController>();
     }    
 
     public void SetSpeedUpText()
@@ -36,7 +38,7 @@ public class HeartShopController : MonoBehaviour
 
         if (HeartRechargeSpeedText != null) {
             int heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
-            if (heartRechargeSpeed == 2)
+            if (heartRechargeSpeed == 2 || IAPManager.Instance.HadPurchased(Constants.HeartRechargeSpeedUp))
             {
                 HeartRechargeSpeedText.text = "구매함";
                 HeartRechargeSpeedText.color = new Color32(0, 0, 0, 100);

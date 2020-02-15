@@ -135,7 +135,10 @@ public class StatisticsController : MonoBehaviour
 
         yield return new WaitForSeconds(getStarCount > 1 ? 1.5f : 0.7f);
         buttons.transform.GetChild(0).gameObject.GetComponent<Animator>().enabled = true;
+        buttons.transform.GetChild(0).gameObject.GetComponent<Button>().interactable = true;
+        
         buttons.transform.GetChild(1).gameObject.GetComponent<Animator>().enabled = true;
+        buttons.transform.GetChild(1).gameObject.GetComponent<Button>().interactable = true;
     }
 
     public void SetStarCount()
