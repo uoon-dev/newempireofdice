@@ -127,7 +127,6 @@ public class HeartShopController : MonoBehaviour
             purchaseButton.GetComponent<Image>().sprite = loadingButtonImage;
             priceText.GetComponent<Text>().text = "";
             purchaseButton.GetComponent<Button>().interactable = false;
-            Debug.Log(purchaseButton);
         }
         else 
         {
@@ -145,7 +144,6 @@ public class HeartShopController : MonoBehaviour
             {
                 priceText.GetComponent<Text>().text = iAPManager.GetPrice(targetProductId);
             }
-            Debug.Log(iAPManager.GetPrice(targetProductId) + ":iAPManager.GetPrice(targetProductId)");
         }
     }
 }

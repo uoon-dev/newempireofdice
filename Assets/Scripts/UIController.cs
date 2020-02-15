@@ -54,7 +54,6 @@ public class UIController : MonoBehaviour
 
         UpdateTimerText();
         
-
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
         {
             HandleHeartBarUI();
@@ -142,7 +141,6 @@ public class UIController : MonoBehaviour
 
     public void ActivePurchaseButtonInHeartShop()
     {
-        Debug.Log(heartShopController);
         heartShopController.TogglePurchaseButton(false, Constants.SmallHeart);
         heartShopController.TogglePurchaseButton(false, Constants.LargeHeart);
 

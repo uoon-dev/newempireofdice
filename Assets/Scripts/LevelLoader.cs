@@ -52,6 +52,7 @@ public class LevelLoader : MonoBehaviour
     public void LoadClickedMap(int levelNumber)
     {
         if (levelNumber == 1) {
+            UIAlignController.DeactiveStartButton();
             mainCanvas.GetComponent<CanvasGroup>().DOFade(1, 0.4f).OnComplete(() => {
                 PlayerPrefs.SetInt("currentLevelNumber", levelNumber);
                 SceneManager.LoadScene("Level 1");

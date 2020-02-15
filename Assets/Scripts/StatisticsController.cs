@@ -92,17 +92,20 @@ public class StatisticsController : MonoBehaviour
                 star03Image.GetComponent<Animator>().enabled = true;
                 star03Text.GetComponent<Animator>().enabled = true;
 
-                if (levelCleared != 1)
+                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL)
                 {
                     bool isHeartFullReward = false;
-                    if (currentLevelNumber % 10 == 0)
+                    if (currentLevelNumber % 10 == 0 && levelCleared != 1)
                     {
                         isHeartFullReward = true;
                         yield return new WaitForSeconds(0.7f);
                         afterPurchaseEffectController.ShowScreen("3");
                     }
-                    yield return new WaitForSeconds(isHeartFullReward ? 2f : 0.7f);
-                    afterPurchaseEffectController.ShowScreen("2");
+                    if (savedLevelStarCount < 3)
+                    {
+                        yield return new WaitForSeconds(isHeartFullReward ? 2f : 0.7f);
+                        afterPurchaseEffectController.ShowScreen("2");
+                    }
                 }
             }
         } 
@@ -117,7 +120,7 @@ public class StatisticsController : MonoBehaviour
             }
         }
 
-        if (levelCleared != 1 && getStarCount <= 2)
+        if (levelCleared != 1 && getStarCount < 3)
         {
             if (currentLevelNumber % 10 == 0)
             {
@@ -158,12 +161,11 @@ public class StatisticsController : MonoBehaviour
 
     public void SetRewardHeart()
     {
-        if (levelLoader.GetCurrentSceneName() == "Level" && levelCleared != 1) {
-            if (currentLevelNumber % 10 == 0 && newHeartController.GetHeartAmount() < Constants.HEART_MAX_CHARGE_COUNT) {
-            // if (newHeartController.GetHeartAmount() < Constants.HEART_MAX_CHARGE_COUNT) {
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.LEVEL) {
+            if (currentLevelNumber % 10 == 0 && newHeartController.GetHeartAmount() < Constants.HEART_MAX_CHARGE_COUNT && levelCleared != 1) {
                 newHeartController.AddHeartAmount(Constants.HEART_MAX_CHARGE_COUNT - newHeartController.GetHeartAmount());
             }
-            if (getStarCount == 3)
+            if (getStarCount == 3 && savedLevelStarCount < 3)
             {
                 newHeartController.AddHeartAmount(2);
             }
