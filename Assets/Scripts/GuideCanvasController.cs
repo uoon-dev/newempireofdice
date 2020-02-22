@@ -9,10 +9,10 @@ public class GuideCanvasController : MonoBehaviour
     // Start is called before the first frame update
     public static string guideType = null;
 
-    // void Start()
-    // {
-    //     ToggleGuideCanvas(true);
-    // }
+    void Start()
+    {
+        // ToggleGuideCanvas(true);
+    }
 
     public void ToggleGuideCanvas(bool isShow)
     {

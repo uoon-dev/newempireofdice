@@ -23,15 +23,20 @@ public class LevelLoader : MonoBehaviour
     {
         newHeartController = FindObjectOfType<NewHeartController>();
         UIAlignController = FindObjectOfType<UIAlignController>();
+
+        mainCanvas = GameObject.Find("Main Canvas");        
+
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        currentSceneName = SceneManager.GetActiveScene().name;
+        currentLevelNumber = PlayerPrefs.GetInt("currentLevelNumber");
+
     }
 
     // Start is called before the first frame update
     void Awake()
     {
         Initialize();
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        currentSceneName = SceneManager.GetActiveScene().name;
-        currentLevelNumber = PlayerPrefs.GetInt("currentLevelNumber");
+
         if (BackGroundSoundController.instance != null)
             BackGroundSoundController.instance.StartPlay(BackGroundSoundController.BGM_NAME.MAIN_BGM);
         if (currentSceneIndex == 0)
@@ -42,7 +47,6 @@ public class LevelLoader : MonoBehaviour
             if (BackGroundSoundController.instance != null)
                 BackGroundSoundController.instance.StartPlay(BackGroundSoundController.BGM_NAME.GAME_BGM);
         }
-        mainCanvas = GameObject.Find("Main Canvas");
     }
     IEnumerator WaitForTime()
     {
