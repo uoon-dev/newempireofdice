@@ -12,6 +12,7 @@ public class Constants : MonoBehaviour
         public const string MAP_SYSTEM = "Map System";
         public const string LEVEL = "Level";
         public const string LEVEL1 = "Level 1";
+        public const string TUTORIAL = "Tutorial";
     }
 
     public static class STAGE_REWARD_TYPE {

@@ -80,8 +80,8 @@ public class ResetDiceController : MonoBehaviour
 
     public void ResetDices()
     {
-        if (levelLoader.GetCurrentSceneName() == "Level 1") {
-            diceBox.gameObject.SetActive(true);
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
+        {
             if (TutorialController.GetTutorialCount() == 2 || 
                 TutorialController.GetTutorialCount() == 12) {
                 TextTyperTester.Jump();

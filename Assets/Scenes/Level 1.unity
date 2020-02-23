@@ -4411,7 +4411,6 @@ MonoBehaviour:
   mapViewImages: []
   clearStar: {fileID: 0}
   unclearStar: {fileID: 0}
-  startButtonLoadingImage: {fileID: 0}
   onClickedLastClearedNextMap: 0
 --- !u!4 &296439640
 Transform:

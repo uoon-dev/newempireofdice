@@ -27,12 +27,20 @@ public class Dice : MonoBehaviour
 
     void Start()
     {
-        Initialize();
+    Initialize();
+
+    if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL) 
+    {
+        SetTutorialDiceNumber();
+    } 
+    else 
+    {
         SetDiceNumber(minNumber, maxNumber);
-        SetClickSound();
-        diceAnimator = GetComponent<Animator>();
-        diceAnimator.ResetTrigger("isClicked");
-        diceAnimator.ResetTrigger("isAnimated");
+    }
+
+    SetClickSound();
+    diceAnimator = GetComponent<Animator>();
+    diceAnimator.ResetTrigger("isClicked");
     }
 
     private void Initialize()
@@ -51,7 +59,7 @@ public class Dice : MonoBehaviour
 
         ToggleDice();
 
-        if (levelLoader.GetCurrentSceneName() == "Level 1") {
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL) {
             if (TutorialController.GetTutorialCount() == 4) {
                 TextTyperTester.Jump();
                 TutorialController.AllowClickEventNextButton();
@@ -178,20 +186,24 @@ public class Dice : MonoBehaviour
     {
         int randomNumber =  Random.Range(startNumber, endNumber);
         diceText = GetComponentInChildren<Text>();
+        diceText.text = randomNumber.ToString();
+    }
 
-        if (levelLoader.GetCurrentSceneName() == "Level 1") {
-            int tutorialCount = TutorialController.GetTutorialCount(); 
-
-            if (tutorialCount == 3) {
-                randomNumber = 1;
-            }
-
-            if (tutorialCount == 5) {
-                randomNumber = 6;
-            }
+    public void SetTutorialDiceNumber()
+    {
+        int tutorialCount = TutorialController.GetTutorialCount();
+        int diceNumber = 1;
+        if (tutorialCount == 3)
+        {
+            diceNumber = 1;
         }
 
-        diceText.text = randomNumber.ToString();
+        if (tutorialCount == 5)
+        {
+            diceNumber = 6;
+        }
+
+        diceText.text = diceNumber.ToString();
     }
 
     public void ResetAnimation()

@@ -96,7 +96,7 @@ public class Block : MonoBehaviour
         
         blocksLength = (int)Mathf.Sqrt(blocks.Length);
 
-        if (levelLoader.GetCurrentSceneName() == "Level 1")
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
         {
             randomNum = GetTutorialBlocksValue(posX, posY);
         } else
@@ -163,12 +163,12 @@ public class Block : MonoBehaviour
     {
         if (posX == 1 && posY == 1)
         {
-            return 1;
+            return 9;
         }
 
         if (posX == 2 && posY == 1)
         {
-            return 12;
+            return 5;
         }
 
         if (posX == 3 && posY == 1)
@@ -374,7 +374,7 @@ public class Block : MonoBehaviour
         {
             ChangeDestroyedBlockDisplay(resultGage);
             MakeNextBlockClickable();
-            if (levelLoader.GetCurrentSceneName() == "Level 1")
+            if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
             {
                 ControllTutorialBlock();
             }

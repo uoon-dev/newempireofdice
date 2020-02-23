@@ -189,7 +189,7 @@ public class MapController : MonoBehaviour
             clonedLevel.transform.localPosition = InitMapPosition(startIndex, (levelNumber-1) % (restrictedMapCount * (viewObjectMaxCountIndex + 1)));
 
             // 레벨 1을 가진 view의 position.x 값을 왼쪽 벽으로 만들기 : (카메라 길이 + 각 양쪽 패딩) * 뷰 개수
-            if (clonedLevel.name == "Level 1")
+            if (clonedLevel.name == Constants.SCENE_NAME.TUTORIAL)
             {
                 firstLeftWallPoint = (2 * leftPaddingAbsolutePositionX + cameraWidth) * Mathf.Floor(lastClearedMapNumber / restrictedMapCount);
             }
@@ -249,7 +249,7 @@ public class MapController : MonoBehaviour
             int clonedLevelNumber = int.Parse(clonedLevel.name.Split(' ')[1]);
 
             if (clonedLevelNumber == lastClearedMapNumber + 1 ||
-                clonedLevel.name == "Level 1")
+                clonedLevel.name == Constants.SCENE_NAME.TUTORIAL)
             {
                 // clonedLevel.GetComponent<Image>().sprite = flagNew;
                 // clonedLevel.GetComponent<RectTransform>().sizeDelta = new Vector2(51, 44);
