@@ -11,10 +11,10 @@ public class TutorialDialogueController : MonoBehaviour
     public float advanceKeyTime = 1f;
     public string[] lines;
     private int currentLine = 0;
-    public bool isClickable = false;
+    public static bool isClickable = true;
     public static int dialogueTurn = 0;
-    GameObject MainDialogueContainer;
-    GameObject SubDialogueContainer;
+    NewTutorialController newTutorialController;
+
 
 
     void Start()
@@ -26,33 +26,47 @@ public class TutorialDialogueController : MonoBehaviour
 
     private void Initialize()
     {
-        MainDialogueContainer = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MAIN_DIALOGUE_CONTAINER);
-        SubDialogueContainer = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.SUB_DIALOGUE_CONTAINER);
+        newTutorialController = FindObjectOfType<NewTutorialController>();
+        // InitTextLines();
+    }
+
+    public void InitTextLines()
+    {
+        Debug.Log(dialogueTurn + ":dialogueTurn");
+        if (dialogueTurn == 0)
+        {
+            lines[0] = "본격적으로 출발하기 전 <br>몇 가지를 알려드리겠습니다. <j>폐하.</j>";
+            lines[1] = "<c=white>본격적으로 출발하기 전 <br>몇 가지를 알려드리겠습니다. <j>폐하.</j></c>";
+        }
+        else
+        {
+            lines[0] = "요 녀석은 마왕성입니다. 차근차근 땅을 넓혀 <br> 나가 <w=seasick><c=fire>마왕성을 점령하는 것</c></w>이 목표입니다!";
+            lines[1] = "이것은 이것은 “주사위“ 입니다. <br> 마구 눌러보세요!";
+        }
     }
 
     public void CompletedDrawing()
     {
-        Debug.Log("I completed reading! Done!");
+        // Debug.Log("I completed reading! Done!");
     }
     public void CompletedUnreading()
     {
-        Debug.Log("I completed unreading!! Bye!");
-        // if (dialogueTurn == 2)
-        // {
-        //     MainDialogueContainer.SetActive(false);
-        //     SubDialogueContainer.SetActive(true);
-        // }
+        // Debug.Log("I completed unreading!! Bye!");
         Apply(); //go to next line
     }
     public void Apply()
     {
         //isDoneFading = false;
-        textMesh.Text = lines[currentLine]; //invoke accessor so rebuild() is called
-        currentLine++; //move to next line of dialogue...
-        currentLine %= lines.Length; //or loop back to first one
-        // Debug.Log(dialogueTurn + ":dialogueTurn");
-        Debug.Log(dialogueTurn + "@@@@@@@@@@@@@@@@@@");
+        if (currentLine < lines.Length)
+        {
+            textMesh.Text = lines[currentLine]; //invoke accessor so rebuild() is called
+            currentLine++; //move to next line of dialogue...
+            // currentLine %= lines.Length; //or loop back to first one
+        }
         dialogueTurn++;
+        newTutorialController.dialogueUpdated = true;
+
+        Debug.Log(dialogueTurn + ":dialogueTurn");
     }
     void Update()
     {

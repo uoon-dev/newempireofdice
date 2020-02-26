@@ -46,6 +46,9 @@ public class Constants : MonoBehaviour
             public const string INTRO_CANVAS = "Intro Canvas";
             public const string MAIN_DIALOGUE_CONTAINER = "Main Dialogue Container";
             public const string SUB_DIALOGUE_CONTAINER = "Sub Dialogue Container";
+            public const string TEXT_BOX = "Text Box";
+            public const string GUIDER_IMAGE = "Guider Image";
+            public const string SUPER_TEXT = "Super Text";
             public const string OVAL = "Oval";
         }
     }
