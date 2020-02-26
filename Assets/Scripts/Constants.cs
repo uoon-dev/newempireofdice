@@ -38,6 +38,8 @@ public class Constants : MonoBehaviour
         public const string START_BUTTON = "Start Button";
         public const string RETRY_BUTTON = "Retry Button";
         public const string NEXT_LEVEL_BUTTON = "Next Level Button";
+        public const string TUTORIAL_GUIDE_CANVAS = "Tutorial Guide Canvas";
+        public const string INTRO_CANVAS = "Intro Canvas";
     }
 
     public const string MaldivesDice = "maldivesdice";

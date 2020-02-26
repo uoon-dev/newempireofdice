@@ -31,7 +31,7 @@ public class Dice : MonoBehaviour
 
     if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL) 
     {
-        SetTutorialDiceNumber();
+        // SetTutorialDiceNumber();
     } 
     else 
     {
