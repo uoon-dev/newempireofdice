@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Analytics;
 using DG.Tweening;
 
@@ -65,17 +66,23 @@ public class NewTutorialController : MonoBehaviour
                     oval.SetActive(false);
 
                     // SubDialogueContainer.transform.localPosition = ;
-                    SubDialogueContainer.transform.DOLocalMove(new Vector2(95.2f, 61.7f), 0.5f);
+                    SubDialogueContainer.transform.DOLocalMove(new Vector2(52, 68.6f), 0.5f);
                     Transform textBox = SubDialogueContainer.transform.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.TEXT_BOX);
                     textBox.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 0);
 
                     Transform guiderImage = SubDialogueContainer.transform.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.GUIDER_IMAGE);
-                    // guiderImage.transform.localPosition = new Vector2(-54.8f, 41.4f);
-                    guiderImage.transform.DOLocalMove(new Vector2(-54.8f, 41.4f), 0.5f);
-                    guiderImage.transform.localScale = new Vector2(1, 1);
+                    guiderImage.GetComponent<CanvasGroup>().DOFade(0, 0.1f).OnComplete(() => {
+                        guiderImage.transform.DOLocalMove(new Vector2(-59.7f, 27.7f), 0);
+                        guiderImage.GetComponent<CanvasGroup>().DOFade(1, 0.2f).SetDelay(0.4f);
+                        guiderImage.transform.localScale = new Vector2(1, 1);
+                    });;
+                    // guiderImage.transform.DOLocalMove(new Vector2(-59.7f, 27.7f), 0).SetDelay(0.1f).OnComplete(() => {
+                    //     guiderImage.GetComponent<CanvasGroup>().DOFade(1, 0.2f);
+                    // });
 
                     Transform superText = textBox.transform.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.SUPER_TEXT);
-                    superText.GetComponent<SuperTextMesh>().baseOffset = new Vector2(5.5f, -1.5f);
+                    superText.GetComponent<SuperTextMesh>().baseOffset = new Vector2(3.6f, 0);
+                    superText.GetComponent<LayoutElement>().DOMinSize(new Vector2(180f, 0), 0.25f);
                     break;
                 }                
             }
