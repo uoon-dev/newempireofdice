@@ -6,9 +6,12 @@ using UnityEngine.Analytics;
 public class NewTutorialController : MonoBehaviour
 {
     TutorialDialogueController tutorialDialogueController; 
+    BlockController blockController;
     [SerializeField]
     GameObject tutorialGuideCanvas;
     GameObject introCanvas;
+
+    GameObject oval;
 
     // Start is called before the first frame update
     void Start()
@@ -16,22 +19,39 @@ public class NewTutorialController : MonoBehaviour
         Initialize();
     }
 
+    void Update()
+    {
+        if (tutorialDialogueController != null)
+        {
+            // int dialogueTurn = tutorialDialogueController.dialogueTurn;
+            // Debug.Log(dialogueTurn +":dialogueTurn");
+            // switch (dialogueTurn)
+            // {
+            //     case 2: 
+            //     {
+            //         var lastBlock = blockController.GetLastBlock();
+            //         oval.transform.localPosition = lastBlock.transform.localPosition;
+            //         oval.SetActive(true);
+            //         break;
+            //     }
+            // }
+        }   
+    }
+
     private void Initialize()
     {
-        // tutorialGuideCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.TUTORIAL_GUIDE_CANVAS);
-        introCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.INTRO_CANVAS);
+        blockController = FindObjectOfType<BlockController>();
 
+        // tutorialGuideCanvas = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.TUTORIAL_GUIDE_CANVAS);
+        introCanvas = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.INTRO_CANVAS);
+        oval = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.OVAL);
     }
 
     public void ActiveDialogue()
     {
         introCanvas.SetActive(false);
         tutorialGuideCanvas.SetActive(true);
-        // tutorialGuideCanvas.GetComponent<CanvasGroup>().alpha = 1;
-        // tutorialGuideCanvas.GetComponent<CanvasGroup>().interactable = true;
-        // tutorialGuideCanvas.GetComponent<CanvasGroup>().blocksRaycasts = true;
         tutorialDialogueController = FindObjectOfType<TutorialDialogueController>();
-        // tutorialDialogueController.Apply();
         tutorialDialogueController.isClickable = true;
     }
     

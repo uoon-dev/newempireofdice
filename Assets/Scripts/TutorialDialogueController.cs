@@ -12,12 +12,24 @@ public class TutorialDialogueController : MonoBehaviour
     public string[] lines;
     private int currentLine = 0;
     public bool isClickable = false;
+    public static int dialogueTurn = 0;
+    GameObject MainDialogueContainer;
+    GameObject SubDialogueContainer;
+
 
     void Start()
-    {
-        advanceKeyStartScale = advanceKeySprite.transform.localScale;
+    {   
+        Initialize();
+        // advanceKeyStartScale = advanceKeySprite.transform.localScale;
         Apply();
     }
+
+    private void Initialize()
+    {
+        MainDialogueContainer = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MAIN_DIALOGUE_CONTAINER);
+        SubDialogueContainer = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.SUB_DIALOGUE_CONTAINER);
+    }
+
     public void CompletedDrawing()
     {
         Debug.Log("I completed reading! Done!");
@@ -25,27 +37,33 @@ public class TutorialDialogueController : MonoBehaviour
     public void CompletedUnreading()
     {
         Debug.Log("I completed unreading!! Bye!");
+        // if (dialogueTurn == 2)
+        // {
+        //     MainDialogueContainer.SetActive(false);
+        //     SubDialogueContainer.SetActive(true);
+        // }
         Apply(); //go to next line
     }
     public void Apply()
     {
-
         //isDoneFading = false;
-        Debug.Log(isClickable);
         textMesh.Text = lines[currentLine]; //invoke accessor so rebuild() is called
         currentLine++; //move to next line of dialogue...
         currentLine %= lines.Length; //or loop back to first one
+        // Debug.Log(dialogueTurn + ":dialogueTurn");
+        Debug.Log(dialogueTurn + "@@@@@@@@@@@@@@@@@@");
+        dialogueTurn++;
     }
     void Update()
     {
-        if (Input.GetKey(advanceKey))
-        {
-            advanceKeySprite.transform.localScale = advanceKeyScale; //scale key if held
-        }
-        else
-        {
-            advanceKeySprite.transform.localScale = Vector3.Lerp(advanceKeySprite.transform.localScale, advanceKeyStartScale, Time.deltaTime * advanceKeyTime);
-        }
+        // if (Input.GetKey(advanceKey))
+        // {
+        //     advanceKeySprite.transform.localScale = advanceKeyScale; //scale key if held
+        // }
+        // else
+        // {
+        //     advanceKeySprite.transform.localScale = Vector3.Lerp(advanceKeySprite.transform.localScale, advanceKeyStartScale, Time.deltaTime * advanceKeyTime);
+        // }
         if (isClickable)
         {
             if (Input.GetKeyDown(advanceKey))

@@ -38,8 +38,16 @@ public class Constants : MonoBehaviour
         public const string START_BUTTON = "Start Button";
         public const string RETRY_BUTTON = "Retry Button";
         public const string NEXT_LEVEL_BUTTON = "Next Level Button";
-        public const string TUTORIAL_GUIDE_CANVAS = "Tutorial Guide Canvas";
-        public const string INTRO_CANVAS = "Intro Canvas";
+    }
+
+    public static class TUTORIAL {
+        public static class GAME_OBJECT_NAME {
+            public const string TUTORIAL_GUIDE_CANVAS = "Tutorial Guide Canvas";
+            public const string INTRO_CANVAS = "Intro Canvas";
+            public const string MAIN_DIALOGUE_CONTAINER = "Main Dialogue Container";
+            public const string SUB_DIALOGUE_CONTAINER = "Sub Dialogue Container";
+            public const string OVAL = "Oval";
+        }
     }
 
     public const string MaldivesDice = "maldivesdice";

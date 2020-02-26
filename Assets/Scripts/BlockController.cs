@@ -100,16 +100,16 @@ public class BlockController : MonoBehaviour
         }
         else
         {
-            foreach (GameObject cloendBlock in blocks)
+            foreach (GameObject clonedBlock in blocks)
             {
-                Block tmpBlock = cloendBlock.GetComponent<Block>();
+                Block tmpBlock = clonedBlock.GetComponent<Block>();
                 tmpBlock.SetBlocksValue();
             }
             speicalBlockController.SetSpeicialBlocks(speicalBlocks);
 
-            foreach (GameObject cloendBlock in blocks)
+            foreach (GameObject clonedBlock in blocks)
             {
-                Block tmpBlock = cloendBlock.GetComponent<Block>();
+                Block tmpBlock = clonedBlock.GetComponent<Block>();
                 blockTypes.Add(tmpBlock.blocksType);
                 blockTexts.Add(tmpBlock.blockText.text);
             }
@@ -482,5 +482,21 @@ public class BlockController : MonoBehaviour
     public static int GetBoardSize()
     {
         return boardWidth;
+    }
+
+    public GameObject GetLastBlock()
+    {
+        var blocks = FindObjectsOfType<Block>();
+        GameObject lastblock = null;
+
+        foreach (var block in blocks)
+        {
+            if (block.blocksType == "마왕성")
+            {
+                lastblock = block.gameObject;
+            }
+        }
+
+        return lastblock;
     }
 }
