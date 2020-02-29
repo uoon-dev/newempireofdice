@@ -46,6 +46,6 @@ public class Constants : MonoBehaviour
     public const string HeartRechargeSpeedUp = "speedupheartrecharge1";
     public const int HEART_MAX_CHARGE_COUNT = 5;
     public const int TIMESTAMP_VALID_OFFSET_SECONDS = 5;
-    // public const int HEART_CHARGE_SECONDS = 20;
+    // public const int HEART_CHARGE_SECONDS = 10;
     public const int HEART_CHARGE_SECONDS = 20 * 60;// 20 min
 }

@@ -40,7 +40,6 @@ public class NewHeartController : MonoBehaviour
 
     private void Awake()
     {
-        // Initialize();
         if (Instance == null)
         {
             Instance = this;
@@ -66,7 +65,6 @@ public class NewHeartController : MonoBehaviour
 
         if (PlayerPrefs.HasKey("HeartRechargeSpeed") || IAPManager.Instance.HadPurchased(Constants.HeartRechargeSpeedUp))
         {
-            // heartRechargeSpeed = PlayerPrefs.GetInt("HeartRechargeSpeed");
             heartRechargeSpeed = 2;
         } 
         else 
@@ -78,11 +76,10 @@ public class NewHeartController : MonoBehaviour
         UIController = FindObjectOfType<UIController>();
         levelLoader = FindObjectOfType<LevelLoader>();
         heartShopController = FindObjectOfType<HeartShopController>();
-        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM) 
-        // {
-        //     InitializeHeartBar();
-        // }
+
         InitializeTimer();
+
+        int heartCharteRemainSecond = GetHeartTargetTimeStamp() - Utils.GetTimeStamp();
     }
 
     private void InitializeHeartBar() {
@@ -98,7 +95,7 @@ public class NewHeartController : MonoBehaviour
         }
     }
 
-    private void StartTimer() {
+    public void StartTimer() {
         timer.Start();
     }
 
@@ -133,8 +130,8 @@ public class NewHeartController : MonoBehaviour
             if (IsDeviceTimeValid)
             {
                 StartTimer();
-            } 
-            else 
+            }
+            else
             {
                 StopTimer();
             }

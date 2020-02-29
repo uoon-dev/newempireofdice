@@ -117,9 +117,15 @@ public class UIController : MonoBehaviour
         if (Utils.IsNetworkConnected())
         {
             string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
+
+            if (heartCharteRemainSecond < 0)
+            {
+                newHeartController.StartTimer();
+            }
+
             if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
             {
-                heartTimerText.text = heartAmount < Constants.HEART_MAX_CHARGE_COUNT ? remainTime : "";
+                heartTimerText.text = (heartAmount < Constants.HEART_MAX_CHARGE_COUNT && heartCharteRemainSecond > 0) ? remainTime : "";
                 heartTimerText.fontSize = 32;
                 heartTimerText.color = new Color32(0, 0, 0, 255);
             }
@@ -128,8 +134,8 @@ public class UIController : MonoBehaviour
                 heartTimerTextInNoHeartCanvas.fontSize = 14;
                 heartTimerTextInShop.fontSize = 14;
             }
-            heartTimerTextInNoHeartCanvas.text = remainTime;
-            heartTimerTextInShop.text = remainTime;
+            heartTimerTextInNoHeartCanvas.text = heartCharteRemainSecond > 0 ? remainTime : "";
+            heartTimerTextInShop.text = heartCharteRemainSecond > 0 ? remainTime : "";
         }
         else
         {

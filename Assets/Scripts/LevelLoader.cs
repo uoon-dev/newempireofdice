@@ -10,7 +10,7 @@ using UnityEngine.Analytics;
 
 public class LevelLoader : MonoBehaviour
 {
-    [SerializeField] int timeToWait = 3;
+    [SerializeField] int timeToWait = 2;
     public string currentSceneName = "";
     int currentSceneIndex;
     public int currentLevelNumber;
