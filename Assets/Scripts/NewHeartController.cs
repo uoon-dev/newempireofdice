@@ -37,6 +37,8 @@ public class NewHeartController : MonoBehaviour
     public static UIController UIController;
     public static LevelLoader levelLoader;
     public static HeartShopController heartShopController;
+    public bool IsDeviceTimeValidTest = false;
+    public int targetDeltaCountTest = 0;
 
     private void Awake()
     {
@@ -114,10 +116,11 @@ public class NewHeartController : MonoBehaviour
             if (currentTimeStamp >= heartTargetTimeStamp)
             {
                 IsDeviceTimeValid = await Utils.IsDeviceTimeValid();
+                IsDeviceTimeValidTest = IsDeviceTimeValid;
                 if (IsDeviceTimeValid)
                 {
                     int targetDeltaCount = (currentTimeStamp - heartTargetTimeStamp) / (Constants.HEART_CHARGE_SECONDS / heartRechargeSpeed);
-
+                    targetDeltaCountTest = targetDeltaCount;
                     heartAmount += targetDeltaCount + 1;
                     if (heartAmount > Constants.HEART_MAX_CHARGE_COUNT)
                     {
@@ -294,4 +297,12 @@ public class NewHeartController : MonoBehaviour
             }
         }
     }
+
+    public bool GetIsDeviceTimeValidTest() {
+        return IsDeviceTimeValidTest;
+    }
+
+    public int GetTargetDeltaCountTest() {
+        return targetDeltaCountTest;
+    }    
 }

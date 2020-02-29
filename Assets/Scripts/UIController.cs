@@ -108,6 +108,12 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void TimeTest()
+    {
+        GameObject.Find("IsDeviceTimeValid Test").GetComponent<Text>().text = newHeartController.GetIsDeviceTimeValidTest().ToString();
+        GameObject.Find("targetDeltaCount Test").GetComponent<Text>().text = newHeartController.GetTargetDeltaCountTest().ToString();
+    }
+
     public void UpdateTimerText()
     {
         int heartAmount = newHeartController.GetHeartAmount();
@@ -117,10 +123,12 @@ public class UIController : MonoBehaviour
         if (Utils.IsNetworkConnected())
         {
             string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
+            // Debug.Log(remainTime);
 
             if (heartCharteRemainSecond < 0)
             {
                 newHeartController.StartTimer();
+                Invoke("TimeTest", 0.5f);
             }
 
             if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
