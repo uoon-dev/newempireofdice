@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 8064620354342239058}
   - component: {fileID: 8064620354342239059}
   m_Layer: 0
-  m_Name: Timer Title
+  m_Name: Timer Title in No Heart Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 137654757292144435}
   - component: {fileID: 137654757292144434}
   m_Layer: 0
-  m_Name: Timer Title
+  m_Name: Timer Title in Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1675,7 +1675,7 @@ GameObject:
   - component: {fileID: 6942040518647221859}
   - component: {fileID: 6942040518647221858}
   m_Layer: 0
-  m_Name: Title
+  m_Name: Title in Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

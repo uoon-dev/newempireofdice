@@ -21,6 +21,8 @@ public class UIController : MonoBehaviour
     Text heartShopTimer;
     Text heartCountText;
     Text heartUpdatedCountText;
+    Text timerTitle;
+    Text titleInHeartShop;
     Text iapInitTest;
     private int prevHeartAmount = -1;
     private bool isNetworkConnected;
@@ -98,6 +100,8 @@ public class UIController : MonoBehaviour
         heartUpdatedCountText = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_UPDATED_COUNT_TEXT).GetComponent<Text>();
         heartTimerTextInNoHeartCanvas = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_NO_HEART_CANVAS).GetComponent<Text>();
         heartTimerTextInShop = GameObject.Find(Constants.GAME_OBJECT_NAME.HEART_TIMER_TEXT_IN_SHOP).GetComponent<Text>();
+        timerTitle = GameObject.Find(Constants.GAME_OBJECT_NAME.TIMER_TITLE_IN_SHOP).GetComponent<Text>();
+        titleInHeartShop = GameObject.Find(Constants.GAME_OBJECT_NAME.TITLE_IN_SHOP).GetComponent<Text>();
 
         if (newIsNetworkConnected && isIAPInitialized)
         {
@@ -125,11 +129,11 @@ public class UIController : MonoBehaviour
             string remainTime = string.Format("{0:0}:{1:00}", heartCharteRemainSecond / 60, heartCharteRemainSecond % 60);
             // Debug.Log(remainTime);
 
-            if (heartCharteRemainSecond < 0)
-            {
-                newHeartController.StartTimer();
-                // Invoke("TimeTest", 0.5f);
-            }
+            // if (heartCharteRemainSecond < 0)
+            // {
+            //     newHeartController.StartTimer();
+            //     // Invoke("TimeTest", 0.5f);
+            // }
 
             if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
             {
@@ -142,8 +146,36 @@ public class UIController : MonoBehaviour
                 heartTimerTextInNoHeartCanvas.fontSize = 14;
                 heartTimerTextInShop.fontSize = 14;
             }
-            heartTimerTextInNoHeartCanvas.text = heartCharteRemainSecond > 0 ? remainTime : "";
-            heartTimerTextInShop.text = heartCharteRemainSecond > 0 ? remainTime : "";
+
+            if (heartCharteRemainSecond > 0)
+            {
+                heartTimerTextInNoHeartCanvas.text = remainTime;
+                heartTimerTextInShop.text = remainTime;
+                timerTitle.text = "다음하트";
+
+                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
+                {
+                    titleInHeartShop.transform.localPosition = new Vector2(titleInHeartShop.transform.localPosition.x, 27);
+                }
+                else
+                {
+                    titleInHeartShop.transform.localPosition = new Vector2(titleInHeartShop.transform.localPosition.x, 30);
+                }
+            }
+            else
+            {
+                heartTimerTextInNoHeartCanvas.text = "";
+                heartTimerTextInShop.text = "";
+                timerTitle.text = "";
+                if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.MAP_SYSTEM)
+                {
+                    titleInHeartShop.transform.localPosition = new Vector2(titleInHeartShop.transform.localPosition.x, 24);
+                }
+                else
+                {
+                    titleInHeartShop.transform.localPosition = new Vector2(titleInHeartShop.transform.localPosition.x, 27);
+                }
+            }
         }
         else
         {

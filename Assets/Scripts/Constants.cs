@@ -29,6 +29,8 @@ public class Constants : MonoBehaviour
         public const string HEART_IMAGE_PARENT_OBJECT_IN_EFFECT = "Heart Images In Effect";
         public const string HEART_UPDATED_COUNT_TEXT = "Heart Updated Count Text";
         public const string HEART_TIMER_TEXT = "Heart Timer Text";
+        public const string TIMER_TITLE_IN_SHOP = "Timer Title in Shop";
+        public const string TITLE_IN_SHOP = "Title in Shop";
         public const string HEART_TIMER_TEXT_IN_NO_HEART_CANVAS = "Heart Timer Text in No Heart Canvas";
         public const string HEART_TIMER_TEXT_IN_SHOP = "Heart Timer Text in Shop";
         public const string HEART_COUNT_TEXT = "Heart Count Text";

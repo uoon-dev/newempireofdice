@@ -6,7 +6,7 @@
             <repository>https://dl.bintray.com/ironsource-mobile/android-sdk</repository>
             <repository>https://jitpack.io</repository>
         </repositories>
-        <androidPackage spec="com.yodo1:advert-gp:3.3.+" />
+        <androidPackage spec="com.yodo1:advert-gp:3.6.+" />
         <androidPackage spec="com.android.support:appcompat-v7:26.1.0" />
         <androidPackage spec="com.google.android.gms:play-services-ads:17.2.1" />
         <androidPackage spec="com.google.android.gms:play-services-basement:16.0.1" />

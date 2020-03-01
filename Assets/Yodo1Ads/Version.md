@@ -1,6 +1,6 @@
 ## Versions
 
-## 3.4.2
+## 3.6.0
 
-Android: v3.3.+
-iOS: v3.4.0
+Android: v3.6.0
+iOS: v3.6.0

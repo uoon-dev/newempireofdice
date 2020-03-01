@@ -203,12 +203,19 @@ namespace Yodo1Ads
                 {
                     Yodo1PostProcess.ValidateManifest(this.adSettings);
                 }
+                else
+                {
+                    return;
+                }
 //#endif
             }
             if (selectPlarformTab == PlatfromTab.iOS)
             {
 //#if UNITY_IOS
-                Yodo1PostProcess.CheckConfiguration_iOS(this.adSettings);
+                if (!Yodo1PostProcess.CheckConfiguration_iOS(this.adSettings))
+                {
+                    return;
+                }
 //#endif
             }
 

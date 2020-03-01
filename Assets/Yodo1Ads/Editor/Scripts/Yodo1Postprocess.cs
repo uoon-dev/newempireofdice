@@ -43,19 +43,25 @@ namespace Yodo1Ads
         {
             if (settings == null)
             {
-                Debug.LogError("[Yodo1 Ads] MAS iOS settings is null, please check the configuration.");
+                string message = "MAS iOS settings is null, please check the configuration.";
+                Debug.LogError("[Yodo1 Ads] " + message);
+                Yodo1Utils.ShowAlert("Error", message, "Ok");
                 return false;
             }
 
             if (string.IsNullOrEmpty(settings.iOSSettings.AppKey))
             {
-                Debug.LogError("[Yodo1 Ads] MAS iOS AppKey is null, please check the configuration.");
+                string message = "MAS iOS AppKey is null, please check the configuration.";
+                Debug.LogError("[Yodo1 Ads] " + message);
+                Yodo1Utils.ShowAlert("Error", message, "Ok");
                 return false;
             }
 
             if (settings.iOSSettings.GlobalRegion && string.IsNullOrEmpty(settings.iOSSettings.AdmobAppID))
             {
-                Debug.LogError("[Yodo1 Ads] MAS iOS AdMob App ID is null, please check the configuration.");
+                string message = "MAS iOS AdMob App ID is null, please check the configuration.";
+                Debug.LogError("[Yodo1 Ads] " + message);
+                Yodo1Utils.ShowAlert("Error", message, "Ok");
                 return false;
             }
             return true;
@@ -184,19 +190,25 @@ namespace Yodo1Ads
         {
             if (settings == null)
             {
-                Debug.LogError("[Yodo1 Ads] MAS Android settings is null, please check the configuration.");
+                string message = "MAS Android settings is null, please check the configuration.";
+                Debug.LogError("[Yodo1 Ads] " + message);
+                Yodo1Utils.ShowAlert("Error", message, "Ok");
                 return false;
             }
 
             if (string.IsNullOrEmpty(settings.androidSettings.AppKey))
             {
-                Debug.LogError("[Yodo1 Ads] MAS Android AppKey is null, please check the configuration.");
+                string message = "MAS Android AppKey is null, please check the configuration.";
+                Debug.LogError("[Yodo1 Ads] " + message);
+                Yodo1Utils.ShowAlert("Error", message, "Ok");
                 return false;
             }
 
             if (settings.androidSettings.GooglePlayStore && string.IsNullOrEmpty(settings.androidSettings.AdmobAppID))
             {
-                Debug.LogError("[Yodo1 Ads] MAS Android AdMob App ID is null, please check the configuration.");
+                string message = "MAS Android AdMob App ID is null, please check the configuration.";
+                Debug.LogError("[Yodo1 Ads] " + message);
+                Yodo1Utils.ShowAlert("Error", message, "Ok");
                 return false;
             }
             return true;
