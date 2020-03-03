@@ -38,6 +38,8 @@ public class Constants : MonoBehaviour
         public const string START_BUTTON = "Start Button";
         public const string RETRY_BUTTON = "Retry Button";
         public const string NEXT_LEVEL_BUTTON = "Next Level Button";
+        public const string DICES = "Dices";
+        public const string NUMBER_TEXT = "Number Text";
     }
 
     public static class TUTORIAL {
@@ -50,6 +52,10 @@ public class Constants : MonoBehaviour
             public const string GUIDER_IMAGE = "Guider Image";
             public const string SUPER_TEXT = "Super Text";
             public const string OVAL = "Oval";
+            public const string ATTACK_GAGE = "Attack Gage";
+            public const string LEFT_AREA = "Left Area";
+            public const string OUTLINE = "Outline";
+            public const string BLOCKS = "Blocks";
         }
     }
 

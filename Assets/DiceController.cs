@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DiceController : MonoBehaviour
 {
@@ -62,5 +63,25 @@ public class DiceController : MonoBehaviour
         int randomDiceNumber = diceNumbers[Random.Range(0, 6)];
 
         return randomDiceNumber;
+    }
+
+    public void BounceDices()
+    {
+        var dices = FindObjectsOfType<Dice>();
+        foreach (Dice dice in dices)
+        {
+            dice.GetComponent<Canvas>().overrideSorting = true;
+            dice.GetComponent<Canvas>().sortingOrder = 102;
+        }  
+    }
+
+    public void UnbounceDices()
+    {
+        var dices = FindObjectsOfType<Dice>();
+        foreach (Dice dice in dices)
+        {
+            dice.GetComponent<Canvas>().overrideSorting = false;
+            dice.GetComponent<Canvas>().sortingOrder = 6;
+        }  
     }
 }

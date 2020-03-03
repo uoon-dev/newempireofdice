@@ -46,6 +46,7 @@ public class Dice : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
+        diceText = this.transform.Find(Constants.GAME_OBJECT_NAME.NUMBER_TEXT).GetComponent<Text>();
     }
 
     public void OnClickButton() {

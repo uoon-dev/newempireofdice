@@ -499,4 +499,20 @@ public class BlockController : MonoBehaviour
 
         return lastblock;
     }
+
+    public GameObject GetMiddleBlock()
+    {
+        var blocks = FindObjectsOfType<Block>();
+        GameObject middleBlock = null;
+
+        foreach (var block in blocks)
+        {
+            if (block.GetPosX() == Mathf.Round(boardWidth/2f) && block.GetPosY() == Mathf.Round(boardWidth/2f))
+            {
+                middleBlock = block.gameObject;
+            }
+        }
+
+        return middleBlock;
+    }
 }
