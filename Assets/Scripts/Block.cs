@@ -98,7 +98,8 @@ public class Block : MonoBehaviour
 
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
         {
-            randomNum = GetTutorialBlocksValue(posX, posY);
+            // todo tutorial
+            // randomNum = GetTutorialBlocksValue(posX, posY);
         } else
         {
             if (posX == 1 && posY == 1)
@@ -110,7 +111,7 @@ public class Block : MonoBehaviour
                 randomNum = Random.Range(1, posX + posY+2) * 2 + Random.Range(1, 7);
             }
         }
-
+        randomNum = GetTutorialBlocksValue(posX, posY);
         blockText = GetComponentInChildren<Text>();
         if (setNumber)
         {
@@ -163,7 +164,7 @@ public class Block : MonoBehaviour
     {
         if (posX == 1 && posY == 1)
         {
-            return 9;
+            return 11;
         }
 
         if (posX == 2 && posY == 1)
@@ -357,13 +358,12 @@ public class Block : MonoBehaviour
         var diceController = FindObjectOfType<DiceController>();
         var resetDiceController = FindObjectOfType<ResetDiceController>();
         var speicalBlockController = FindObjectOfType<SpeicalBlockController>();
-        if (TutorialController.GetTutorialCount() == 8)
+        var tutorialDialogueController = FindObjectOfType<TutorialDialogueController>();
+        if (TutorialDialogueController.dialogueTurn == 7 || 
+            TutorialDialogueController.dialogueTurn == 11 || 
+            TutorialDialogueController.dialogueTurn == 15)
         {
-            int clickedDiceCount = diceController.GetClickedDiceCount();
-            if (clickedDiceCount != 6)
-            {
-                return;
-            }
+            tutorialDialogueController.Apply();
         }
 
         diceController.DestroyDices();
@@ -1021,7 +1021,9 @@ public class Block : MonoBehaviour
         wizardAnimationImage.GetComponent<Animator>().ResetTrigger("isAnimated");
     }
 
-
-
-
+    public void ToggleAllowClick(bool isAllow)
+    {
+        var button = this.transform.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.BACKGROUND_IMAGE).GetComponent<Button>();
+        button.interactable = isAllow;
+    }    
 }

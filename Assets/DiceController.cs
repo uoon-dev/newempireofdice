@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -82,6 +83,60 @@ public class DiceController : MonoBehaviour
         {
             dice.GetComponent<Canvas>().overrideSorting = false;
             dice.GetComponent<Canvas>().sortingOrder = 6;
+            dice.UnClickDice();
         }  
+    }
+
+    public Dice GetOneDice(string name)
+    {
+        var dices = FindObjectsOfType<Dice>();
+        Dice pickedDice = null;
+        foreach (Dice dice in dices)
+        {
+            if (dice.name == name) 
+            {
+                pickedDice = dice;
+            };
+        }
+
+        return pickedDice;
+    }
+
+    public void ToggleOneDiceClick(string type, bool isAllow)
+    {
+        var dices = FindObjectsOfType<Dice>();
+        foreach (Dice dice in dices)
+        {
+            if (dice.name == type)
+            {
+                dice.ToggleAllowClick(isAllow);
+            } 
+        }        
+    }
+
+    public void PreventDicesClick()
+    {
+        var dices = FindObjectsOfType<Dice>();
+        foreach (Dice dice in dices)
+        {
+            dice.ToggleAllowClick(false);
+        }
+    }
+
+    public bool isDicesPickRight(string[] names, int count)
+    {
+        var dices = FindObjectsOfType<Dice>();
+        var pickedDiceCount = 0;
+        foreach (Dice dice in dices)
+        {
+            if (names.Contains(dice.name) && dice.CheckIsClicked())
+            {
+                pickedDiceCount++;
+            };
+        }
+
+        Debug.Log(pickedDiceCount);
+
+        return pickedDiceCount == count;
     }
 }

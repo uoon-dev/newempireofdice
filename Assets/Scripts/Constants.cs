@@ -40,6 +40,7 @@ public class Constants : MonoBehaviour
         public const string NEXT_LEVEL_BUTTON = "Next Level Button";
         public const string DICES = "Dices";
         public const string NUMBER_TEXT = "Number Text";
+        public const string IMAGE = "Image";
     }
 
     public static class TUTORIAL {
@@ -55,9 +56,30 @@ public class Constants : MonoBehaviour
             public const string ATTACK_GAGE = "Attack Gage";
             public const string LEFT_AREA = "Left Area";
             public const string OUTLINE = "Outline";
+            public const string OUTLINE_CIRCLE = "Outline Circle";
+            public const string OUTLINE_RECT = "Outline Rect";
+            public const string OUTLINE_FULL_RECT = "Outline Full Rect";
             public const string BLOCKS = "Blocks";
+            public const string TOAST = "Toast";
+            public const string ARROW = "Arrow";
+            public const string TURN = "Turn";
+            public const string DESC = "Description";
+            public const string GUIDE_ITEM = "Guide Item";
+            public const string BACKGROUND_IMAGE = "Background Image";
+            public const string COST_IMAGE = "Cost Image";
+            public const string MONEY_TEXT = "Money Text";
+            public const string MONEY_AREA = "Money Area";
+            public const string COST_ICON = "Cost Icon";
+            public const string COST_TEXT = "Cost Text";
         }
     }
+
+    public static class TYPE {
+        public const string LAST_BLOCK = "lastBlock";
+        public const string FIRST_BLOCK = "firstBlock";
+        public const string MIDDLE_BLOCK = "middleBlock";
+        public const string LEFT_MIDDLE_BLOCK = "leftMiddleBlock";
+    }    
 
     public const string MaldivesDice = "maldivesdice";
     public const string GoldrushDice = "goldrushdice";

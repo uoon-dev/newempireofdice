@@ -24,28 +24,34 @@ public class Dice : MonoBehaviour
     bool isClicked = false;
     bool isDestroyed = false;
     LevelLoader levelLoader;
+    NewTutorialController newTutorialController;
+    DiceController diceController;
+    BlockController blockController;
 
     void Start()
     {
-    Initialize();
+        Initialize();
 
-    if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL) 
-    {
-        // SetTutorialDiceNumber();
-    } 
-    else 
-    {
-        SetDiceNumber(minNumber, maxNumber);
-    }
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL) 
+        {
+            SetTutorialDiceNumber();
+        } 
+        else 
+        {
+            SetDiceNumber(minNumber, maxNumber);
+        }
 
-    SetClickSound();
-    diceAnimator = GetComponent<Animator>();
-    diceAnimator.ResetTrigger("isClicked");
+        SetClickSound();
+        diceAnimator = GetComponent<Animator>();
+        diceAnimator.ResetTrigger("isClicked");
     }
 
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
+        newTutorialController = FindObjectOfType<NewTutorialController>();
+        blockController = FindObjectOfType<BlockController>();
+        diceController = FindObjectOfType<DiceController>();
         diceText = this.transform.Find(Constants.GAME_OBJECT_NAME.NUMBER_TEXT).GetComponent<Text>();
     }
 
@@ -59,28 +65,88 @@ public class Dice : MonoBehaviour
         }
 
         ToggleDice();
+        if (TutorialDialogueController.dialogueTurn == 7)
+        {
+            var arrow = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.ARROW);
+            Block pickedBlock = blockController.GetOneBlock(Constants.TYPE.FIRST_BLOCK);
 
-        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL) {
-            if (TutorialController.GetTutorialCount() == 4) {
-                TextTyperTester.Jump();
-                TutorialController.AllowClickEventNextButton();
-                TutorialController.ControllArrowUI();
+            DOTween.Kill(arrow.transform);
+            diceController.ToggleOneDiceClick(this.name, false);
+            newTutorialController.MoveArrowToBlock(pickedBlock);
+        }
+        else if (TutorialDialogueController.dialogueTurn == 11)
+        {
+
+            string[] diceNames = {"Dice (2)", "Dice (3)"};
+            diceController.ToggleOneDiceClick(this.name, false);
+            var arrow = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.ARROW);
+            var clonedArrow = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.ARROW+"(Clone)");
+            if (this.name == "Dice (2)")
+            {
+                arrow.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
             }
-            if (TutorialController.GetTutorialCount() == 5) {
-                // TutorialController.ToggleDiceArrow();
-                TutorialController.ToggleDiceArrow();
+            else if (this.name == "Dice (3)")
+            {
+                clonedArrow.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
             }
-            if (TutorialController.GetTutorialCount() == 8) {
-                TutorialController.ToggleClonedArrow(int.Parse(this.name.Split(' ')[1]) - 1);
-            }
-            if (TutorialController.GetTutorialCount() == 10) {
-                TutorialController.Jump(false);
-                TutorialController.ControllArrowUI();
-            }
-            if (TutorialController.GetTutorialCount() == 11) {
-                TutorialController.ToggleCanvasBody(1);
+
+            if (diceController.isDicesPickRight(diceNames, 2))
+            {
+                DestroyImmediate(clonedArrow);
+                Block pickedBlock = blockController.GetOneBlock(Constants.TYPE.FIRST_BLOCK);
+                newTutorialController.MoveArrowToBlock(pickedBlock);
             }
         }
+        else if (TutorialDialogueController.dialogueTurn == 15)
+        {
+            string[] diceNames = {"Dice (4)", "Dice (5)", "Dice (6)"};
+            diceController.ToggleOneDiceClick(this.name, false);
+            var arrow = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.ARROW);
+            var clonedArrow1 = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.ARROW+"(Clone)");
+            var clonedArrow2 = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.ARROW+"(Clone)2");
+            if (this.name == "Dice (4)")
+            {
+                arrow.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+            }
+            else if (this.name == "Dice (5)")
+            {
+                clonedArrow1.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+            }
+            else if (this.name == "Dice (6)")
+            {
+                clonedArrow2.GetComponent<CanvasGroup>().DOFade(0, 0.2f);
+            }
+
+            if (diceController.isDicesPickRight(diceNames, 3))
+            {
+                DestroyImmediate(clonedArrow1);
+                DestroyImmediate(clonedArrow2);
+                Block pickedBlock = blockController.GetOneBlock(Constants.TYPE.LEFT_MIDDLE_BLOCK);
+                newTutorialController.MoveArrowToBlock(pickedBlock);
+            }            
+        }
+
+        // if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL) {
+        //     if (TutorialController.GetTutorialCount() == 4) {
+        //         TextTyperTester.Jump();
+        //         TutorialController.AllowClickEventNextButton();
+        //         TutorialController.ControllArrowUI();
+        //     }
+        //     if (TutorialController.GetTutorialCount() == 5) {
+        //         // TutorialController.ToggleDiceArrow();
+        //         TutorialController.ToggleDiceArrow();
+        //     }
+        //     if (TutorialController.GetTutorialCount() == 8) {
+        //         TutorialController.ToggleClonedArrow(int.Parse(this.name.Split(' ')[1]) - 1);
+        //     }
+        //     if (TutorialController.GetTutorialCount() == 10) {
+        //         TutorialController.Jump(false);
+        //         TutorialController.ControllArrowUI();
+        //     }
+        //     if (TutorialController.GetTutorialCount() == 11) {
+        //         TutorialController.ToggleCanvasBody(1);
+        //     }
+        // }
     }
 
     public void ToggleDice()
@@ -194,14 +260,47 @@ public class Dice : MonoBehaviour
     {
         int tutorialCount = TutorialController.GetTutorialCount();
         int diceNumber = 1;
-        if (tutorialCount == 3)
-        {
-            diceNumber = 1;
-        }
+        // if (tutorialCount == 3)
+        // {
+        //     diceNumber = 1;
+        // }
 
-        if (tutorialCount == 5)
+        // if (tutorialCount == 5)
+        // {
+        //     diceNumber = 6;
+        // }
+        switch(this.name)
         {
-            diceNumber = 6;
+            case "Dice (1)": 
+            {
+                diceNumber = 4;
+                break;
+            }
+            case "Dice (2)": 
+            {
+                diceNumber = 5;
+                break;
+            }
+            case "Dice (3)": 
+            {
+                diceNumber = 3;
+                break;
+            }
+            case "Dice (4)": 
+            {
+                diceNumber = 3;
+                break;
+            }
+            case "Dice (5)": 
+            {
+                diceNumber = 6;
+                break;
+            }
+            case "Dice (6)": 
+            {
+                diceNumber = 2;
+                break;
+            }
         }
 
         diceText.text = diceNumber.ToString();
@@ -258,5 +357,11 @@ public class Dice : MonoBehaviour
     public void EffectMaldivesDice()
     {
         diceText.text = "8";
+    }
+
+    public void ToggleAllowClick(bool isAllow)
+    {
+        var button = this.transform.Find(Constants.GAME_OBJECT_NAME.IMAGE).GetComponent<Button>();
+        button.interactable = isAllow;
     }
 }

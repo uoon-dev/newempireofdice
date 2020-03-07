@@ -60,7 +60,10 @@ public class TutorialDialogueController : MonoBehaviour
         //isDoneFading = false;
         if (currentLine < lines.Length)
         {
-            textMesh.Text = lines[currentLine]; //invoke accessor so rebuild() is called
+            if (lines[currentLine] != string.Empty) 
+            {
+                textMesh.Text = lines[currentLine]; //invoke accessor so rebuild() is called
+            }
             currentLine++; //move to next line of dialogue...
             // currentLine %= lines.Length; //or loop back to first one
         }

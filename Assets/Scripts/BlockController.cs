@@ -484,35 +484,55 @@ public class BlockController : MonoBehaviour
         return boardWidth;
     }
 
-    public GameObject GetLastBlock()
+    public Block GetOneBlock(string type)
     {
         var blocks = FindObjectsOfType<Block>();
-        GameObject lastblock = null;
+        Block oneBlock = null;
 
-        foreach (var block in blocks)
+        foreach (Block block in blocks)
         {
-            if (block.blocksType == "마왕성")
+            if (type == Constants.TYPE.LAST_BLOCK) 
             {
-                lastblock = block.gameObject;
+                if (block.blocksType == "마왕성")
+                {
+                    oneBlock = block;
+                }
+            }
+            else if (type == Constants.TYPE.MIDDLE_BLOCK)
+            {
+                if (block.GetPosX() == Mathf.Round(boardWidth/2f) && block.GetPosY() == Mathf.Round(boardWidth/2f))
+                {
+                    oneBlock = block;
+                }
+            }
+            else if (type == Constants.TYPE.FIRST_BLOCK)
+            {
+                if (block.GetPosX() == 1 && block.GetPosY() == 1)
+                {
+                    oneBlock = block;
+                }                
+            }
+            else if (type == Constants.TYPE.LEFT_MIDDLE_BLOCK)
+            {
+                if (block.GetPosX() == 1 && block.GetPosY() == 2)
+                {
+                    oneBlock = block;
+                }                
             }
         }
 
-        return lastblock;
+        return oneBlock;
     }
 
-    public GameObject GetMiddleBlock()
-    {
-        var blocks = FindObjectsOfType<Block>();
-        GameObject middleBlock = null;
-
-        foreach (var block in blocks)
-        {
-            if (block.GetPosX() == Mathf.Round(boardWidth/2f) && block.GetPosY() == Mathf.Round(boardWidth/2f))
-            {
-                middleBlock = block.gameObject;
-            }
-        }
-
-        return middleBlock;
-    }
+    // public void ToggleOneBlockClick(string type, bool isAllow)
+    // {
+    //     var blocks = FindObjectsOfType<Block>();
+    //     foreach (Block block in blocks)
+    //     {
+    //         if (block.type == type)
+    //         {
+    //             block.ToggleAllowClick(isAllow);
+    //         } 
+    //     }        
+    // }
 }
