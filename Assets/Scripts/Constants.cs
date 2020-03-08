@@ -56,6 +56,7 @@ public class Constants : MonoBehaviour
             public const string ATTACK_GAGE = "Attack Gage";
             public const string LEFT_AREA = "Left Area";
             public const string OUTLINE = "Outline";
+            public const string OUTLINE_DICE = "Outline Dice";
             public const string OUTLINE_CIRCLE = "Outline Circle";
             public const string OUTLINE_RECT = "Outline Rect";
             public const string OUTLINE_FULL_RECT = "Outline Full Rect";
@@ -71,6 +72,8 @@ public class Constants : MonoBehaviour
             public const string MONEY_AREA = "Money Area";
             public const string COST_ICON = "Cost Icon";
             public const string COST_TEXT = "Cost Text";
+            public const string ATTACK_POWER_TEXT = "Attack Power Text";
+            public const string ATTACK_POWER_IMAGE = "Attack Power Image";
         }
     }
 
@@ -79,6 +82,7 @@ public class Constants : MonoBehaviour
         public const string FIRST_BLOCK = "firstBlock";
         public const string MIDDLE_BLOCK = "middleBlock";
         public const string LEFT_MIDDLE_BLOCK = "leftMiddleBlock";
+        public const string BOTTOM_MIDDLE_BLOCK = "bottomMiddleBlock";
     }    
 
     public const string MaldivesDice = "maldivesdice";

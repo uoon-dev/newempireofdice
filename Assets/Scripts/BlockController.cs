@@ -519,6 +519,13 @@ public class BlockController : MonoBehaviour
                     oneBlock = block;
                 }                
             }
+            else if (type == Constants.TYPE.BOTTOM_MIDDLE_BLOCK)
+            {
+                if (block.GetPosX() == 2 && block.GetPosY() == 1)
+                {
+                    oneBlock = block;
+                }                
+            }
         }
 
         return oneBlock;

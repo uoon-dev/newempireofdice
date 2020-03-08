@@ -63,11 +63,18 @@ public class TutorialDialogueController : MonoBehaviour
             if (lines[currentLine] != string.Empty) 
             {
                 textMesh.Text = lines[currentLine]; //invoke accessor so rebuild() is called
+                // if (dialogueTurn == 2)
+                // {
+                //     textMesh.Text = lines[18];
+                //     currentLine--;
+                //     dialogueTurn = 20;
+                // }
             }
             currentLine++; //move to next line of dialogue...
             // currentLine %= lines.Length; //or loop back to first one
         }
         dialogueTurn++;
+        // if (dialogueTurn == 21) dialogueTurn = 20;
         newTutorialController.dialogueUpdated = true;
 
         Debug.Log(dialogueTurn + ":dialogueTurn");

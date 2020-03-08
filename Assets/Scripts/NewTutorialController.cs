@@ -27,6 +27,7 @@ public class NewTutorialController : MonoBehaviour
     GameObject oval;
     GameObject arrow;
     GameObject outline;
+    GameObject outlineDice;
     GameObject outlineCircle;
     GameObject outlineRect;
     GameObject outlineFullRect;
@@ -394,6 +395,9 @@ public class NewTutorialController : MonoBehaviour
                     diceController.ToggleOneDiceClick("Dice (4)", true);
                     diceController.ToggleOneDiceClick("Dice (5)", true);
                     diceController.ToggleOneDiceClick("Dice (6)", true);
+
+                    blockController.GetOneBlock(Constants.TYPE.BOTTOM_MIDDLE_BLOCK).ToggleAllowClick(false);
+                    blockController.GetOneBlock(Constants.TYPE.LEFT_MIDDLE_BLOCK).ToggleAllowClick(false);
                     break;
                 }
                 case 16:
@@ -412,7 +416,9 @@ public class NewTutorialController : MonoBehaviour
                 {
                     Sequence sequence = DOTween.Sequence();
                     var sixDice = diceController.GetOneDice("Dice (3)");
-                    var dicePosition = sixDice.transform.position;                    
+                    var dicePosition = sixDice.transform.position;    
+                    blockController.GetOneBlock(Constants.TYPE.BOTTOM_MIDDLE_BLOCK).ToggleAllowClick(true);
+                                    
                     sequence.Append(subGuiderImage.GetComponent<CanvasGroup>().DOFade(0, 0.1f));
                     sequence.AppendCallback(() => {
                         subGuiderImage.GetComponent<Image>().sprite = guiderImages[0];
@@ -428,6 +434,7 @@ public class NewTutorialController : MonoBehaviour
                         diceController.BounceDices();
                         attackGage.GetComponent<Canvas>().overrideSorting = true;
                         attackGage.GetComponent<Canvas>().sortingOrder = 102;
+                        leftArea.GetComponent<Canvas>().sortingOrder = 5;
                         outlineFullRect.transform.position = 
                             new Vector2(dicePosition.x, dicePosition.y);
                         outlineFullRect.GetComponent<CanvasGroup>().DOFade(1, 0.1f);                        
@@ -455,10 +462,15 @@ public class NewTutorialController : MonoBehaviour
                     var moneyArea = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_AREA);
                     var costIcon = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_ICON);
                     var costText = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_TEXT);
-
+                    var costImage = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_IMAGE);
+                    var moneyText = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_TEXT);
+                    
                     moneyArea.GetComponent<Canvas>().sortingOrder = 102;
+                    moneyText.GetComponent<Canvas>().sortingOrder = 102;
+                    costImage.GetComponent<Canvas>().sortingOrder = 102;
                     costIcon.GetComponent<Canvas>().sortingOrder = 103;
                     costText.GetComponent<Canvas>().sortingOrder = 103;
+
                     ToggleClickEventResetDiceScreen(true);
                     TutorialDialogueController.isClickable = false;
 
@@ -481,6 +493,58 @@ public class NewTutorialController : MonoBehaviour
                             moneyArea.transform.position.z), 0.3f).SetLoops(-1, LoopType.Yoyo);            
                     });
 
+                    break;
+                }
+                case 20:
+                {
+                    Sequence sequence = DOTween.Sequence();
+                    var moneyArea = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_AREA);
+                    var costIcon = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_ICON);
+                    var costText = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_TEXT);
+                    var costImage = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.COST_IMAGE);
+                    var moneyText = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.MONEY_TEXT);
+                    var attackPowerText = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.ATTACK_POWER_TEXT);
+                    var attackPowerImage = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.ATTACK_POWER_IMAGE);
+                    var dicePosition = diceController.GetOneDice("Dice (2)").transform.position;
+                    
+                    moneyArea.GetComponent<Canvas>().sortingOrder = 5;
+                    moneyText.GetComponent<Canvas>().sortingOrder = 6;
+                    costImage.GetComponent<Canvas>().sortingOrder = 5;
+                    costIcon.GetComponent<Canvas>().sortingOrder = 5;
+                    costText.GetComponent<Canvas>().sortingOrder = 5;
+                    TutorialDialogueController.isClickable = true;
+
+                    outlineDice.transform.DOMove(new Vector3(dicePosition.x, dicePosition.y - dicePosition.y / 7, 1), 0);
+                    outlineRect.transform.DOMove(new Vector3(attackPowerText.transform.position.x - attackPowerText.transform.position.x / 60, attackPowerText.transform.position.y, 1), 0);
+
+                    sequence.Append(subGuiderImage.GetComponent<CanvasGroup>().DOFade(0, 0.1f));
+                    sequence.AppendCallback(() => {
+                        subGuiderImage.transform.localScale = new Vector2(1, 1);
+                        subSuperText.GetComponent<SuperTextMesh>().baseOffset = new Vector2(3.6f, 0);
+                        subSuperText.GetComponent<LayoutElement>().minWidth = 270;
+                        subSuperText.gameObject.SetActive(false);
+                        subSuperText.gameObject.SetActive(true);
+                        arrow.GetComponent<CanvasGroup>().DOFade(0, 0.15f);
+                    });
+                    sequence.Append(subGuiderImage.transform.DOLocalMove(new Vector2(-103.8f, 45f), 0));
+                    sequence.Join(subSuperText.GetComponent<LayoutElement>().DOMinSize(new Vector2(270f, 0), 0.2f));
+                    sequence.Join(SubDialogueContainer.transform.DOLocalMove(new Vector2(6.2f, 77f), 0.3f));
+                    sequence.AppendInterval(0.1f);
+                    sequence.Append(subGuiderImage.GetComponent<CanvasGroup>().DOFade(1, 0.1f));
+                    sequence.AppendCallback(() => {
+                        diceController.BounceDices();
+                        attackGage.GetComponent<Canvas>().overrideSorting = true;
+                        attackGage.GetComponent<Canvas>().sortingOrder = 102;
+                        attackPowerText.GetComponent<Canvas>().sortingOrder = 102;
+                        attackPowerImage.GetComponent<Canvas>().sortingOrder = 102;                        
+                        outlineDice.GetComponent<CanvasGroup>().DOFade(1, 0.15f);
+                        outlineRect.GetComponent<CanvasGroup>().DOFade(1, 0.15f);
+                    });
+                    sequence.AppendInterval(1f);
+                    sequence.AppendCallback(() => {
+                        subTextBox.GetComponent<Button>().interactable = true;
+                    });
+                    sequence.Play();                     
                     break;
                 }                
             }
@@ -510,6 +574,7 @@ public class NewTutorialController : MonoBehaviour
 
         oval = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.OVAL);
         outline = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.OUTLINE);
+        outlineDice = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.OUTLINE_DICE);
         outlineCircle = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.OUTLINE_CIRCLE);
         outlineRect = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.OUTLINE_RECT);
         outlineFullRect = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.OUTLINE_FULL_RECT);
