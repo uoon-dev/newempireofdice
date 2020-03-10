@@ -27,6 +27,7 @@ public class NewTutorialController : MonoBehaviour
     GameObject guideItem;
     GameObject toast;
     GameObject oval;
+    GameObject indicateArrow;
     GameObject arrow;
     GameObject outline;
     GameObject outlineDice;
@@ -87,11 +88,13 @@ public class NewTutorialController : MonoBehaviour
                 {
                     var lastBlock = blockController.GetOneBlock(Constants.TYPE.LAST_BLOCK);
                     var rightAreaPosition = rightArea.transform.position;
+                    var firstDice = diceController.GetOneDice("Dice (1)");
+                    var secondDice = diceController.GetOneDice("Dice (2)");
+                    var thirdDice = diceController.GetOneDice("Dice (3)");
 
                     lastBlock.GetComponent<Canvas>().overrideSorting = false;
                     lastBlock.GetComponent<Canvas>().sortingOrder = 5;
                     oval.GetComponent<CanvasGroup>().DOFade(0, 0f);
-                    Debug.Log(TutorialDialogueController.isClickable);
                     // TutorialDialogueController.isClickable = false;
 
                     // subTextBox.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 0);
@@ -100,17 +103,27 @@ public class NewTutorialController : MonoBehaviour
                     sequence.Append(subGuiderImage.GetComponent<CanvasGroup>().DOFade(0, 0f));
                     sequence.AppendCallback(() => {
                         subGuiderImage.transform.localScale = new Vector2(1, 1);
-                        subSuperText.GetComponent<SuperTextMesh>().baseOffset = new Vector2(3.6f, 0);
+                        subSuperText.GetComponent<LayoutElement>().minWidth = 250;
+                        subSuperText.gameObject.SetActive(false);
+                        subSuperText.gameObject.SetActive(true);
+                        subSuperText.GetComponent<SuperTextMesh>().baseOffset = new Vector2(3.8f, 0);
                     });
-                    sequence.Append(subGuiderImage.transform.DOLocalMove(new Vector2(-59.7f, 27.7f), 0));
-                    sequence.Join(subSuperText.GetComponent<LayoutElement>().DOMinSize(new Vector2(180f, 0), 0f));
-                    sequence.Join(SubDialogueContainer.transform.DOMove(new Vector2(rightAreaPosition.x * 0.9f, rightAreaPosition.y * 0.9f), 0f));
+                    sequence.Append(subGuiderImage.transform.DOLocalMove(new Vector2(-84.8f, 27.7f), 0));
+                    sequence.Join(subSuperText.GetComponent<LayoutElement>().DOMinSize(new Vector2(250f, 0), 0f));
+                    sequence.Join(SubDialogueContainer.transform.DOMove(new Vector2(rightAreaPosition.x * 0.8f, rightAreaPosition.y * 0.85f), 0f));
                     sequence.AppendInterval(0f);
                     sequence.Append(subGuiderImage.GetComponent<CanvasGroup>().DOFade(1, 0f));
                     sequence.AppendCallback(() => {
                         diceController.BounceDices();
+                        firstDice.ClickDice();
+                        secondDice.ClickDice();
+                        thirdDice.ClickDice();
                         attackGage.GetComponent<Canvas>().overrideSorting = true;
                         attackGage.GetComponent<Canvas>().sortingOrder = 102;
+                        oval.transform.DOMove(new Vector3(attackGage.transform.position.x + 10, attackGage.transform.position.y + 10, 1), 0f);
+                        oval.GetComponent<RectTransform>().sizeDelta = new Vector2(103, 103);
+                        oval.GetComponent<CanvasGroup>().DOFade(1, 0f);
+                        indicateArrow.SetActive(true);
                     });
                     // sequence.AppendInterval(1f);
                     // sequence.AppendCallback(() => {
@@ -136,6 +149,8 @@ public class NewTutorialController : MonoBehaviour
                     attackGage.GetComponent<Canvas>().overrideSorting = false;
                     attackGage.GetComponent<Canvas>().sortingOrder = 6;
                     diceController.UnbounceDices();
+                    oval.GetComponent<CanvasGroup>().DOFade(0, 0f);
+                    indicateArrow.SetActive(false);
 
                     leftArea.GetComponent<Canvas>().overrideSorting = true;
                     leftArea.GetComponent<Canvas>().sortingOrder = 102;
@@ -668,6 +683,7 @@ public class NewTutorialController : MonoBehaviour
         outlineRect = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.OUTLINE_RECT);
         outlineFullRect = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.OUTLINE_FULL_RECT);
         arrow = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.ARROW);
+        indicateArrow = Utils.FindInActiveObjectByName(Constants.TUTORIAL.GAME_OBJECT_NAME.INDICATE_ARROW);
 
         ToggleClickEventResetDiceScreen(false);
     }

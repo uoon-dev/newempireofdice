@@ -64,6 +64,7 @@ public class Constants : MonoBehaviour
             public const string BLOCKS = "Blocks";
             public const string TOAST = "Toast";
             public const string ARROW = "Arrow";
+            public const string INDICATE_ARROW = "Indicate Arrow";
             public const string TURN = "Turn";
             public const string DESC = "Description";
             public const string GUIDE_ITEM = "Guide Item";
