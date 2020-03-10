@@ -12503,7 +12503,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885304719}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -12630,7 +12630,7 @@ MonoBehaviour:
   showMaterialFoldout: 1
   showPositionFoldout: 1
   showTimingFoldout: 1
-  showFunctionalityFoldout: 0
+  showFunctionalityFoldout: 1
   showAudioFoldout: 0
   showEventFoldout: 1
   showEditorFoldout: 0
@@ -12648,9 +12648,9 @@ MonoBehaviour:
   ignoreTimeScale: 1
   disableAnimatedText: 0
   drawAnimName: Appear
-  unreadDelay: 0.25
-  undrawOrder: 3
-  undrawAnimName: Fade
+  unreadDelay: 0
+  undrawOrder: 1
+  undrawAnimName: Once
   audioSource: {fileID: 0}
   audioClips:
   - {fileID: 8300000, guid: ca347218181d44f758cfc46c3bb2a999, type: 3}
@@ -13037,7 +13037,7 @@ MonoBehaviour:
   showMaterialFoldout: 1
   showPositionFoldout: 1
   showTimingFoldout: 1
-  showFunctionalityFoldout: 0
+  showFunctionalityFoldout: 1
   showAudioFoldout: 0
   showEventFoldout: 1
   showEditorFoldout: 0
@@ -13055,9 +13055,9 @@ MonoBehaviour:
   ignoreTimeScale: 1
   disableAnimatedText: 0
   drawAnimName: Appear
-  unreadDelay: 0.25
-  undrawOrder: 3
-  undrawAnimName: Fade
+  unreadDelay: 0
+  undrawOrder: 1
+  undrawAnimName: Once
   audioSource: {fileID: 0}
   audioClips:
   - {fileID: 8300000, guid: ca347218181d44f758cfc46c3bb2a999, type: 3}

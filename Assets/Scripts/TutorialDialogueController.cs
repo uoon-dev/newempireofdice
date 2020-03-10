@@ -52,7 +52,7 @@ public class TutorialDialogueController : MonoBehaviour
     }
     public void CompletedUnreading()
     {
-        // Debug.Log("I completed unreading!! Bye!");
+        Debug.Log("I completed unreading!! Bye!");
         Apply(); //go to next line
     }
     public void Apply()
