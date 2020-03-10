@@ -66,7 +66,7 @@ public class MapController : MonoBehaviour
 
         // PlayerPrefs.SetInt("LevelCycled", 1);
 
-        if (currenetSceneName == "Map System") 
+        if (currenetSceneName == Constants.SCENE_NAME.MAP_SYSTEM) 
         {
             Initialize();
             SetCanvasWidthAndHeight();
@@ -98,7 +98,7 @@ public class MapController : MonoBehaviour
 
     private void Update()
     {
-        if (currenetSceneName == "Map System")
+        if (currenetSceneName == Constants.SCENE_NAME.MAP_SYSTEM)
         {
             if (PlayerPrefs.GetInt("LevelCycled") == 1)
             {
@@ -189,7 +189,7 @@ public class MapController : MonoBehaviour
             clonedLevel.transform.localPosition = InitMapPosition(startIndex, (levelNumber-1) % (restrictedMapCount * (viewObjectMaxCountIndex + 1)));
 
             // 레벨 1을 가진 view의 position.x 값을 왼쪽 벽으로 만들기 : (카메라 길이 + 각 양쪽 패딩) * 뷰 개수
-            if (clonedLevel.name == Constants.SCENE_NAME.TUTORIAL)
+            if (clonedLevel.name == Constants.SCENE_NAME.LEVEL1)
             {
                 firstLeftWallPoint = (2 * leftPaddingAbsolutePositionX + cameraWidth) * Mathf.Floor(lastClearedMapNumber / restrictedMapCount);
             }
