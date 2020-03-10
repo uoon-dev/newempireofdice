@@ -41,6 +41,11 @@ public class LevelController : MonoBehaviour
     {
         int levelNumber = levelLoader.GetCurrentLevelNumber();
         stageTextObject.GetComponent<Text>().text = $"Stage {levelNumber.ToString()}";
+
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
+        {
+            stageIntro.SetActive(false);    
+        }
         stageIntro.transform.DOScale(new Vector3(1.15f, 1.15f, 1.15f), 0.2f).SetDelay(0.5f).OnComplete(() => {
             stageIntro.transform.DOScale(new Vector3(0.4f, 0.4f, 0.4f), 0.25f);
             stageIntro.GetComponent<CanvasGroup>().DOFade(0, 0.25f);

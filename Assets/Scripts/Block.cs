@@ -99,8 +99,10 @@ public class Block : MonoBehaviour
         if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
         {
             // todo tutorial
-            // randomNum = GetTutorialBlocksValue(posX, posY);
-        } else
+            randomNum = GetTutorialBlocksValue(posX, posY);
+            Debug.Log("tutorial!");
+        } 
+        else
         {
             if (posX == 1 && posY == 1)
             {
@@ -111,7 +113,7 @@ public class Block : MonoBehaviour
                 randomNum = Random.Range(1, posX + posY+2) * 2 + Random.Range(1, 7);
             }
         }
-        randomNum = GetTutorialBlocksValue(posX, posY);
+        // randomNum = GetTutorialBlocksValue(posX, posY);
         blockText = GetComponentInChildren<Text>();
         if (setNumber)
         {
@@ -358,12 +360,10 @@ public class Block : MonoBehaviour
         var diceController = FindObjectOfType<DiceController>();
         var resetDiceController = FindObjectOfType<ResetDiceController>();
         var speicalBlockController = FindObjectOfType<SpeicalBlockController>();
-        var tutorialDialogueController = FindObjectOfType<TutorialDialogueController>();
-        if (TutorialDialogueController.dialogueTurn == 7 || 
-            TutorialDialogueController.dialogueTurn == 11 || 
-            TutorialDialogueController.dialogueTurn == 15)
+
+        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
         {
-            tutorialDialogueController.Apply();
+            HandleTutorialTurn();
         }
 
         diceController.DestroyDices();
@@ -374,20 +374,12 @@ public class Block : MonoBehaviour
         {
             ChangeDestroyedBlockDisplay(resultGage);
             MakeNextBlockClickable();
-            if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
-            {
-                ControllTutorialBlock();
-            }
 
             resetDiceController.AddMoneyAfterKill();
             isClickable = false;
         }
         else
         {
-            if (TutorialController.GetTutorialCount() == 10)
-            {
-                ControllTutorialBlock();
-            }
             if (EffectSoundController.instance != null)
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.ATTACK_BLOCK);
             blockText.text = resultGage.ToString();
@@ -407,21 +399,31 @@ public class Block : MonoBehaviour
 
     }
 
-    private void ControllTutorialBlock()
+    private void HandleTutorialTurn()
     {
-        if (TutorialController.GetTutorialCount() == 5 ||
-            TutorialController.GetTutorialCount() == 8 ||
-            TutorialController.GetTutorialCount() == 10)
+        var tutorialDialogueController = FindObjectOfType<TutorialDialogueController>();
+        var dialogueTurn = TutorialDialogueController.dialogueTurn;
+
+        if (dialogueTurn == 7 || 
+            dialogueTurn == 11 || 
+            dialogueTurn == 15)
         {
-            TextTyperTester.Jump();
-            TutorialController.ToggleCanvasBody(1);
-            TutorialController.AllowClickEventNextButton();
-            TutorialController.PreventClickEventDices();
-            if (TutorialController.GetTutorialCount() == 6)
+            if (dialogueTurn == 15)
             {
-                TutorialController.ControllArrowUI();
+                var arrow = GameObject.Find(Constants.TUTORIAL.GAME_OBJECT_NAME.ARROW);
+                Sequence sequence = DOTween.Sequence();
+                sequence.AppendInterval(0.6f);
+                sequence.AppendCallback(() => {
+                    tutorialDialogueController.Apply();
+                });
+
+                arrow.GetComponent<CanvasGroup>().DOFade(0, 0.15f);
             }
-        }
+            else
+            {
+                tutorialDialogueController.Apply();
+            }
+        }        
     }
 
     private void ChangeDestroyedBlockDisplay(int resultGage)

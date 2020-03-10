@@ -65,7 +65,7 @@ public class BlockController : MonoBehaviour
         SetBoardType(currentLevelNumber);
         CreateBlocks();
         AnalyticsEvent.LevelStart(currentLevelNumber);
-        if (StorageController.IsBlocksSaved(currentLevelNumber))
+        if (StorageController.IsBlocksSaved(currentLevelNumber) && levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL)
         {
             speicalBlockController.SetSpeicialBlocks(speicalBlocks, false);
             blockTexts = StorageController.LoadBlocksText(currentLevelNumber);
@@ -530,16 +530,4 @@ public class BlockController : MonoBehaviour
 
         return oneBlock;
     }
-
-    // public void ToggleOneBlockClick(string type, bool isAllow)
-    // {
-    //     var blocks = FindObjectsOfType<Block>();
-    //     foreach (Block block in blocks)
-    //     {
-    //         if (block.type == type)
-    //         {
-    //             block.ToggleAllowClick(isAllow);
-    //         } 
-    //     }        
-    // }
 }

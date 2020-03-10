@@ -79,16 +79,7 @@ public class ResetDiceController : MonoBehaviour
 
     public void ResetDices()
     {
-        if (levelLoader.GetCurrentSceneName() == Constants.SCENE_NAME.TUTORIAL)
-        {
-            if (TutorialController.GetTutorialCount() == 2 || 
-                TutorialController.GetTutorialCount() == 12) {
-                TextTyperTester.Jump();
-                TutorialController.PreventClickEventResetDiceScreen();
-                TutorialController.AllowClickEventNextButton();
-                TutorialController.ControllArrowUI();
-            }
-        }
+        if (TutorialDialogueController.dialogueTurn == 19) return;
 
         var dices = FindObjectsOfType<Dice>();
         int destroyedDiceCount = 0;
@@ -135,6 +126,8 @@ public class ResetDiceController : MonoBehaviour
     // 딱댐 -> 주사위 1개 보너스
     public void ResetOneDice()
     {
+        if (TutorialDialogueController.dialogueTurn == 15) return;
+
         var dices = FindObjectsOfType<Dice>();
         foreach (Dice dice in dices)
         {

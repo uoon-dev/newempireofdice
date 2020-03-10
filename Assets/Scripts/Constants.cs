@@ -55,6 +55,7 @@ public class Constants : MonoBehaviour
             public const string OVAL = "Oval";
             public const string ATTACK_GAGE = "Attack Gage";
             public const string LEFT_AREA = "Left Area";
+            public const string RIGHT_AREA = "Right Area";
             public const string OUTLINE = "Outline";
             public const string OUTLINE_DICE = "Outline Dice";
             public const string OUTLINE_CIRCLE = "Outline Circle";

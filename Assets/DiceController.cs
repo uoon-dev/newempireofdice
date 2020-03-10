@@ -114,12 +114,12 @@ public class DiceController : MonoBehaviour
         }        
     }
 
-    public void PreventDicesClick()
+    public void ToggleDicesClick(bool isAllow)
     {
         var dices = FindObjectsOfType<Dice>();
         foreach (Dice dice in dices)
         {
-            dice.ToggleAllowClick(false);
+            dice.ToggleAllowClick(isAllow);
         }
     }
 
