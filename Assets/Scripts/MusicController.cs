@@ -52,6 +52,7 @@ public class MusicController: MonoBehaviour
     }  
 
     public void SetMusicUI() {
+        Debug.Log(PlayerPrefs.GetInt(SOUND_KEY.BGM, SOUND_STATUS.ON) + ":SetMusicUI");
         if (PlayerPrefs.GetInt(SOUND_KEY.BGM, SOUND_STATUS.ON) == SOUND_STATUS.ON)
         {
             controlBGMMusicButton.GetComponent<Image>().sprite = playingMusicIcon;

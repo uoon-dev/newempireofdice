@@ -65,7 +65,7 @@ public class BlockController : MonoBehaviour
         SetBoardType(currentLevelNumber);
         CreateBlocks();
         AnalyticsEvent.LevelStart(currentLevelNumber);
-        if (StorageController.IsBlocksSaved(currentLevelNumber))
+        if (StorageController.IsBlocksSaved(currentLevelNumber) && levelLoader.GetCurrentSceneName() != Constants.SCENE_NAME.TUTORIAL)
         {
             speicalBlockController.SetSpeicialBlocks(speicalBlocks, false);
             blockTexts = StorageController.LoadBlocksText(currentLevelNumber);
@@ -100,16 +100,16 @@ public class BlockController : MonoBehaviour
         }
         else
         {
-            foreach (GameObject cloendBlock in blocks)
+            foreach (GameObject clonedBlock in blocks)
             {
-                Block tmpBlock = cloendBlock.GetComponent<Block>();
+                Block tmpBlock = clonedBlock.GetComponent<Block>();
                 tmpBlock.SetBlocksValue();
             }
             speicalBlockController.SetSpeicialBlocks(speicalBlocks);
 
-            foreach (GameObject cloendBlock in blocks)
+            foreach (GameObject clonedBlock in blocks)
             {
-                Block tmpBlock = cloendBlock.GetComponent<Block>();
+                Block tmpBlock = clonedBlock.GetComponent<Block>();
                 blockTypes.Add(tmpBlock.blocksType);
                 blockTexts.Add(tmpBlock.blockText.text);
             }
@@ -482,5 +482,52 @@ public class BlockController : MonoBehaviour
     public static int GetBoardSize()
     {
         return boardWidth;
+    }
+
+    public Block GetOneBlock(string type)
+    {
+        var blocks = FindObjectsOfType<Block>();
+        Block oneBlock = null;
+
+        foreach (Block block in blocks)
+        {
+            if (type == Constants.TYPE.LAST_BLOCK) 
+            {
+                if (block.blocksType == "마왕성")
+                {
+                    oneBlock = block;
+                }
+            }
+            else if (type == Constants.TYPE.MIDDLE_BLOCK)
+            {
+                if (block.GetPosX() == Mathf.Round(boardWidth/2f) && block.GetPosY() == Mathf.Round(boardWidth/2f))
+                {
+                    oneBlock = block;
+                }
+            }
+            else if (type == Constants.TYPE.FIRST_BLOCK)
+            {
+                if (block.GetPosX() == 1 && block.GetPosY() == 1)
+                {
+                    oneBlock = block;
+                }                
+            }
+            else if (type == Constants.TYPE.LEFT_MIDDLE_BLOCK)
+            {
+                if (block.GetPosX() == 1 && block.GetPosY() == 2)
+                {
+                    oneBlock = block;
+                }                
+            }
+            else if (type == Constants.TYPE.BOTTOM_MIDDLE_BLOCK)
+            {
+                if (block.GetPosX() == 2 && block.GetPosY() == 1)
+                {
+                    oneBlock = block;
+                }                
+            }
+        }
+
+        return oneBlock;
     }
 }

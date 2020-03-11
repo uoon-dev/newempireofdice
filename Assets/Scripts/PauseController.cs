@@ -20,7 +20,7 @@ public class PauseController : MonoBehaviour
     {
         levelLoader = FindObjectOfType<LevelLoader>(); 
 
-        stageText = GameObject.Find(Constants.GAME_OBJECT_NAME.STAGE_TEXT).GetComponent<Text>();
+        stageText = Utils.FindInActiveObjectByName(Constants.GAME_OBJECT_NAME.STAGE_TEXT).GetComponent<Text>();
         stageText.text = $"Stage {levelLoader.GetCurrentLevelNumber()}";
     }
 
@@ -30,7 +30,7 @@ public class PauseController : MonoBehaviour
         foreach (var block in blocks) {
             block.HideTooltip();
         }
-        PauseCanvas.GetComponent<Canvas>().sortingOrder = 13;
+        PauseCanvas.GetComponent<Canvas>().sortingOrder = 103;
         PauseCanvas.SetActive(true);
     }
 

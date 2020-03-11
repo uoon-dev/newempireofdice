@@ -21,6 +21,7 @@ public class ResetDiceController : MonoBehaviour
     int cost = 5;
     int attackPower = 6;
     LevelLoader levelLoader;
+    TutorialDialogueController tutorialDialogueController;
 
     void Start()
     {   
@@ -45,6 +46,8 @@ public class ResetDiceController : MonoBehaviour
     private void Initialize()
     {
         levelLoader = FindObjectOfType<LevelLoader>();
+        // tutorialDialogueController = FindObjectOfType<TutorialDialogueController>();
+        // Debug.Log(tutorialDialogueController);
         money = GetComponentsInChildren<Text>();
         moneyArea = GameObject.Find("Money Area");
         moneyText = GameObject.Find("Money Text").GetComponent<Text>();
@@ -57,16 +60,6 @@ public class ResetDiceController : MonoBehaviour
         moneyText.text = (int.Parse(moneyText.text) + 1).ToString();
     }
 
-    private void OnMouseDown()
-    {
-        int currentMoney = int.Parse(moneyText.text);
-        if (currentMoney >= cost)
-        {
-            moneyText.text = (int.Parse(moneyText.text) - cost).ToString();
-            ResetDices();
-        }
-    }
-
     public void OnClickButton() {
         int currentMoney = int.Parse(moneyText.text);
         if (currentMoney >= cost)
@@ -75,21 +68,18 @@ public class ResetDiceController : MonoBehaviour
                 EffectSoundController.instance.PlaySoundByName(EffectSoundController.SOUND_NAME.GET_NEW_DICE);
             moneyText.text = (int.Parse(moneyText.text) - cost).ToString();
             ResetDices();
+
+            if (TutorialDialogueController.dialogueTurn == 19)
+            {
+                tutorialDialogueController = FindObjectOfType<TutorialDialogueController>();
+                tutorialDialogueController.Apply();
+            }
         }        
     }
 
     public void ResetDices()
     {
-        if (levelLoader.GetCurrentSceneName() == "Level 1") {
-            diceBox.gameObject.SetActive(true);
-            if (TutorialController.GetTutorialCount() == 2 || 
-                TutorialController.GetTutorialCount() == 12) {
-                TextTyperTester.Jump();
-                TutorialController.PreventClickEventResetDiceScreen();
-                TutorialController.AllowClickEventNextButton();
-                TutorialController.ControllArrowUI();
-            }
-        }
+        if (TutorialDialogueController.dialogueTurn == 19) return;
 
         var dices = FindObjectsOfType<Dice>();
         int destroyedDiceCount = 0;
@@ -136,6 +126,8 @@ public class ResetDiceController : MonoBehaviour
     // 딱댐 -> 주사위 1개 보너스
     public void ResetOneDice()
     {
+        if (TutorialDialogueController.dialogueTurn == 15) return;
+
         var dices = FindObjectsOfType<Dice>();
         foreach (Dice dice in dices)
         {

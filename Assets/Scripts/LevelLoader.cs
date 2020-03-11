@@ -43,7 +43,7 @@ public class LevelLoader : MonoBehaviour
         {
             StartCoroutine(WaitForTime());
         }
-        if (currentSceneName == "Level" || currentSceneName == "Level 1") {
+        if (currentSceneName == Constants.SCENE_NAME.LEVEL || currentSceneName == Constants.SCENE_NAME.TUTORIAL) {
             if (BackGroundSoundController.instance != null)
                 BackGroundSoundController.instance.StartPlay(BackGroundSoundController.BGM_NAME.GAME_BGM);
         }
@@ -59,7 +59,7 @@ public class LevelLoader : MonoBehaviour
             UIAlignController.DeactiveStartButton();
             mainCanvas.GetComponent<CanvasGroup>().DOFade(1, 0.4f).OnComplete(() => {
                 PlayerPrefs.SetInt("currentLevelNumber", levelNumber);
-                SceneManager.LoadScene("Level 1");
+                SceneManager.LoadScene(Constants.SCENE_NAME.TUTORIAL);
             });
         } else {
             if(newHeartController.CanUseHeart() == true) {
@@ -67,7 +67,7 @@ public class LevelLoader : MonoBehaviour
                 UIAlignController.ActiveHeartUseAnimation();
                 mainCanvas.GetComponent<CanvasGroup>().DOFade(1, 0.4f).OnComplete(() => {
                     PlayerPrefs.SetInt("currentLevelNumber", levelNumber);
-                    SceneManager.LoadScene("Level");
+                    SceneManager.LoadScene(Constants.SCENE_NAME.LEVEL);
                 });
             }
         }
@@ -107,7 +107,7 @@ public class LevelLoader : MonoBehaviour
     // 플레이 중 다시 시작할 때 사용
     public void LoadCurrentScene()
     {
-        if (currentSceneName == "Level 1") {
+        if (currentSceneName == Constants.SCENE_NAME.TUTORIAL) {
             PlayerPrefs.SetInt("currentLevelNumber", currentLevelNumber);
             TutorialController.SetTutorialCount(0);
             SceneManager.LoadScene(currentSceneName);
