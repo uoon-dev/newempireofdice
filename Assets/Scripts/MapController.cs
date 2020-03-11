@@ -249,7 +249,7 @@ public class MapController : MonoBehaviour
             int clonedLevelNumber = int.Parse(clonedLevel.name.Split(' ')[1]);
 
             if (clonedLevelNumber == lastClearedMapNumber + 1 ||
-                clonedLevel.name == Constants.SCENE_NAME.TUTORIAL)
+                clonedLevel.name == Constants.SCENE_NAME.LEVEL1)
             {
                 // clonedLevel.GetComponent<Image>().sprite = flagNew;
                 // clonedLevel.GetComponent<RectTransform>().sizeDelta = new Vector2(51, 44);
@@ -336,13 +336,13 @@ public class MapController : MonoBehaviour
         }
 
         previousClickedMap = map;
-        InitDiceController(false);
+        InitStartController(false);
     }
 
-    public void InitDiceController(bool isGoingToNextStage)
+    public void InitStartController(bool isGoingToNextStage)
     {
         onClickedLastClearedNextMap = isGoingToNextStage;
-        var diceController = FindObjectOfType<StartController>();
+        var startController = FindObjectOfType<StartController>();
         int levelNumber = 0;
 
         if (isGoingToNextStage) {
@@ -351,12 +351,12 @@ public class MapController : MonoBehaviour
             levelNumber = int.Parse(previousClickedMap.name.Split(' ')[1]);
         }
 
-        diceController.UpdateStageNumber(levelNumber);
+        startController.UpdateStageNumber(levelNumber);
 
         int clearStarCount = PlayerPrefs.GetInt($"LevelStar {levelNumber}");
-        diceController.UpdateStageStar(clearStarCount);
-        // diceController.UpdateClickedMapStage(isGoingToNextStage);
-        diceController.ShowScreen();
+        startController.UpdateStageStar(clearStarCount);
+        // startController.UpdateClickedMapStage(isGoingToNextStage);
+        startController.ShowScreen();
     }
 
     public void OnClickMap()
@@ -475,6 +475,6 @@ public class MapController : MonoBehaviour
         var nextStageNumberText = GameObject.Find("Next Stage Number").GetComponent<Text>();
         var nextStage = GameObject.Find($"Level {nextStageNumber}");
         nextStageNumberText.text = nextStageNumber;
-        nextStageButton.onClick.AddListener(() => InitDiceController(true));
+        nextStageButton.onClick.AddListener(() => InitStartController(true));
     }
 }

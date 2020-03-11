@@ -100,7 +100,6 @@ public class Block : MonoBehaviour
         {
             // todo tutorial
             randomNum = GetTutorialBlocksValue(posX, posY);
-            Debug.Log("tutorial!");
         } 
         else
         {
